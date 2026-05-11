@@ -1,0 +1,346 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lato:wght@400;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* Type system — Inter everywhere, Lato reserved for footer headings */
+  --font-display: "Inter", sans-serif;
+  --font-heading: "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-serif: "Inter", sans-serif;
+  --font-footer: "Lato", sans-serif;
+
+  --text-hero: clamp(3rem, 8.5vw, 7rem);
+  --text-giant: clamp(4rem, 16vw, 18rem);
+  --text-h1: clamp(2.5rem, 6vw, 4.75rem);
+  --text-h2: clamp(2rem, 4.5vw, 3.5rem);
+  --text-h3: clamp(1.5rem, 3vw, 2.25rem);
+  --text-h4: clamp(1.25rem, 2vw, 1.5rem);
+  --text-body: clamp(1rem, 1.1vw, 1.1rem);
+  --text-small: 0.875rem;
+  --text-caption: 0.72rem;
+
+  /* Brand — DARK THEME (default)
+     lime on navy, extracted from epigrowwglobal.com
+     rgb triplets exposed so rgba() calls can theme-swap */
+  --bg-rgb: 20, 23, 48;        /* navy */
+  --ink-rgb: 240, 240, 240;    /* light */
+  --accent-rgb: 227, 230, 93;  /* lime */
+  --accent2-rgb: 207, 222, 84;
+
+  --bg: rgb(var(--bg-rgb));           /* body canvas */
+  --bg-alt: #1E1F3A;                   /* hero / emphasis sections */
+  --bg-deep: #1C1735;                  /* footer / darkest */
+  --bg-nav: #14172F;                   /* nav bar */
+
+  --ink: rgb(var(--ink-rgb));          /* primary text */
+  --ink-90: rgba(var(--ink-rgb), 0.9);
+  --ink-60: rgba(var(--ink-rgb), 0.6);
+  --ink-40: rgba(var(--ink-rgb), 0.4);
+  --ink-20: rgba(var(--ink-rgb), 0.2);
+  --line: rgba(var(--ink-rgb), 0.09);
+  --line-strong: rgba(var(--ink-rgb), 0.18);
+
+  --white: #FFFFFF;
+  --accent: rgb(var(--accent-rgb));    /* signature highlight (lime in dark, navy in light) */
+  --accent-2: rgb(var(--accent2-rgb)); /* rectangular CTA variant */
+  --accent-soft: rgba(var(--accent-rgb), 0.12);
+  --accent-glow: rgba(var(--accent-rgb), 0.35);
+  --on-accent: #141730;                /* text INSIDE accent-filled elements */
+
+  /* Brand-lime — ALWAYS lime in both themes.
+     Used for decorative elements that should keep the brand pop
+     regardless of theme: status dots, pulse indicators, underlines,
+     small highlights. Never used as a full button bg on white. */
+  --brand-lime-rgb: 227, 230, 93;
+  --brand-lime: rgb(var(--brand-lime-rgb));
+  --brand-lime-strong: rgba(var(--brand-lime-rgb), 0.75);
+  --brand-lime-soft: rgba(var(--brand-lime-rgb), 0.25);
+
+  /* Dark contrast sections (Proof, Footer, Diversity, Benefits, Approach) */
+  --dark-bg: #0E1022;
+  --dark-surface: #161936;
+  --cream-on-dark: #F0F0F0;
+
+  /* Motion tokens — one source of truth for every word-reveal / scroll animation */
+  --ease-out-quart: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-menu: cubic-bezier(0.76, 0, 0.24, 1);
+  --dur-reveal: 1.05s;
+  --dur-fast: 0.35s;
+  --dur-medium: 0.6s;
+  --stagger-word: 0.055s;
+
+  /* Container — tops out at 1600 on very wide screens */
+  --container-max: 1440px;
+  --container-x: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+@media (min-width: 1800px) {
+  :root { --container-max: 1600px; --container-x: clamp(2rem, 4vw, 3.5rem); }
+}
+@media (min-width: 2400px) {
+  :root { --container-max: 1720px; }
+}
+
+/* LIGHT THEME — activated via html[data-theme="light"]
+   Rule: accent becomes navy so it always has strong contrast on white.
+   The lime is preserved as a secondary highlight used sparingly. */
+html[data-theme="light"] {
+  --bg-rgb: 255, 255, 255;     /* white */
+  --ink-rgb: 20, 23, 48;       /* navy text */
+  --accent-rgb: 20, 23, 48;    /* navy as the primary accent (replaces lime) */
+  --accent2-rgb: 14, 16, 34;   /* deeper navy for CTA variant */
+
+  --bg-alt: #F5F3EB;           /* warm cream for emphasis sections */
+  --bg-deep: #EEEBE0;          /* deeper cream */
+  --bg-nav: #FFFFFF;
+
+  --on-accent: #FFFFFF;        /* white text inside navy-filled elements */
+
+  /* Dark contrast sections stay dark in light theme too — navy as the "dark" */
+  --dark-bg: #141730;
+  --dark-surface: #1E1F3A;
+  --cream-on-dark: #F0F0F0;
+}
+
+html[data-theme="light"] ::selection { background: #141730; color: #FFFFFF; }
+
+/* ─────────────────────────────────────────────────────────────────
+   LIGHT THEME — visibility fixes
+   Bring lime back as a decorative brand signal (small dots, pulse,
+   italic-accent highlighter) and fix the spots that lost contrast
+   when --accent switched to navy.
+   ───────────────────────────────────────────────────────────────── */
+html[data-theme="light"] {
+
+  /* 1 — Italic/serif accent words get a lime HIGHLIGHTER so they
+          remain visually distinct from surrounding navy text. */
+  .serif,
+  .hero-accent {
+    color: var(--ink);
+    background-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 76%,
+      rgba(var(--brand-lime-rgb), 0.7) 76%,
+      rgba(var(--brand-lime-rgb), 0.7) 95%,
+      transparent 95%
+    );
+    background-repeat: no-repeat;
+    padding: 0 0.06em;
+  }
+
+  /* 2 — Pulse/status dots stay LIME (brand signature) */
+  .hero-topline .dot,
+  .ch-kicker .dot,
+  .co-kicker .dot,
+  .wh-kicker .dot,
+  .sr-label-dot,
+  .sr-chip-dot,
+  .lp-live-dot,
+  .lp-card-dot,
+  .tl-chat-dot,
+  .hero-film-dot,
+  .rb-foot-dot {
+    background: var(--brand-lime) !important;
+    box-shadow: 0 0 0 4px rgba(var(--brand-lime-rgb), 0.22) !important;
+  }
+
+  /* 3 — Small lime glow on the "LIVE" and status pills */
+  .lp-live {
+    background: rgba(var(--brand-lime-rgb), 0.2);
+    border-color: rgba(var(--brand-lime-rgb), 0.55);
+    color: var(--ink);
+  }
+
+  /* 4 — Scroll orb in hero keeps lime pop */
+  .hero-orb {
+    background: var(--brand-lime);
+    color: #141730;
+    box-shadow:
+      0 20px 60px rgba(var(--brand-lime-rgb), 0.55),
+      inset 0 -10px 30px rgba(0, 0, 0, 0.12);
+  }
+  .hero-orb .orb-rot text { fill: #141730; }
+
+  /* 5 — Nav Get Quote pill stays lime so the header keeps a pop.
+          Override the CSS-var driven --accent-2 locally. */
+  .nav-quote {
+    background: var(--brand-lime);
+    color: #141730;
+    box-shadow: 0 0 0 1px rgba(var(--brand-lime-rgb), 0.35);
+  }
+  .nav-quote:hover { background: #eef073; }
+
+  /* 6 — Menu hamburger pills visible on white */
+  .nav-menu-btn .menu-btn-bar { background: var(--ink); }
+  .nav-menu-btn.is-open {
+    background: var(--brand-lime);
+    border-color: var(--brand-lime);
+    .menu-btn-bar { background: #141730; }
+  }
+
+  /* 7 — Subtle lime accent for some interactive edges in light theme */
+  .sr-label-dot { background: var(--brand-lime); }
+
+  /* 8 — Grain overlay reads weird on white with overlay blend — ditch it */
+  .grain-overlay { display: none; }
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+}
+
+@media (max-width: 1024px) {
+  html, body { cursor: auto; }
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; border: none; background: none; cursor: pointer; color: inherit; }
+img, video { max-width: 100%; display: block; }
+
+::selection { background: var(--accent); color: #141730; }
+
+/* Grain overlay — subtle on dark */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
+}
+
+/* Typography utilities */
+.text-hero {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.text-giant {
+  font-family: var(--font-display);
+  font-size: var(--text-giant);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+.text-h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.text-h3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.text-h4 {
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  font-weight: 600;
+  line-height: 1.3;
+}
+.text-body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.55;
+}
+.text-small {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: 400;
+  line-height: 1.5;
+}
+.text-caption {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.text-serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.accent-text { color: var(--accent); }
+.ink-60 { color: var(--ink-60); }
+
+.hairline {
+  width: 100%;
+  height: 1px;
+  background: var(--line);
+}
+
+.section-y { padding: clamp(5rem, 10vw, 9rem) 0; }
+.container-x { padding-left: clamp(1.25rem, 4vw, 3.5rem); padding-right: clamp(1.25rem, 4vw, 3.5rem); }
+
+.ticker-num {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  font-weight: 700;
+}
+
+.reveal-clip { clip-path: inset(0 0 100% 0); }
+.reveal-clip-active { clip-path: inset(0 0 0% 0); }
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marqueeReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* Brand button shine — matches the Epigroww pill CTAs */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+  transform: translateX(-130%) skewX(-15deg);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.btn-shine:hover::before {
+  transform: translateX(130%) skewX(-15deg);
+}

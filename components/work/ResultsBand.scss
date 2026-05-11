@@ -1,0 +1,192 @@
+.rb {
+  padding: clamp(5rem, 10vw, 8rem) 0;
+  background: var(--dark-bg);
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+  border-radius: 40px 40px 0 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 70% 20%, rgba(var(--accent-rgb), 0.16), transparent 55%);
+  }
+}
+
+.rb-head {
+  position: relative;
+  z-index: 1;
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+  max-width: var(--container-max);
+  margin: 0 auto clamp(2rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .rb-label {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .rb-heading {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    max-width: 20ch;
+
+    .word-wrap {
+      display: inline-flex;
+      overflow: hidden;
+      padding-right: 0.16em;
+      padding-bottom: 0.04em;
+      vertical-align: baseline;
+    }
+    .rb-head-word {
+      display: inline-block;
+      will-change: transform;
+      &.serif {
+        font-style: italic;
+        font-weight: 500;
+        color: var(--accent);
+      }
+    }
+  }
+}
+
+.rb-viewport {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  padding-left: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.rb-track {
+  display: flex;
+  gap: 0.75rem;
+  width: max-content;
+  will-change: transform;
+}
+
+.rb-tile {
+  flex-shrink: 0;
+  width: clamp(240px, 24vw, 320px);
+  min-height: 240px;
+  padding: 1.6rem 1.5rem;
+  background: rgba(var(--ink-rgb), 0.035);
+  border: 1px solid var(--line-strong);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: background 0.4s ease, border-color 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover {
+    background: rgba(var(--accent-rgb), 0.06);
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    .rb-tile-k { color: var(--accent); }
+  }
+}
+
+.rb-tile-num {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+
+.rb-tile-k {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  color: var(--ink);
+  margin-top: auto;
+  transition: color 0.3s ease;
+}
+
+.rb-tile-label {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--ink-60);
+}
+
+.rb-endcard {
+  flex-shrink: 0;
+  width: clamp(220px, 22vw, 280px);
+  min-height: 240px;
+  padding: 1.6rem 1.5rem;
+  margin-right: clamp(1.25rem, 3vw, 2.5rem);
+  background: var(--accent);
+  color: var(--on-accent);
+  border-radius: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  > div { display: flex; flex-direction: column; gap: 0.3rem; }
+
+  .rb-end-lab {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .rb-end-sub {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    line-height: 1.35;
+    max-width: 22ch;
+  }
+  .rb-end-arrow {
+    font-size: 1.5rem;
+    font-weight: 600;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:hover { transform: translateY(-4px); }
+  &:hover .rb-end-arrow { transform: translate(4px, -4px); }
+}
+
+.rb-foot {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-max);
+  margin: 2rem auto 0;
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+
+  .rb-foot-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: rbDot 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes rbDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.4); }
+}

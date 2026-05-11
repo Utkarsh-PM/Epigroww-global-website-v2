@@ -1,0 +1,159 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "./Showreel.scss";
+
+if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+const STRIP = [
+  { k: "WK 17", t: "Launch film · Beauty", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80" },
+  { k: "WK 16", t: "TVC · Automotive", img: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80" },
+  { k: "WK 16", t: "UGC reel · F&B", img: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80" },
+  { k: "WK 15", t: "CGI · Perfume", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80" },
+  { k: "WK 15", t: "Shopify launch", img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" },
+  { k: "WK 14", t: "Performance reel", img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=800&q=80" },
+];
+
+export default function Showreel() {
+  const ref = useRef(null);
+  const videoRef = useRef(null);
+  const [playing, setPlaying] = useState(true);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".sr-canvas",
+        { clipPath: "inset(12% 8% 12% 8% round 28px)", scale: 1.02 },
+        {
+          clipPath: "inset(0% 0% 0% 0% round 24px)",
+          scale: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 85%",
+            end: "top 20%",
+            scrub: 1,
+          },
+        }
+      );
+      gsap.fromTo(
+        ".sr-head-word",
+        { yPercent: 110 },
+        {
+          yPercent: 0,
+          duration: 1,
+          ease: "power4.out",
+          stagger: 0.05,
+          scrollTrigger: { trigger: ".sr-head", start: "top 85%" },
+        }
+      );
+      gsap.fromTo(
+        ".sr-frame",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.9,
+          stagger: 0.06,
+          ease: "power3.out",
+          scrollTrigger: { trigger: ".sr-strip", start: "top 90%" },
+        }
+      );
+    }, ref);
+    return () => ctx.revert();
+  }, []);
+
+  const togglePlay = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) { v.play(); setPlaying(true); }
+    else { v.pause(); setPlaying(false); }
+  };
+
+  return (
+    <section ref={ref} className="sr">
+      <div className="sr-inner">
+        <div className="sr-head">
+          <span className="sr-label">
+            <span className="sr-label-dot" />
+            <span>— 01.5 / Showreel · Spring 2026</span>
+          </span>
+          <h2 className="sr-heading">
+            <span className="word-wrap"><span className="sr-head-word">A</span></span>{" "}
+            <span className="word-wrap"><span className="sr-head-word">week's</span></span>{" "}
+            <span className="word-wrap"><span className="sr-head-word serif">output</span></span>
+            <span className="word-wrap"><span className="sr-head-word">,</span></span>{" "}
+            <span className="word-wrap"><span className="sr-head-word">cut</span></span>{" "}
+            <span className="word-wrap"><span className="sr-head-word">into</span></span>{" "}
+            <span className="word-wrap"><span className="sr-head-word">ninety</span></span>{" "}
+            <span className="word-wrap"><span className="sr-head-word">seconds.</span></span>
+          </h2>
+        </div>
+
+        <div className="sr-canvas">
+          <video
+            ref={videoRef}
+            className="sr-video"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1600&q=80"
+          >
+            <source src="https://videos.pexels.com/video-files/3195394/3195394-hd_1920_1080_25fps.mp4" type="video/mp4" />
+          </video>
+          <div className="sr-canvas-tint" />
+
+          <div className="sr-overlay">
+            <div className="sr-overlay-top">
+              <span className="sr-chip">
+                <span className="sr-chip-dot" />
+                Now playing
+              </span>
+              <span className="sr-chip">100+ creatives / week</span>
+            </div>
+            <div className="sr-overlay-bottom">
+              <button
+                type="button"
+                className="sr-play"
+                onClick={togglePlay}
+                data-cursor="hover"
+                aria-label={playing ? "Pause showreel" : "Play showreel"}
+              >
+                {playing ? (
+                  <svg viewBox="0 0 24 24" width="18" height="18">
+                    <rect x="6" y="5" width="4" height="14" fill="currentColor" />
+                    <rect x="14" y="5" width="4" height="14" fill="currentColor" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" width="18" height="18">
+                    <path d="M7 4 L20 12 L7 20 Z" fill="currentColor" />
+                  </svg>
+                )}
+                <span>{playing ? "Pause reel" : "Play reel"}</span>
+              </button>
+              <div className="sr-info">
+                <span className="sr-info-num">00:00 / 01:28</span>
+                <span className="sr-info-sub">Made weekly · Q2 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="sr-strip">
+          {STRIP.map((s, i) => (
+            <figure key={i} className="sr-frame" data-cursor="view" data-cursor-label="View">
+              <img src={s.img} alt={s.t} />
+              <figcaption>
+                <span>{s.k}</span>
+                <span>{s.t}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

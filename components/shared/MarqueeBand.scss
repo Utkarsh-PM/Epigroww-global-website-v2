@@ -1,0 +1,41 @@
+.mq-band {
+  width: 100%;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 1.1rem 0;
+  background: var(--bg);
+
+  &.mq-accent {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-color: transparent;
+    font-weight: 600;
+  }
+}
+
+.mq-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll linear infinite;
+  will-change: transform;
+}
+
+.mq-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+
+.mq-dot {
+  color: var(--accent);
+  font-size: 1em;
+}
+
+.mq-accent .mq-dot { color: var(--on-accent); opacity: 0.55; }

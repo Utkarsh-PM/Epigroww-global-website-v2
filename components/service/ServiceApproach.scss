@@ -1,0 +1,106 @@
+.sa {
+  padding: clamp(5rem, 10vw, 9rem) clamp(1.25rem, 3vw, 2.5rem);
+  background: var(--dark-bg);
+  color: var(--cream-on-dark);
+  border-radius: 40px 40px 0 0;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(var(--accent-rgb), 0.18), transparent 55%);
+    pointer-events: none;
+  }
+}
+
+.sa-inner { position: relative; max-width: min(1240px, var(--container-max)); margin: 0 auto; }
+
+.sa-head {
+  margin-bottom: clamp(3rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  .sa-label {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+}
+
+.sa-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  max-width: 22ch;
+}
+
+.sa-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sa-step {
+  display: grid;
+  grid-template-columns: 80px 1fr 60px;
+  gap: 2rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  align-items: start;
+  transition: padding-left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &:hover { padding-left: 1.2rem; }
+  &:hover .sa-step-num { color: var(--accent); }
+  &:hover h3 {
+    color: var(--accent);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+  }
+}
+
+.sa-step-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: rgba(var(--ink-rgb), 0.4);
+  letter-spacing: -0.015em;
+  padding-top: 0.1rem;
+  transition: color 0.3s ease;
+}
+
+.sa-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    transition: color 0.3s ease;
+  }
+  p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.55;
+    color: rgba(var(--ink-rgb), 0.7);
+    max-width: 60ch;
+  }
+}
+
+.sa-step-icon {
+  font-size: 1.4rem;
+  color: var(--accent);
+  padding-top: 0.2rem;
+  text-align: right;
+}

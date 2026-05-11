@@ -1,0 +1,150 @@
+.tl {
+  padding: clamp(5rem, 10vw, 9rem) clamp(1.25rem, 3vw, 2.5rem);
+  background: var(--bg);
+}
+
+.tl-inner {
+  max-width: min(1240px, var(--container-max));
+  margin: 0 auto;
+}
+
+.tl-head {
+  margin-bottom: clamp(3rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  .tl-label {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+  }
+}
+
+.tl-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.025em;
+
+  .serif {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+}
+
+.tl-rail-wrap {
+  position: relative;
+  padding-left: 3rem;
+
+  @media (max-width: 720px) {
+    padding-left: 2rem;
+  }
+}
+
+.tl-rail {
+  position: absolute;
+  top: 0;
+  left: 0.6rem;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+
+  @media (max-width: 720px) {
+    left: 0.4rem;
+  }
+}
+
+.tl-rail-fill {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 4px;
+  height: 0;
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.4);
+}
+
+.tl-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 3vw, 2.5rem);
+}
+
+.tl-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.tl-item-node {
+  position: absolute;
+  top: 1rem;
+  left: -2.6rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  z-index: 1;
+
+  @media (max-width: 720px) {
+    left: -1.8rem;
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.tl-item-card {
+  padding: 1.5rem 1.8rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: border-color 0.4s ease, background 0.4s ease;
+
+  &:hover {
+    border-color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.05);
+    transform: translateX(4px);
+  }
+}
+
+.tl-item-year {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  .tl-item-q { color: var(--ink-60); }
+}
+
+.tl-item-head {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+
+.tl-item-body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-60);
+  max-width: 52ch;
+}
