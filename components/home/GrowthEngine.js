@@ -14,7 +14,7 @@ const PILLARS = [
     sub: "The spend",
     desc: "Paid everywhere the customer is — Meta, Google, Amazon, CTV, programmatic, retention. Engineered around incrementality.",
     services: ["Performance", "Programmatic", "Retention", "Marketplace"],
-    angle: 0,
+    angle: -90,
   },
   {
     k: "brand",
@@ -23,7 +23,7 @@ const PILLARS = [
     sub: "The creative",
     desc: "A full creative house — 100+ pieces a week. Films, UGC, CGI, identity, packaging. Craft without the timeline drag.",
     services: ["Performance creative", "Films & TVC", "Identity", "Influencer"],
-    angle: 90,
+    angle: -18,
   },
   {
     k: "tech",
@@ -32,7 +32,7 @@ const PILLARS = [
     sub: "The plumbing",
     desc: "Websites, stacks, automations. Green Core Web Vitals. CRM your team actually uses. Built to stay out of the way.",
     services: ["Web build", "CRM & ERP", "Analytics", "Automation"],
-    angle: 180,
+    angle: 54,
   },
   {
     k: "ai",
@@ -41,7 +41,16 @@ const PILLARS = [
     sub: "The force-multiplier",
     desc: "LLM-native pods shipping assistants, agents, copy engines, and audience models — guard-railed, evaluated, owned by you.",
     services: ["Assistants", "Agents", "Copy engines", "Audience models"],
-    angle: 270,
+    angle: 126,
+  },
+  {
+    k: "ecommerce",
+    num: "05",
+    label: "Ecommerce",
+    sub: "The revenue line",
+    desc: "D2C storefronts, marketplace P&Ls, CRO, fulfilment and retention — engineered as one revenue product, not five stitched vendors.",
+    services: ["Shopify & D2C", "Marketplaces", "CRO", "Retention"],
+    angle: 198,
   },
 ];
 
@@ -185,8 +194,8 @@ export default function GrowthEngine() {
             {PILLARS.map((pi, i) => {
               const rad = (pi.angle * Math.PI) / 180;
               // Position labels outside the orbit
-              const labelX = Math.cos(rad) * 50;
-              const labelY = Math.sin(rad) * 50;
+              const labelX = Math.cos(rad) * 46;
+              const labelY = Math.sin(rad) * 46;
               return (
                 <button
                   key={pi.k}
@@ -208,7 +217,7 @@ export default function GrowthEngine() {
 
           <div className="ge-detail">
             <div className="ge-detail-top">
-              <span>{p.num} / 04</span>
+              <span>{p.num} / {String(PILLARS.length).padStart(2, "0")}</span>
               <span className="ge-detail-sub">{p.sub}</span>
             </div>
             <h3 className="ge-detail-title">{p.label}</h3>

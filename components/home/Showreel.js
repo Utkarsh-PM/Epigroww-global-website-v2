@@ -13,11 +13,14 @@ const STRIP = [
   { k: "WK 15", t: "CGI · Perfume", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80" },
   { k: "WK 15", t: "Shopify launch", img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" },
   { k: "WK 14", t: "Performance reel", img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=800&q=80" },
+  { k: "WK 14", t: "Identity · Fashion", img: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80" },
+  { k: "WK 13", t: "Influencer · D2C", img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80" },
 ];
 
 export default function Showreel() {
   const ref = useRef(null);
   const videoRef = useRef(null);
+  const trackRef = useRef(null);
   const [playing, setPlaying] = useState(true);
 
   useEffect(() => {
@@ -49,17 +52,52 @@ export default function Showreel() {
         }
       );
       gsap.fromTo(
-        ".sr-frame",
-        { y: 40, opacity: 0 },
+        ".sr-marquee",
+        { opacity: 0, y: 40 },
         {
-          y: 0,
           opacity: 1,
-          duration: 0.9,
-          stagger: 0.06,
+          y: 0,
+          duration: 1.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".sr-strip", start: "top 90%" },
+          scrollTrigger: { trigger: ".sr-marquee", start: "top 92%" },
         }
       );
+
+      // Infinite drift marquee — rAF-driven loop on the inner track. The
+      // track is rendered with two copies of the strip back-to-back; we move
+      // it from 0 → -halfWidth, then snap back for a seamless loop. Hover
+      // smoothly eases the speed to 0 so cards become readable on dwell.
+      const track = trackRef.current;
+      if (track) {
+        const setX = gsap.quickSetter(track, "x", "px");
+        const state = { x: 0, mult: 1, half: 0 };
+        const measure = () => { state.half = track.scrollWidth / 2; };
+        measure();
+        window.addEventListener("resize", measure);
+
+        const speed = 0.55; // px / frame — premium drift
+        let raf = 0;
+        const tick = () => {
+          state.x -= speed * state.mult;
+          if (state.x <= -state.half) state.x += state.half;
+          if (state.x > 0) state.x -= state.half;
+          setX(state.x);
+          raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+
+        const onEnter = () => gsap.to(state, { mult: 0, duration: 0.6, ease: "power2.out" });
+        const onLeave = () => gsap.to(state, { mult: 1, duration: 0.8, ease: "power2.out" });
+        track.addEventListener("mouseenter", onEnter);
+        track.addEventListener("mouseleave", onLeave);
+
+        return () => {
+          cancelAnimationFrame(raf);
+          window.removeEventListener("resize", measure);
+          track.removeEventListener("mouseenter", onEnter);
+          track.removeEventListener("mouseleave", onLeave);
+        };
+      }
     }, ref);
     return () => ctx.revert();
   }, []);
@@ -142,16 +180,33 @@ export default function Showreel() {
           </div>
         </div>
 
-        <div className="sr-strip">
-          {STRIP.map((s, i) => (
-            <figure key={i} className="sr-frame" data-cursor="view" data-cursor-label="View">
-              <img src={s.img} alt={s.t} />
-              <figcaption>
-                <span>{s.k}</span>
-                <span>{s.t}</span>
-              </figcaption>
-            </figure>
-          ))}
+        <div className="sr-marquee" aria-label="Recent reels">
+          <div className="sr-marquee-track" ref={trackRef}>
+            {[...STRIP, ...STRIP].map((s, i) => (
+              <figure
+                key={i}
+                className="sr-frame"
+                style={{ "--i": i % STRIP.length }}
+                data-cursor="view"
+                data-cursor-label="View"
+              >
+                <div className="sr-frame-inner">
+                  <img src={s.img} alt={s.t} />
+                  <span className="sr-frame-shine" aria-hidden="true" />
+                  <span className="sr-frame-badge">
+                    <span className="sr-frame-badge-dot" />
+                    Reel
+                  </span>
+                  <figcaption>
+                    <span>{s.k}</span>
+                    <span>{s.t}</span>
+                  </figcaption>
+                </div>
+              </figure>
+            ))}
+          </div>
+          <div className="sr-marquee-fade sr-marquee-fade-l" aria-hidden="true" />
+          <div className="sr-marquee-fade sr-marquee-fade-r" aria-hidden="true" />
         </div>
       </div>
     </section>

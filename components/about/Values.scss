@@ -70,8 +70,15 @@
   background: var(--dark-bg);
 
   @media (max-width: 900px) {
-    position: static;
-    aspect-ratio: 16 / 10;
+    /* MUST remain a positioned ancestor — the absolute-positioned
+       .v-media-item children inside use inset: 0 to fill this box. If we
+       switched to position: static here, they would escape and cover the
+       whole page (was painting the active media over the AboutHero on
+       mobile /about). */
+    position: relative;
+    top: auto;
+    aspect-ratio: 16 / 11;
+    max-height: 48vh;
   }
 }
 

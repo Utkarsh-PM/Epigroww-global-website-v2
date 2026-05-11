@@ -191,6 +191,148 @@ html[data-theme="light"] {
 
   /* 8 — Grain overlay reads weird on white with overlay blend — ditch it */
   .grain-overlay { display: none; }
+
+  /* 9 — Dark sections keep their identity: re-bind --accent to LIME inside
+          any block that sits on top of --dark-bg. This restores the brand pop
+          for italic accent words, eyebrows, CTAs, dots, etc. that live on the
+          dark navy slabs (Footer, ProofInMotion, LivePulse, Diversity, Benefits,
+          ResultsBand, ServiceApproach, FullscreenMenu, the dark CTA). */
+  .site-footer,
+  .cta-dark .cta-bg,
+  .proof,
+  .lp,
+  .dv,
+  .bf,
+  .rb,
+  .sa,
+  .fs-menu {
+    --accent-rgb: 227, 230, 93;
+    --accent2-rgb: 207, 222, 84;
+    --accent: rgb(var(--accent-rgb));
+    --accent-2: rgb(var(--accent2-rgb));
+    --on-accent: #141730;
+    --ink-rgb: 240, 240, 240;
+    --ink: rgb(var(--ink-rgb));
+    --ink-60: rgba(var(--ink-rgb), 0.6);
+    --ink-40: rgba(var(--ink-rgb), 0.4);
+    --ink-20: rgba(var(--ink-rgb), 0.2);
+    --line: rgba(255, 255, 255, 0.09);
+    --line-strong: rgba(255, 255, 255, 0.18);
+
+    /* Disable the .serif underline-highlighter inside dark sections — italic
+       lime text on dark already has plenty of contrast. */
+    .serif,
+    .hero-accent,
+    .footer-italic,
+    .cta-accent {
+      background-image: none;
+      color: var(--accent);
+      padding: 0;
+    }
+  }
+
+  /* 10 — GrowthEngine pills: dark pill bg with light text (otherwise we get
+          navy-on-navy). Keep number lime and active state lime. */
+  .ge-pill {
+    background: rgba(20, 23, 48, 0.94);
+    color: #f0f0f0;
+    border-color: rgba(255, 255, 255, 0.18);
+
+    .ge-pill-num { color: var(--brand-lime); }
+
+    &:hover,
+    &.is-active {
+      border-color: var(--brand-lime);
+      color: var(--brand-lime);
+    }
+  }
+
+  /* 11 — Hero blurb readability: bump the italic emphasis weight and the
+          surrounding text so the line reads on white. */
+  .hero-blurb {
+    color: rgba(20, 23, 48, 0.78);
+    em { color: var(--ink); font-weight: 600; }
+  }
+
+  /* 12 — Hero "(01) Media · Brand · Tech — unified" chip needs a real border
+          on white instead of a near-invisible 0.18 line. */
+  .hero-pre .eyebrow {
+    border-color: rgba(20, 23, 48, 0.18);
+    background: rgba(20, 23, 48, 0.04);
+  }
+
+  /* 13 — Hero film tint is built for a dark page; soften it on white. */
+  .hero-film {
+    box-shadow: 0 30px 70px rgba(20, 23, 48, 0.18), inset 0 0 0 1px rgba(20, 23, 48, 0.08);
+  }
+  .hero-film .hero-film-meta {
+    background: rgba(20, 23, 48, 0.78);
+    color: #f0f0f0;
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  /* 14 — Site-nav is plain white when scrolled in light mode (was hard-coded
+          rgba navy in Nav.scss). */
+  .site-nav.is-scrolled {
+    background: rgba(255, 255, 255, 0.88);
+    border-bottom-color: rgba(20, 23, 48, 0.08);
+  }
+
+  /* 14b — Logo PNG ships as white type on transparent — invisible on a white
+            nav in light mode. Filter it to the brand navy so it reads. */
+  .nav-logo {
+    filter: brightness(0) saturate(100%) invert(8%) sepia(36%) saturate(2207%) hue-rotate(220deg) brightness(85%) contrast(105%);
+  }
+
+  /* 15 — GrowthEngine: lift the dashed orbit lines so they read on white. */
+  .ge-orbit {
+    .ge-ring { stroke: rgba(20, 23, 48, 0.35); }
+    .ge-ring-outer { opacity: 0.45; }
+    .ge-ring-mid { opacity: 0.55; }
+    .ge-ring-inner { stroke: rgba(20, 23, 48, 0.4); }
+    .ge-axis { stroke: rgba(20, 23, 48, 0.12); }
+  }
+  .ge-detail {
+    background: #F5F3EB;
+    border-color: rgba(20, 23, 48, 0.1);
+  }
+
+  /* 16 — Showreel video container readable shadow on white. */
+  .sr-canvas {
+    box-shadow: 0 30px 80px rgba(20, 23, 48, 0.18);
+  }
+
+  /* 16b — Showreel floating reel cards: the dark shadow that reads great on
+            navy turns into a heavy "shelf" on a cream page. Soften it. */
+  .sr-frame-inner {
+    box-shadow:
+      0 18px 40px rgba(20, 23, 48, 0.14),
+      0 4px 12px rgba(20, 23, 48, 0.06),
+      inset 0 0 0 1px rgba(20, 23, 48, 0.06);
+  }
+  .sr-frame:hover .sr-frame-inner {
+    box-shadow:
+      0 26px 60px rgba(20, 23, 48, 0.22),
+      0 6px 18px rgba(20, 23, 48, 0.08),
+      inset 0 0 0 1px rgba(var(--brand-lime-rgb), 0.55);
+  }
+  /* Edge fades fade out to the section bg, not pure white, so the soft shadow
+     is allowed to bleed through. */
+  .sr-marquee-fade-l,
+  .sr-marquee-fade-r {
+    background: linear-gradient(90deg, var(--bg) 0%, rgba(var(--bg-rgb), 0) 100%);
+  }
+  .sr-marquee-fade-r {
+    background: linear-gradient(270deg, var(--bg) 0%, rgba(var(--bg-rgb), 0) 100%);
+  }
+
+  /* 17 — Featured Work end-card "Open the vault" pill — accent (navy) bg with
+          white text; the inner span needs to stay white in light mode. */
+  .fw-endcard .fw-end-cta {
+    color: #fff;
+    span { color: #fff; }
+    &:hover { background: #1E1F3A; }
+  }
 }
 
 html, body {

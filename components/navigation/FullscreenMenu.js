@@ -11,8 +11,9 @@ const MENU_ITEMS = [
   { label: "Media Solutions", href: "/media-solutions", num: "04" },
   { label: "Brand Solutions", href: "/brand-solutions", num: "05" },
   { label: "Tech Solutions", href: "/tech-solutions", num: "06" },
-  { label: "Careers", href: "/careers", num: "07" },
-  { label: "Contact", href: "/contact", num: "08" },
+  { label: "Ecommerce Solutions", href: "/ecommerce-solutions", num: "07" },
+  { label: "Careers", href: "/careers", num: "08" },
+  { label: "Contact", href: "/contact", num: "09" },
 ];
 
 const CITIES = [

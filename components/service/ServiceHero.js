@@ -96,17 +96,11 @@ export default function ServiceHero({
           <div className="sh-vis-float">
             {variant === "media" && (
               <svg viewBox="0 0 260 260" width="260" height="260">
-                <defs>
-                  <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stopColor="#E3E65D" />
-                    <stop offset="1" stopColor="#F4F0A0" />
-                  </linearGradient>
-                </defs>
-                <circle cx="130" cy="130" r="110" fill="none" stroke="url(#g1)" strokeWidth="1" strokeDasharray="2 4" />
-                <circle cx="130" cy="130" r="80" fill="none" stroke="url(#g1)" strokeWidth="1" strokeDasharray="4 6" opacity="0.6" />
-                <circle cx="130" cy="130" r="50" fill="url(#g1)" opacity="0.9" />
-                <circle cx="130" cy="130" r="30" fill="#141730" />
-                <text x="130" y="135" textAnchor="middle" fill="#F0F0F0" fontFamily="var(--font-display)" fontSize="12" fontWeight="700">MEDIA</text>
+                <circle cx="130" cy="130" r="110" fill="none" stroke="var(--accent)" strokeWidth="1" strokeDasharray="2 4" opacity="0.7" />
+                <circle cx="130" cy="130" r="80" fill="none" stroke="var(--accent)" strokeWidth="1" strokeDasharray="4 6" opacity="0.5" />
+                <circle cx="130" cy="130" r="50" fill="var(--accent)" />
+                <circle cx="130" cy="130" r="30" fill="var(--on-accent)" />
+                <text x="130" y="135" textAnchor="middle" fill="var(--accent)" fontFamily="var(--font-display)" fontSize="12" fontWeight="700">MEDIA</text>
               </svg>
             )}
             {variant === "brand" && (
@@ -114,7 +108,7 @@ export default function ServiceHero({
                 <rect x="20" y="20" width="220" height="220" fill="none" stroke="var(--accent)" strokeWidth="1" />
                 <rect x="50" y="50" width="160" height="160" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5" />
                 <rect x="80" y="80" width="100" height="100" fill="var(--accent)" />
-                <text x="130" y="135" textAnchor="middle" fill="#141730" fontFamily="var(--font-serif)" fontStyle="italic" fontSize="20">brand</text>
+                <text x="130" y="135" textAnchor="middle" fill="var(--on-accent)" fontFamily="var(--font-serif)" fontStyle="italic" fontSize="20">brand</text>
               </svg>
             )}
             {variant === "tech" && (
@@ -122,7 +116,18 @@ export default function ServiceHero({
                 <polygon points="130,20 240,130 130,240 20,130" fill="none" stroke="var(--accent)" strokeWidth="1" />
                 <polygon points="130,50 210,130 130,210 50,130" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.6" />
                 <polygon points="130,80 180,130 130,180 80,130" fill="var(--accent)" />
-                <text x="130" y="136" textAnchor="middle" fill="#141730" fontFamily="var(--font-display)" fontSize="12" fontWeight="500">TECH</text>
+                <text x="130" y="136" textAnchor="middle" fill="var(--on-accent)" fontFamily="var(--font-display)" fontSize="12" fontWeight="500">TECH</text>
+              </svg>
+            )}
+            {variant === "ecommerce" && (
+              <svg viewBox="0 0 260 260" width="260" height="260">
+                <circle cx="130" cy="130" r="110" fill="none" stroke="var(--accent)" strokeWidth="1" strokeDasharray="2 5" opacity="0.7" />
+                <rect x="60" y="60" width="140" height="140" rx="18" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.55" />
+                <rect x="86" y="86" width="88" height="88" rx="14" fill="var(--accent)" />
+                <path d="M104 118 h52 l-6 30 h-40 z" fill="var(--on-accent)" />
+                <circle cx="116" cy="158" r="5" fill="var(--on-accent)" />
+                <circle cx="146" cy="158" r="5" fill="var(--on-accent)" />
+                <path d="M104 118 l-4 -10 h-10" stroke="var(--on-accent)" strokeWidth="2" fill="none" strokeLinecap="round" />
               </svg>
             )}
           </div>

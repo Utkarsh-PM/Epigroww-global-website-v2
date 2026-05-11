@@ -286,11 +286,25 @@
   width: 100%;
 }
 
+/* Responsive — keep the SAME GSAP pin+horizontal-scrub animation that runs on
+   desktop. Only the card sizing changes so the track has enough scroll
+   distance on smaller viewports. */
 @media (max-width: 900px) {
-  .fw { height: auto; }
-  .fw-layer { height: auto; }
-  .fw-viewport { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .fw-track { transform: none !important; height: 460px; }
-  .fw-card { width: 80vw; }
-  .fw-endcard { width: 60vw; }
+  .fw-head { margin-bottom: clamp(1.5rem, 3vw, 2rem); }
+  .fw-heading { font-size: clamp(1.9rem, 7vw, 2.6rem); }
+  .fw-card {
+    width: clamp(280px, 78vw, 440px);
+  }
+  .fw-card-head,
+  .fw-card-body { padding: 1.3rem 1.4rem; }
+  .fw-project {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    margin-bottom: 1rem;
+  }
+  .fw-endcard { width: clamp(240px, 60vw, 360px); }
+}
+
+@media (max-width: 520px) {
+  .fw-card { width: 82vw; }
+  .fw-endcard { width: 70vw; }
 }

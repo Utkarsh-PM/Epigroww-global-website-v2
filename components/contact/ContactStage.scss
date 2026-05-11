@@ -227,7 +227,7 @@
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
   &:hover { background: var(--accent); color: var(--on-accent); }
-  &:hover .cs-submit-ar { transform: rotate(45deg); background: #141730; color: var(--accent); }
+  &:hover .cs-submit-ar { transform: rotate(45deg); background: var(--on-accent); color: var(--accent); }
 }
 
 .cs-thanks {
