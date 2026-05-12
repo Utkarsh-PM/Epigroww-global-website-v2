@@ -9,19 +9,36 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  /* shelf ticks along the top, evenly spaced like a measure rule */
   background:
-    linear-gradient(180deg, transparent 0, transparent calc(50% - 1px), rgba(var(--ink-rgb), 0.06) calc(50% - 1px), rgba(var(--ink-rgb), 0.06) 50%, transparent 50%, transparent 100%),
     repeating-linear-gradient(
       90deg,
       transparent 0,
-      transparent 80px,
-      rgba(var(--ink-rgb), 0.04) 80px,
-      rgba(var(--ink-rgb), 0.04) 81px
+      transparent 60px,
+      rgba(var(--ink-rgb), 0.12) 60px,
+      rgba(var(--ink-rgb), 0.12) 61px
     );
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 25%, transparent 85%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 25%, transparent 85%);
-  opacity: 0.6;
+  background-size: 100% 12px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  mask-image: linear-gradient(180deg, #000 0, #000 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 60%, transparent 100%);
+  opacity: 0.55;
   z-index: 0;
+
+  /* horizontal shelf line at the top */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 12px;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(var(--ink-rgb), 0.22),
+      transparent);
+  }
 }
 
 .ec-inner {
@@ -292,6 +309,48 @@
   color: var(--ink-60);
   margin-bottom: auto;
 }
+
+/* Tiny barcode signature — pure CSS, theme-safe */
+.ec-card-barcode {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(var(--ink-rgb), 0.025);
+}
+
+.ec-card-barcode-bars {
+  flex: 1;
+  height: 22px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--ink) 0 1px,
+      transparent 1px 3px,
+      var(--ink) 3px 5px,
+      transparent 5px 6px,
+      var(--ink) 6px 8px,
+      transparent 8px 12px,
+      var(--ink) 12px 13px,
+      transparent 13px 16px,
+      var(--ink) 16px 19px,
+      transparent 19px 21px
+    );
+  opacity: 0.55;
+  transition: opacity 0.4s ease;
+}
+
+.ec-card-barcode-code {
+  font-family: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-60);
+  white-space: nowrap;
+}
+
+.ec-card:hover .ec-card-barcode-bars { opacity: 0.85; }
 
 .ec-card-chips-wrap {
   display: flex;

@@ -89,6 +89,11 @@ export default function EcommerceCapabilities({ title, accent, intro, items = []
                 <h3 className="ec-card-title">{it.title}</h3>
                 <p className="ec-card-body-text">{it.body}</p>
 
+                <div className="ec-card-barcode" aria-hidden="true">
+                  <span className="ec-card-barcode-bars" />
+                  <span className="ec-card-barcode-code">{sku(i).replace("SKU-", "")} · EG</span>
+                </div>
+
                 <div className="ec-card-chips-wrap">
                   <span className="ec-card-chips-label">Included</span>
                   <ul className="ec-card-chips">

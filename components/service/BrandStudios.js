@@ -6,6 +6,18 @@ import "./BrandStudios.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
+const STUDIO_CATS = [
+  "Studio",
+  "Reel",
+  "Edit",
+  "Film",
+  "Loop",
+  "Print",
+  "Direct",
+  "Vision",
+  "Sound",
+];
+
 export default function BrandStudios({ title, accent, intro, items = [] }) {
   const ref = useRef(null);
 
@@ -82,7 +94,7 @@ export default function BrandStudios({ title, accent, intro, items = [] }) {
                 <div className="bs-card-meta">
                   <span className="bs-card-folio">Folio {String(i + 1).padStart(3, "0")}</span>
                   <span className="bs-card-dot" />
-                  <span className="bs-card-cat">Studio</span>
+                  <span className="bs-card-cat">{STUDIO_CATS[i % STUDIO_CATS.length]}</span>
                 </div>
                 <h3 className="bs-card-title">{it.title}</h3>
                 <p className="bs-card-body-text">{it.body}</p>

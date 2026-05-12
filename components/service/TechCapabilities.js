@@ -7,6 +7,16 @@ import "./TechCapabilities.scss";
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const FILE_EXT = ["tsx", "ts", "jsx", "go", "py", "rs", "swift", "kt"];
+const RUNTIME_STATES = [
+  "module.ready()",
+  "build.success()",
+  "deploy.live()",
+  "ship.queue()",
+  "render.ok()",
+  "tests.green()",
+  "vitals.pass()",
+  "edge.warm()",
+];
 
 export default function TechCapabilities({ title, accent, intro, items = [] }) {
   const ref = useRef(null);
@@ -86,6 +96,10 @@ export default function TechCapabilities({ title, accent, intro, items = [] }) {
                   <span className="tc-dot tc-dot--g" />
                 </span>
                 <span className="tc-file">{fileName(it.title, i)}</span>
+                <span className="tc-card-compiled">
+                  <span className="tc-card-compiled-dot" />
+                  compiled
+                </span>
                 <span className="tc-card-num">{String(i + 1).padStart(2, "0")}</span>
               </header>
 
@@ -95,7 +109,7 @@ export default function TechCapabilities({ title, accent, intro, items = [] }) {
                 <div className="tc-card-grid-overlay" />
                 <div className="tc-card-tag">
                   <span className="tc-card-glyph">{it.icon}</span>
-                  <span className="tc-card-tag-text">module.ready()</span>
+                  <span className="tc-card-tag-text">{RUNTIME_STATES[i % RUNTIME_STATES.length]}</span>
                 </div>
               </div>
 
