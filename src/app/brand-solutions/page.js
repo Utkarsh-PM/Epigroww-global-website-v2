@@ -1,7 +1,7 @@
 import ServiceHero from "../../../components/service/ServiceHero";
 import CreativeReel from "../../../components/service/CreativeReel";
 import BeforeAfter from "../../../components/service/BeforeAfter";
-import CapabilityGrid from "../../../components/service/CapabilityGrid";
+import BrandStudios from "../../../components/service/BrandStudios";
 import ServiceApproach from "../../../components/service/ServiceApproach";
 import ServiceVoices from "../../../components/service/ServiceVoices";
 import CTA from "../../../components/shared/CTA";
@@ -55,12 +55,11 @@ export default function BrandSolutionsPage() {
       />
       <CreativeReel />
       <BeforeAfter />
-      <CapabilityGrid
+      <BrandStudios
         title="Nine studios,"
         accent="one creative engine."
         intro="Whether it's a 6-second hook or a 90-second TVC, it ships from the same team — writers, art directors, film-makers, CGI artists, editors — all in the same Slack channel."
         items={CAPS}
-        variant="brand"
       />
       <ServiceApproach
         title="Creative sits at the top."

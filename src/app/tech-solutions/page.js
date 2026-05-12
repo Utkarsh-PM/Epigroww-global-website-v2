@@ -1,5 +1,5 @@
 import ServiceHero from "../../../components/service/ServiceHero";
-import CapabilityGrid from "../../../components/service/CapabilityGrid";
+import TechCapabilities from "../../../components/service/TechCapabilities";
 import TerminalLive from "../../../components/service/TerminalLive";
 import StackShowcase from "../../../components/service/StackShowcase";
 import ServiceApproach from "../../../components/service/ServiceApproach";
@@ -194,12 +194,11 @@ export default function TechSolutionsPage() {
         ]}
         variant="tech"
       />
-      <CapabilityGrid
+      <TechCapabilities
         title="Eight"
         accent="ways we turn ideas into shipped product."
         intro="From a one-line idea to a market-ready SaaS — design, software, animations, mobile, infra and AI tooling all live in the same room, on the same sprint."
         items={CAPS}
-        variant="tech"
       />
       <VisualShowcase
         label="— Live build · Frame 002"

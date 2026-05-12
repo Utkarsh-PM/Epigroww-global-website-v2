@@ -1,5 +1,5 @@
 import ServiceHero from "../../../components/service/ServiceHero";
-import CapabilityGrid from "../../../components/service/CapabilityGrid";
+import EcommerceCapabilities from "../../../components/service/EcommerceCapabilities";
 import ServiceApproach from "../../../components/service/ServiceApproach";
 import ServiceVoices from "../../../components/service/ServiceVoices";
 import FunnelStages from "../../../components/service/FunnelStages";
@@ -124,7 +124,7 @@ export default function EcommerceSolutionsPage() {
         ]}
         variant="ecommerce"
       />
-      <CapabilityGrid
+      <EcommerceCapabilities
         title="Six surfaces."
         accent="One commerce engine."
         intro="Storefront, marketplace, CRO, catalog, retention, payments — one team, one scorecard, one revenue line. The bits your CFO reads agree with the bits your merchandiser ships."

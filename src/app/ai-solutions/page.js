@@ -1,5 +1,5 @@
 import ServiceHero from "../../../components/service/ServiceHero";
-import CapabilityGrid from "../../../components/service/CapabilityGrid";
+import AICapabilities from "../../../components/service/AICapabilities";
 import ServiceApproach from "../../../components/service/ServiceApproach";
 import ServiceVoices from "../../../components/service/ServiceVoices";
 import VisualShowcase from "../../../components/service/VisualShowcase";
@@ -157,12 +157,11 @@ export default function AISolutionsPage() {
         ]}
         variant="ai"
       />
-      <CapabilityGrid
+      <AICapabilities
         title="Eight"
         accent="ways AI moves your P&L."
         intro="From the agent that handles your inbox to the SaaS product your team can sell — we build the AI layer end-to-end, with the evals and infra that make it dependable in production."
         items={CAPS}
-        variant="ai"
       />
       <ModelMatrix />
       <VisualShowcase
