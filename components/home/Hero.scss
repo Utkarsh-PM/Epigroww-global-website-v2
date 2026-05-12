@@ -296,7 +296,11 @@
 
 .hero-orb {
   position: absolute;
-  left: clamp(18%, 35%, 42%);
+  /* Pinned to the bottom-right corner, in the clear space beneath the film
+     panel. The previous `left: 35%` placement landed inside the stats column
+     once the inner content had to reserve right-side padding for the film. */
+  left: auto;
+  right: clamp(2rem, 5vw, 4rem);
   bottom: clamp(1rem, 3vw, 2.5rem);
   width: clamp(90px, 8.5vw, 110px);
   height: clamp(90px, 8.5vw, 110px);
