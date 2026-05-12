@@ -4,6 +4,7 @@
  */
 export const SiteSettings = {
   slug: "site-settings",
+  access: { read: () => true },
   label: "Site settings",
   admin: {
     group: "Brand & Site",
