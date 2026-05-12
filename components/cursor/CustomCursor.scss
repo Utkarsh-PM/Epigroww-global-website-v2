@@ -84,6 +84,33 @@
   &.cursor-ring { border-color: var(--ink); color: var(--ink); }
 }
 
+/* Light theme — the default ink (navy) becomes invisible the moment the
+   cursor crosses a dark section (Footer, CTA, ServiceApproach, ProofInMotion
+   etc., which keep a dark surface in both themes). Use `mix-blend-mode:
+   difference` on the default cursor so it inverts the layer beneath it —
+   black on white, white on black — guaranteeing contrast either way.
+   Hover / view / drag variants keep their own solid colors. */
+html[data-theme="light"] {
+  .cursor-dot.cursor-default {
+    mix-blend-mode: difference;
+    background: #ffffff;
+  }
+  .cursor-ring.cursor-default {
+    mix-blend-mode: difference;
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+  .cursor-dot.cursor-light {
+    mix-blend-mode: difference;
+    background: #ffffff;
+  }
+  .cursor-ring.cursor-light {
+    mix-blend-mode: difference;
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+}
+
 @media (max-width: 1024px) {
   .cursor-dot, .cursor-ring { display: none; }
 }

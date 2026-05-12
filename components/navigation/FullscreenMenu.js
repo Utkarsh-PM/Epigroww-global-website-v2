@@ -11,9 +11,10 @@ const MENU_ITEMS = [
   { label: "Media Solutions", href: "/media-solutions", num: "04" },
   { label: "Brand Solutions", href: "/brand-solutions", num: "05" },
   { label: "Tech Solutions", href: "/tech-solutions", num: "06" },
-  { label: "Ecommerce Solutions", href: "/ecommerce-solutions", num: "07" },
-  { label: "Careers", href: "/careers", num: "08" },
-  { label: "Contact", href: "/contact", num: "09" },
+  { label: "AI Solutions", href: "/ai-solutions", num: "07" },
+  { label: "Ecommerce Solutions", href: "/ecommerce-solutions", num: "08" },
+  { label: "Careers", href: "/careers", num: "09" },
+  { label: "Contact", href: "/contact", num: "10" },
 ];
 
 const CITIES = [

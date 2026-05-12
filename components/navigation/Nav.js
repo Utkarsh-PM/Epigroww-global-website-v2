@@ -36,6 +36,7 @@ export default function Nav() {
         <Link href="/media-solutions" className="nav-link">Media</Link>
         <Link href="/brand-solutions" className="nav-link">Brand</Link>
         <Link href="/tech-solutions" className="nav-link">Tech</Link>
+        <Link href="/ai-solutions" className="nav-link">AI</Link>
         <Link href="/ecommerce-solutions" className="nav-link">Ecommerce</Link>
         <Link href="/work" className="nav-link">Work</Link>
         <Link href="/about" className="nav-link">About</Link>

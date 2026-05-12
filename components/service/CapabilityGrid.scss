@@ -89,16 +89,29 @@
 
 .cg-card-top {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+  gap: 0.7rem;
+  /* Reserve right-side space for the absolutely positioned .cg-card-arrow
+     (36px button + 1.3rem inset) so the number/icon never collide with it. */
+  padding-right: calc(36px + 1.3rem);
   color: var(--ink-60);
   font-family: var(--font-body);
   font-size: 0.72rem;
   letter-spacing: 0.15em;
 }
 
+.cg-card-num {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
 .cg-card-icon {
-  font-size: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  line-height: 1;
   color: var(--accent);
 }
 

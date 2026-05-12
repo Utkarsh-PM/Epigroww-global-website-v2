@@ -119,6 +119,28 @@ export default function ServiceHero({
                 <text x="130" y="136" textAnchor="middle" fill="var(--on-accent)" fontFamily="var(--font-display)" fontSize="12" fontWeight="500">TECH</text>
               </svg>
             )}
+            {variant === "ai" && (
+              <svg viewBox="0 0 260 260" width="260" height="260">
+                <circle cx="130" cy="130" r="110" fill="none" stroke="var(--accent)" strokeWidth="1" strokeDasharray="2 5" opacity="0.6" />
+                <circle cx="130" cy="130" r="78" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5" />
+                <g stroke="var(--accent)" strokeWidth="1" opacity="0.55">
+                  <line x1="52" y1="130" x2="208" y2="130" />
+                  <line x1="130" y1="52" x2="130" y2="208" />
+                  <line x1="75" y1="75" x2="185" y2="185" />
+                  <line x1="185" y1="75" x2="75" y2="185" />
+                </g>
+                <circle cx="52" cy="130" r="4" fill="var(--accent)" />
+                <circle cx="208" cy="130" r="4" fill="var(--accent)" />
+                <circle cx="130" cy="52" r="4" fill="var(--accent)" />
+                <circle cx="130" cy="208" r="4" fill="var(--accent)" />
+                <circle cx="75" cy="75" r="3" fill="var(--accent)" />
+                <circle cx="185" cy="75" r="3" fill="var(--accent)" />
+                <circle cx="75" cy="185" r="3" fill="var(--accent)" />
+                <circle cx="185" cy="185" r="3" fill="var(--accent)" />
+                <circle cx="130" cy="130" r="34" fill="var(--accent)" />
+                <text x="130" y="135" textAnchor="middle" fill="var(--on-accent)" fontFamily="var(--font-display)" fontSize="13" fontWeight="600" letterSpacing="2">AI</text>
+              </svg>
+            )}
             {variant === "ecommerce" && (
               <svg viewBox="0 0 260 260" width="260" height="260">
                 <circle cx="130" cy="130" r="110" fill="none" stroke="var(--accent)" strokeWidth="1" strokeDasharray="2 5" opacity="0.7" />

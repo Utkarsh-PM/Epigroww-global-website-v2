@@ -72,6 +72,7 @@ export default function Footer() {
               <li><Link href="/media-solutions" data-cursor="hover">Media</Link></li>
               <li><Link href="/brand-solutions" data-cursor="hover">Brand</Link></li>
               <li><Link href="/tech-solutions" data-cursor="hover">Tech</Link></li>
+              <li><Link href="/ai-solutions" data-cursor="hover">AI</Link></li>
               <li><Link href="/careers" data-cursor="hover">Careers</Link></li>
               <li><Link href="/contact" data-cursor="hover">Contact</Link></li>
             </ul>
