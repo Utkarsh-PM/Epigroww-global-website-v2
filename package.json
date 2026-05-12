@@ -9,7 +9,8 @@
     "lint": "next lint",
     "payload": "PAYLOAD_CONFIG_PATH=payload.config.js payload",
     "generate:importmap": "node ./scripts/generate-importmap.mjs",
-    "generate:types": "PAYLOAD_CONFIG_PATH=payload.config.js payload generate:types"
+    "generate:types": "PAYLOAD_CONFIG_PATH=payload.config.js payload generate:types",
+    "seed": "node ./scripts/seed.mjs"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.84.1",

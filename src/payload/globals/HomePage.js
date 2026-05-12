@@ -107,7 +107,8 @@ export const HomePage = {
               fields: [
                 { name: "weekTag", type: "text", admin: { description: "Short tag e.g. \"WK 17\"." } },
                 { name: "title", type: "text" },
-                { name: "image", type: "upload", relationTo: "media", required: true },
+                { name: "image", type: "upload", relationTo: "media", admin: { description: "Thumbnail. Leave empty to fall back to imageUrl." } },
+                { name: "imageUrl", type: "text", admin: { description: "External image URL — used when no Media upload is set." } },
               ],
             },
           ],

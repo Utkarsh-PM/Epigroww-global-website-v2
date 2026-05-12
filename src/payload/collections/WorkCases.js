@@ -49,8 +49,12 @@ export const WorkCases = {
       name: "image",
       type: "upload",
       relationTo: "media",
-      required: true,
-      admin: { description: "Hero image for the case tile." },
+      admin: { description: "Hero image for the case tile. Leave empty to fall back to imageUrl." },
+    },
+    {
+      name: "imageUrl",
+      type: "text",
+      admin: { description: "External image URL (Unsplash, Pexels, etc.) — used when no Media upload is set." },
     },
     {
       name: "size",
