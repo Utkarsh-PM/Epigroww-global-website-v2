@@ -1,5 +1,7 @@
 import config from "@payload-config";
 import "@payloadcms/next/css";
+// Epigroww admin theme — imported AFTER Payload's CSS so our overrides win
+import "../../../admin-overrides/admin.css";
 import { handleServerFunctions, RootLayout } from "@payloadcms/next/layouts";
 import React from "react";
 import { importMap } from "./importMap.js";
