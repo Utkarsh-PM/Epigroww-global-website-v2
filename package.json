@@ -9,13 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@payloadcms/db-postgres": "^3.84.1",
+    "@payloadcms/next": "^3.84.1",
+    "@payloadcms/richtext-lexical": "^3.84.1",
+    "@payloadcms/storage-vercel-blob": "^3.84.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.9",
+    "graphql": "^16.14.0",
     "gsap": "^3.12.5",
     "lenis": "^1.1.18",
     "next": "^16.2.6",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "payload": "^3.84.1",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
