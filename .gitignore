@@ -48,3 +48,10 @@ yarn-error.log*
 /*.png
 /*.jpg
 /*.jpeg
+
+# Payload local dev artifacts (DB, generated types, uploaded media)
+*.db
+*.db-journal
+/media
+/payload-dev.db
+src/payload/payload-types.ts
