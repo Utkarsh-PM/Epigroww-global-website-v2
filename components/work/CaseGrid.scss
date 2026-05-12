@@ -64,7 +64,9 @@
 .w-cases-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 1rem;
+  grid-auto-flow: dense;
+  align-items: start;
+  gap: 1.25rem 1rem;
 
   @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
