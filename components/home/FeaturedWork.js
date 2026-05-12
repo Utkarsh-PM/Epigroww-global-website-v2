@@ -7,7 +7,7 @@ import "./FeaturedWork.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const WORK = [
+const DEFAULT_WORK = [
   {
     client: "JK Lifestyle",
     project: "Infinity — Fragrance launch",
@@ -50,11 +50,24 @@ const WORK = [
   },
 ];
 
-export default function FeaturedWork() {
+function mapCases(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_WORK;
+  return rows.map((c) => ({
+    client: c.client || "",
+    project: c.project || "",
+    services: (c.services || []).map((s) => s.label),
+    outcome: c.outcome || "",
+    image: (c.image && c.image.url) || c.imageUrl || "",
+    color: c.color || "#0a0a0a",
+  }));
+}
+
+export default function FeaturedWork({ cases }) {
   const ref = useRef(null);
   const trackRef = useRef(null);
   const progressRef = useRef(null);
   const counterRef = useRef(null);
+  const WORK = mapCases(cases);
 
   useEffect(() => {
     const ctx = gsap.context(() => {

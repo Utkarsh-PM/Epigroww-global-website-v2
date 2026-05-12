@@ -6,7 +6,7 @@ import "./GrowthEngine.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const PILLARS = [
+const DEFAULT_PILLARS = [
   {
     k: "media",
     num: "01",
@@ -54,9 +54,33 @@ const PILLARS = [
   },
 ];
 
-export default function GrowthEngine() {
+// Angles around the orbital — repeats nicely for any pillar count from 1..6
+const orbitAngle = (i, total) => -90 + (i * 360) / Math.max(total, 1);
+
+const wordsOf = (s) => (s || "").split(/\s+/).filter(Boolean);
+
+function mapPillars(refs) {
+  if (!Array.isArray(refs) || refs.length === 0) return DEFAULT_PILLARS;
+  return refs.map((p, i) => ({
+    k: p.key || p.title?.toLowerCase() || `p${i}`,
+    num: p.num || String(i + 1).padStart(2, "0"),
+    label: p.title || "",
+    sub: p.shortSub || p.tagline || "",
+    desc: p.description || "",
+    services: (p.capabilities || []).map((c) => c.label),
+    angle: orbitAngle(i, refs.length),
+  }));
+}
+
+export default function GrowthEngine({ data = {}, pillars: refs }) {
   const ref = useRef(null);
   const [active, setActive] = useState(0);
+  const PILLARS = mapPillars(refs);
+  const label = data.geLabel || "— 03 / The growth engine";
+  const headPrefix = wordsOf(data.geHeadingPrefix || "Four disciplines,");
+  const headAccent = data.geHeadingAccent || "one compounding";
+  const headSuffix = wordsOf(data.geHeadingSuffix || "system.");
+  const lede = data.geLede || "Media, Brand, Tech and AI — run as a single pod, priced as a single retainer, measured against a single revenue line. One system your CFO can read.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -130,18 +154,21 @@ export default function GrowthEngine() {
     <section ref={ref} className="ge">
       <div className="ge-inner">
         <div className="ge-head">
-          <span className="ge-label">— 03 / The growth engine</span>
+          <span className="ge-label">{label}</span>
           <h2 className="ge-heading">
-            <span className="word-wrap"><span className="ge-head-word">Four</span></span>{" "}
-            <span className="word-wrap"><span className="ge-head-word">disciplines</span></span>
-            <span className="word-wrap"><span className="ge-head-word">,</span></span>{" "}
-            <span className="word-wrap"><span className="ge-head-word">one</span></span>{" "}
-            <span className="word-wrap"><span className="ge-head-word serif">compounding</span></span>{" "}
-            <span className="word-wrap"><span className="ge-head-word">system.</span></span>
+            {headPrefix.map((w, i) => (
+              <span key={`gp${i}`}>
+                <span className="word-wrap"><span className="ge-head-word">{w}</span></span>{" "}
+              </span>
+            ))}
+            <span className="word-wrap"><span className="ge-head-word serif">{headAccent}</span></span>{" "}
+            {headSuffix.map((w, i) => (
+              <span key={`gs${i}`}>
+                <span className="word-wrap"><span className="ge-head-word">{w}</span></span>{i < headSuffix.length - 1 ? " " : ""}
+              </span>
+            ))}
           </h2>
-          <p className="ge-lede">
-            Media, Brand, Tech and AI — run as a single pod, priced as a single retainer, measured against a single revenue line. One system your CFO can read.
-          </p>
+          <p className="ge-lede">{lede}</p>
         </div>
 
         <div className="ge-stage">

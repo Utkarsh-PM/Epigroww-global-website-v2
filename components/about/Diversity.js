@@ -6,7 +6,7 @@ import "./Diversity.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const BARS = [
+const DEFAULT_BARS = [
   { label: "White", pct: 40, color: "#E3E65D" },
   { label: "Asian", pct: 30, color: "#CFDE54" },
   { label: "Hispanic · Latinx", pct: 19, color: "#F4F0A0" },
@@ -14,8 +14,28 @@ const BARS = [
   { label: "Two or more races", pct: 3, color: "#F0F0F0" },
 ];
 
-export default function Diversity() {
+const DEFAULT_META = [
+  { num: "100+", label: "team members" },
+  { num: "22", label: "nationalities" },
+  { num: "1st", label: "generation founded" },
+];
+
+function mapBars(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_BARS;
+  return rows.map((b, i) => ({
+    label: b.label || "",
+    pct: Number(b.pct) || 0,
+    color: b.colorHex || DEFAULT_BARS[i]?.color || "#E3E65D",
+  }));
+}
+
+export default function Diversity({ data = {} }) {
   const ref = useRef(null);
+  const BARS = mapBars(data.bars);
+  const META = (data.metaStats && data.metaStats.length) ? data.metaStats : DEFAULT_META;
+  const label = data.label || "— Diversity & Inclusion";
+  const heading = data.heading || "A minority-founded, deliberately mixed house.";
+  const body = data.body || "We built Epigroww on the belief that the best work comes out of rooms that disagree well.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -50,27 +70,16 @@ export default function Diversity() {
     <section ref={ref} className="dv">
       <div className="dv-inner">
         <div className="dv-left">
-          <span className="dv-label">— Diversity & Inclusion</span>
-          <h2 className="dv-heading">
-            A minority-founded,<br />
-            deliberately <span className="serif">mixed</span> house.
-          </h2>
-          <p className="dv-body">
-            We built Epigroww on the belief that the best work comes out of rooms that disagree well. Our team composition isn't a dashboard metric — it's the reason the work lands in markets that global holding companies can't read.
-          </p>
+          <span className="dv-label">{label}</span>
+          <h2 className="dv-heading">{heading}</h2>
+          <p className="dv-body">{body}</p>
           <div className="dv-meta">
-            <div>
-              <span className="dv-meta-num">100+</span>
-              <span className="dv-meta-lab">team members</span>
-            </div>
-            <div>
-              <span className="dv-meta-num">22</span>
-              <span className="dv-meta-lab">nationalities</span>
-            </div>
-            <div>
-              <span className="dv-meta-num">1st</span>
-              <span className="dv-meta-lab">generation founded</span>
-            </div>
+            {META.map((m, i) => (
+              <div key={i}>
+                <span className="dv-meta-num">{m.num}</span>
+                <span className="dv-meta-lab">{m.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 

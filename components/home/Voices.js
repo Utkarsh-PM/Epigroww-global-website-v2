@@ -6,7 +6,7 @@ import "./Voices.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const VOICES = [
+const DEFAULT_VOICES = [
   {
     quote:
       "Epigroww is the rare partner who treats our P&L like theirs. Campaigns launch faster, creative comes sharper, and the revenue shows up in the sheet.",
@@ -30,10 +30,28 @@ const VOICES = [
   },
 ];
 
-export default function Voices() {
+function mapVoices(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_VOICES;
+  // CMS stores admin-distinct names like "Sandeep Arora — Home". Strip the
+  // " — page" suffix when present so the rendered byline stays clean.
+  return rows.map((v) => ({
+    quote: v.quote || "",
+    name: (v.name || "").split(" — ")[0],
+    role: v.role || "",
+    tag: v.tag || "",
+  }));
+}
+
+const wordsOf = (s) => (s || "").split(/\s+/).filter(Boolean);
+
+export default function Voices({ voices: rows, data = {} }) {
   const ref = useRef(null);
   const [active, setActive] = useState(0);
   const autoTimer = useRef(null);
+  const VOICES = mapVoices(rows);
+  const headPrefix = wordsOf(data.voicesHeadingPrefix || "What the");
+  const headAccent = wordsOf(data.voicesHeadingAccent || "people paying us");
+  const headSuffix = wordsOf(data.voicesHeadingSuffix || "say.");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -76,12 +94,21 @@ export default function Voices() {
         <div className="voice-head">
           <span className="voice-label">— 08 / Voices</span>
           <h2 className="voice-heading">
-            <span className="word-wrap"><span className="voice-head-word">What</span></span>{" "}
-            <span className="word-wrap"><span className="voice-head-word">the</span></span>{" "}
-            <span className="word-wrap"><span className="voice-head-word serif">people</span></span>{" "}
-            <span className="word-wrap"><span className="voice-head-word serif">paying</span></span>{" "}
-            <span className="word-wrap"><span className="voice-head-word serif">us</span></span>{" "}
-            <span className="word-wrap"><span className="voice-head-word">say.</span></span>
+            {headPrefix.map((w, i) => (
+              <span key={`vp${i}`}>
+                <span className="word-wrap"><span className="voice-head-word">{w}</span></span>{" "}
+              </span>
+            ))}
+            {headAccent.map((w, i) => (
+              <span key={`va${i}`}>
+                <span className="word-wrap"><span className="voice-head-word serif">{w}</span></span>{" "}
+              </span>
+            ))}
+            {headSuffix.map((w, i) => (
+              <span key={`vs${i}`}>
+                <span className="word-wrap"><span className="voice-head-word">{w}</span></span>{i < headSuffix.length - 1 ? " " : ""}
+              </span>
+            ))}
           </h2>
         </div>
 

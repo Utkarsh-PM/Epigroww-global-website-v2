@@ -6,10 +6,18 @@ import "./AboutManifesto.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const MISSION = `To become the world's largest — and most trusted — growth partner, by making the boring parts of marketing radically specific, and the creative parts impossibly good.`;
+const DEFAULT_MISSION = `To become the world's largest — and most trusted — growth partner, by making the boring parts of marketing radically specific, and the creative parts impossibly good.`;
+const DEFAULT_PRINCIPLES = [
+  { num: "01", text: "Think big, then ship." },
+  { num: "02", text: "Own every outcome." },
+  { num: "03", text: "Stay curious." },
+];
 
-export default function AboutManifesto() {
+export default function AboutManifesto({ data = {} }) {
   const ref = useRef(null);
+  const MISSION = data.body || DEFAULT_MISSION;
+  const label = data.label || "The mission";
+  const principles = (data.principles && data.principles.length) ? data.principles : DEFAULT_PRINCIPLES;
 
   useEffect(() => {
     const el = ref.current;
@@ -31,19 +39,13 @@ export default function AboutManifesto() {
     <section ref={ref} className="am">
       <div className="am-inner">
         <div className="am-side">
-          <span className="am-label">The mission</span>
-          <div className="am-row">
-            <span>01</span>
-            <span>Think big, then ship.</span>
-          </div>
-          <div className="am-row">
-            <span>02</span>
-            <span>Own every outcome.</span>
-          </div>
-          <div className="am-row">
-            <span>03</span>
-            <span>Stay curious.</span>
-          </div>
+          <span className="am-label">{label}</span>
+          {principles.map((p, i) => (
+            <div className="am-row" key={i}>
+              <span>{p.num}</span>
+              <span>{p.text}</span>
+            </div>
+          ))}
         </div>
         <p className="am-statement">
           {MISSION.split(" ").map((w, i, arr) => (

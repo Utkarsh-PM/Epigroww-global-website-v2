@@ -6,7 +6,7 @@ import "./Showreel.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const STRIP = [
+const DEFAULT_STRIP = [
   { k: "WK 17", t: "Launch film · Beauty", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80" },
   { k: "WK 16", t: "TVC · Automotive", img: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80" },
   { k: "WK 16", t: "UGC reel · F&B", img: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80" },
@@ -17,11 +17,34 @@ const STRIP = [
   { k: "WK 13", t: "Influencer · D2C", img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80" },
 ];
 
-export default function Showreel() {
+const pickStrip = (data) => {
+  const arr = data?.showreelMarquee;
+  if (!arr?.length) return DEFAULT_STRIP;
+  return arr.map((m) => ({
+    k: m.weekTag || "",
+    t: m.title || "",
+    img: (m.image && m.image.url) || m.imageUrl || "",
+  }));
+};
+
+const wordsOf = (s) => (s || "").split(/\s+/).filter(Boolean);
+
+export default function Showreel({ data = {} }) {
   const ref = useRef(null);
   const videoRef = useRef(null);
   const trackRef = useRef(null);
   const [playing, setPlaying] = useState(true);
+  const STRIP = pickStrip(data);
+  const label = data.showreelLabel || "— 01.5 / Showreel · Spring 2026";
+  const headPrefix = wordsOf(data.showreelPrefix || "A week's");
+  const headAccent = data.showreelAccent || "output";
+  const headSuffixRaw = data.showreelSuffix || ", cut into ninety seconds.";
+  const headSuffix = wordsOf(headSuffixRaw);
+  // Special case: schema's suffix often begins with ", " — preserve the comma if present
+  const suffixStartsWithComma = /^\s*,/.test(headSuffixRaw);
+  const videoSrc = data.showreelVideoUrl || (data.showreelVideo && data.showreelVideo.url) || "https://videos.pexels.com/video-files/3195394/3195394-hd_1920_1080_25fps.mp4";
+  const posterSrc = (data.showreelPoster && data.showreelPoster.url) || "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1600&q=80";
+  const duration = data.showreelDuration || "01:28";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -115,17 +138,23 @@ export default function Showreel() {
         <div className="sr-head">
           <span className="sr-label">
             <span className="sr-label-dot" />
-            <span>— 01.5 / Showreel · Spring 2026</span>
+            <span>{label}</span>
           </span>
           <h2 className="sr-heading">
-            <span className="word-wrap"><span className="sr-head-word">A</span></span>{" "}
-            <span className="word-wrap"><span className="sr-head-word">week's</span></span>{" "}
-            <span className="word-wrap"><span className="sr-head-word serif">output</span></span>
-            <span className="word-wrap"><span className="sr-head-word">,</span></span>{" "}
-            <span className="word-wrap"><span className="sr-head-word">cut</span></span>{" "}
-            <span className="word-wrap"><span className="sr-head-word">into</span></span>{" "}
-            <span className="word-wrap"><span className="sr-head-word">ninety</span></span>{" "}
-            <span className="word-wrap"><span className="sr-head-word">seconds.</span></span>
+            {headPrefix.map((w, i) => (
+              <span key={`p${i}`}>
+                <span className="word-wrap"><span className="sr-head-word">{w}</span></span>{i < headPrefix.length - 1 ? " " : ""}
+              </span>
+            ))}{" "}
+            <span className="word-wrap"><span className="sr-head-word serif">{headAccent}</span></span>
+            {suffixStartsWithComma && (
+              <span className="word-wrap"><span className="sr-head-word">,</span></span>
+            )}{" "}
+            {headSuffix.map((w, i) => (
+              <span key={`s${i}`}>
+                <span className="word-wrap"><span className="sr-head-word">{w}</span></span>{i < headSuffix.length - 1 ? " " : ""}
+              </span>
+            ))}
           </h2>
         </div>
 
@@ -138,9 +167,9 @@ export default function Showreel() {
             muted
             playsInline
             preload="metadata"
-            poster="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1600&q=80"
+            poster={posterSrc}
           >
-            <source src="https://videos.pexels.com/video-files/3195394/3195394-hd_1920_1080_25fps.mp4" type="video/mp4" />
+            <source src={videoSrc} type="video/mp4" />
           </video>
           <div className="sr-canvas-tint" />
 
@@ -173,7 +202,7 @@ export default function Showreel() {
                 <span>{playing ? "Pause reel" : "Play reel"}</span>
               </button>
               <div className="sr-info">
-                <span className="sr-info-num">00:00 / 01:28</span>
+                <span className="sr-info-num">00:00 / {duration}</span>
                 <span className="sr-info-sub">Made weekly · Q2 2026</span>
               </div>
             </div>

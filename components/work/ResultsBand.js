@@ -6,7 +6,7 @@ import "./ResultsBand.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const RESULTS = [
+const DEFAULT_RESULTS = [
   { k: "3.4×", label: "Launch ROAS · JK Lifestyle Infinity" },
   { k: "+58%", label: "30-day retention · Cinegold OTT" },
   { k: "−37%", label: "Blended CAC · FMCG · NA" },
@@ -18,8 +18,26 @@ const RESULTS = [
   { k: "1.2M", label: "First-week views · Infinity TVC" },
 ];
 
-export default function ResultsBand() {
+function mapKpis(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_RESULTS;
+  return rows
+    .filter((r) => r.resultsBandKpi)
+    .map((r) => ({ k: r.resultsBandKpi, label: r.resultsBandLabel || r.client || "" }));
+}
+
+const wordsOf = (s) => (s || "").split(/\s+/).filter(Boolean);
+
+export default function ResultsBand({ data = {}, kpis }) {
   const ref = useRef(null);
+  const mapped = mapKpis(kpis);
+  const RESULTS = mapped.length ? mapped : DEFAULT_RESULTS;
+  const label = data.label || "— Proof · selected wins";
+  const headPrefix = wordsOf(data.headingPrefix || "Nine results");
+  const headAccent = wordsOf(data.headingAccent || "the clients let");
+  const headSuffix = wordsOf(data.headingSuffix || "us print.");
+  const footerNote = data.footerNote || "Live scorecards · updated weekly with every client";
+  const endCardLabel = data.endCard?.label || "+ 491 more";
+  const endCardSub = data.endCard?.sub || "under NDA — ask for the deck";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -75,15 +93,23 @@ export default function ResultsBand() {
   return (
     <section ref={ref} className="rb">
       <div className="rb-head">
-        <span className="rb-label">— Proof · selected wins</span>
+        <span className="rb-label">{label}</span>
         <h2 className="rb-heading">
-          <span className="word-wrap"><span className="rb-head-word">Nine</span></span>{" "}
-          <span className="word-wrap"><span className="rb-head-word">results</span></span>{" "}
-          <span className="word-wrap"><span className="rb-head-word serif">the</span></span>{" "}
-          <span className="word-wrap"><span className="rb-head-word serif">clients</span></span>{" "}
-          <span className="word-wrap"><span className="rb-head-word serif">let</span></span>{" "}
-          <span className="word-wrap"><span className="rb-head-word">us</span></span>{" "}
-          <span className="word-wrap"><span className="rb-head-word">print.</span></span>
+          {headPrefix.map((w, i) => (
+            <span key={`rp${i}`}>
+              <span className="word-wrap"><span className="rb-head-word">{w}</span></span>{" "}
+            </span>
+          ))}
+          {headAccent.map((w, i) => (
+            <span key={`ra${i}`}>
+              <span className="word-wrap"><span className="rb-head-word serif">{w}</span></span>{" "}
+            </span>
+          ))}
+          {headSuffix.map((w, i) => (
+            <span key={`rs${i}`}>
+              <span className="word-wrap"><span className="rb-head-word">{w}</span></span>{i < headSuffix.length - 1 ? " " : ""}
+            </span>
+          ))}
         </h2>
       </div>
 
@@ -98,8 +124,8 @@ export default function ResultsBand() {
           ))}
           <div className="rb-endcard">
             <div>
-              <span className="rb-end-lab">+ 491 more</span>
-              <span className="rb-end-sub">under NDA — ask for the deck</span>
+              <span className="rb-end-lab">{endCardLabel}</span>
+              <span className="rb-end-sub">{endCardSub}</span>
             </div>
             <span className="rb-end-arrow">↗</span>
           </div>
@@ -108,7 +134,7 @@ export default function ResultsBand() {
 
       <div className="rb-foot">
         <span className="rb-foot-dot" />
-        <span>Live scorecards · updated weekly with every client</span>
+        <span>{footerNote}</span>
       </div>
     </section>
   );

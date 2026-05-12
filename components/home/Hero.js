@@ -8,8 +8,32 @@ import "./Hero.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-export default function Hero() {
+const wordArray = (s) => (s || "").split(/\s+/).filter(Boolean);
+
+export default function Hero({ data = {} }) {
   const rootRef = useRef(null);
+  const topline = data.heroTopline || "Integrated growth since 2021";
+  const eyebrowNum = data.heroEyebrowNum || "(01)";
+  const eyebrowText = data.heroEyebrowText || "Media · Brand · Tech — unified";
+  const lineA = wordArray(data.headlinePrefix || "We engineer");
+  const accent = data.headlineAccent || "growth";
+  const suffixWords = wordArray(data.headlineSuffix || "that compounds across four continents.");
+  const lineB = suffixWords.slice(0, 2);
+  const lineC = suffixWords.slice(2);
+  const blurb =
+    data.heroBlurb ||
+    "An integrated growth partner sitting at the intersection of brand, media, and technology. 500+ clients, 40+ industries — delivered from Delhi, Mumbai, Dubai & Toronto.";
+  const stats = (data.heroStats && data.heroStats.length ? data.heroStats : [
+    { num: "300+", label: "Campaigns in 12 months" },
+    { num: "500+", label: "Brands trust us" },
+    { num: "4", label: "Studios worldwide" },
+  ]);
+  const film = data.heroFilm || {};
+  const filmVideo = film.videoUrl || "https://videos.pexels.com/video-files/853889/853889-hd_1920_1080_25fps.mp4";
+  const filmPoster = (film.poster && film.poster.url) || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=70";
+  const filmBadge = film.badge || "LIVE · Mumbai studio";
+  const ctaPrimary = data.ctaPrimary || { label: "Learn more", href: "/work" };
+  const ctaGhost = data.ctaGhost || { label: "Hire us", href: "/contact" };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -53,49 +77,49 @@ export default function Hero() {
           muted
           playsInline
           preload="auto"
-          poster="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=70"
+          poster={filmPoster}
         >
-          <source src="https://videos.pexels.com/video-files/853889/853889-hd_1920_1080_25fps.mp4" type="video/mp4" />
+          <source src={filmVideo} type="video/mp4" />
         </video>
         <div className="hero-film-tint" />
         <div className="hero-film-meta">
           <span className="hero-film-dot" />
-          <span>LIVE · Mumbai studio</span>
+          <span>{filmBadge}</span>
         </div>
       </div>
 
       <div className="hero-inner">
         <div className="hero-topline hero-side">
-          <span className="dot" /> <span>Integrated growth since 2021</span>
+          <span className="dot" /> <span>{topline}</span>
         </div>
 
         <div className="hero-pre">
           <span className="eyebrow">
-            <span className="eyebrow-num">(01)</span> Media · Brand · Tech — unified
+            <span className="eyebrow-num">{eyebrowNum}</span> {eyebrowText}
           </span>
         </div>
 
         <h1 className="hero-headline">
           <span className="hero-line hero-line-a">
-            {["We", "engineer"].map((w, i) => (
-              <span key={i} className="word-wrap">
+            {lineA.map((w, i) => (
+              <span key={`a${i}`} className="word-wrap">
                 <span className="hero-line-a-word word">{w}</span>
               </span>
             ))}
           </span>
           <span className="hero-line hero-line-b">
             <span className="word-wrap">
-              <span className="hero-line-b-word word hero-accent">growth</span>
+              <span className="hero-line-b-word word hero-accent">{accent}</span>
             </span>
-            {["that", "compounds"].map((w, i) => (
-              <span key={i} className="word-wrap">
+            {lineB.map((w, i) => (
+              <span key={`b${i}`} className="word-wrap">
                 <span className="hero-line-b-word word">{w}</span>
               </span>
             ))}
           </span>
           <span className="hero-line hero-line-c">
-            {["across", "four", "continents."].map((w, i) => (
-              <span key={i} className="word-wrap">
+            {lineC.map((w, i) => (
+              <span key={`c${i}`} className="word-wrap">
                 <span className="hero-line-c-word word">{w}</span>
               </span>
             ))}
@@ -104,32 +128,24 @@ export default function Hero() {
 
         <div className="hero-footer">
           <div className="hero-side hero-blurb">
-            <p>
-              An integrated growth partner sitting at the intersection of <em>brand</em>, <em>media</em>, and <em>technology</em>. 500+ clients, 40+ industries — delivered from Delhi, Mumbai, Dubai & Toronto.
-            </p>
+            <p>{blurb}</p>
           </div>
 
           <div className="hero-side hero-meta">
-            <div className="meta-block">
-              <span className="meta-num">300+</span>
-              <span className="meta-label">Campaigns in 12 months</span>
-            </div>
-            <div className="meta-block">
-              <span className="meta-num">500+</span>
-              <span className="meta-label">Brands trust us</span>
-            </div>
-            <div className="meta-block">
-              <span className="meta-num">4</span>
-              <span className="meta-label">Studios worldwide</span>
-            </div>
+            {stats.map((s, i) => (
+              <div className="meta-block" key={i}>
+                <span className="meta-num">{s.num}</span>
+                <span className="meta-label">{s.label}</span>
+              </div>
+            ))}
           </div>
 
           <div className="hero-cta-row">
-            <Link href="/work" className="btn-primary btn-shine" data-cursor="hover">
-              <span>Learn more</span>
+            <Link href={ctaPrimary.href || "/work"} className="btn-primary btn-shine" data-cursor="hover">
+              <span>{ctaPrimary.label || "Learn more"}</span>
             </Link>
-            <Link href="/contact" className="btn-ghost btn-shine hero-cta" data-cursor="hover">
-              <span>Hire us</span>
+            <Link href={ctaGhost.href || "/contact"} className="btn-ghost btn-shine hero-cta" data-cursor="hover">
+              <span>{ctaGhost.label || "Hire us"}</span>
             </Link>
           </div>
         </div>

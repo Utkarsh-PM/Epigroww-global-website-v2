@@ -6,15 +6,29 @@ import "./CultureManifesto.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const CULTURE = [
-  { k: "01", t: "Big ideas over bureaucracy", d: "The biggest plan in the room wins, regardless of who brought it. We don't promote titles — we promote ideas that shipped." },
-  { k: "02", t: "Results over location", d: "Remote-first, deeply. Delhi, Mumbai, Dubai, Toronto — and sometimes a café in Goa. The output is the meeting." },
-  { k: "03", t: "Craft over speed", d: "We ship weekly, but we don't ship sloppy. Every deliverable ends with a review round that's honest about what's not yet good enough." },
-  { k: "04", t: "Balance over burnout", d: "Empires are built on rested people. Flexible time off, no meeting Fridays, and a founder who reads \"rest\" as \"investment.\"" },
+const DEFAULT_CULTURE = [
+  { k: "01", t: "Big ideas over bureaucracy", d: "The biggest plan in the room wins, regardless of who brought it." },
+  { k: "02", t: "Results over location", d: "Remote-first, deeply." },
+  { k: "03", t: "Craft over speed", d: "We ship weekly, but we don't ship sloppy." },
+  { k: "04", t: "Balance over burnout", d: "Empires are built on rested people." },
 ];
 
-export default function CultureManifesto() {
+const DEFAULT_MISSION = `We believe great ideas don't need an office. They need curious people, clear outcomes, and the trust to build.`;
+
+function mapCulture(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_CULTURE;
+  return rows.map((c, i) => ({
+    k: c.k || String(i + 1).padStart(2, "0"),
+    t: c.title || "",
+    d: c.body || "",
+  }));
+}
+
+export default function CultureManifesto({ data = {} }) {
   const ref = useRef(null);
+  const CULTURE = mapCulture(data.pillars);
+  const label = data.label || "— The culture";
+  const mission = data.statement || DEFAULT_MISSION;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -36,12 +50,10 @@ export default function CultureManifesto() {
     return () => ctx.revert();
   }, []);
 
-  const mission = `We believe great ideas don't need an office. They need curious people, clear outcomes, and the trust to build.`;
-
   return (
     <section ref={ref} className="cmf">
       <div className="cmf-inner">
-        <span className="cmf-label">— The culture</span>
+        <span className="cmf-label">{label}</span>
         <p className="cmf-statement">
           {mission.split(" ").map((w, i, arr) => (
             <span key={i}>

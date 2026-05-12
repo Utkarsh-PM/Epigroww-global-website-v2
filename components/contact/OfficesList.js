@@ -6,43 +6,29 @@ import "./OfficesList.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const OFFICES = [
-  {
-    city: "New Delhi",
-    country: "India",
-    role: "Global HQ · Media & Tech",
-    address: "Saket District Centre\nNew Delhi 110 017",
-    tz: "IST +05:30",
-    image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    city: "Mumbai",
-    country: "India",
-    role: "Brand & Film Studio",
-    address: "Andheri West\nMumbai 400 053",
-    tz: "IST +05:30",
-    image: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    city: "Dubai",
-    country: "UAE",
-    role: "MENA Growth Hub",
-    address: "Business Bay\nDubai, U.A.E.",
-    tz: "GST +04:00",
-    image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    city: "Toronto",
-    country: "Canada",
-    role: "North America Studio",
-    address: "King Street West\nToronto M5V",
-    tz: "EDT −04:00",
-    image: "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?auto=format&fit=crop&w=1000&q=80",
-  },
+const DEFAULT_OFFICES = [
+  { city: "New Delhi", country: "India", role: "Global HQ · Media & Tech", address: "Saket District Centre\nNew Delhi 110 017", tz: "IST +05:30", image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=1000&q=80" },
 ];
 
-export default function OfficesList() {
+function mapOffices(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_OFFICES;
+  return rows.map((o, i) => ({
+    city: o.city || "",
+    country: o.country || "",
+    role: o.role || "",
+    address: o.address || "",
+    tz: o.tz || "",
+    image: (o.image && o.image.url) || o.imageUrl || DEFAULT_OFFICES[i]?.image || "",
+    directionsUrl: o.directionsUrl || "#",
+  }));
+}
+
+export default function OfficesList({ data = {}, offices }) {
   const ref = useRef(null);
+  const OFFICES = mapOffices(offices);
+  const label = data.label || "— Four studios";
+  const headPrefix = data.headingPrefix || "Where to find us";
+  const headAccent = data.headingAccent || "in the flesh.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -67,10 +53,10 @@ export default function OfficesList() {
     <section ref={ref} className="ol">
       <div className="ol-inner">
         <div className="ol-head">
-          <span className="ol-label">— Four studios</span>
+          <span className="ol-label">{label}</span>
           <h2 className="ol-heading">
-            Where to find us<br/>
-            <span className="serif">in the flesh.</span>
+            {headPrefix}<br/>
+            <span className="serif">{headAccent}</span>
           </h2>
         </div>
 
@@ -88,7 +74,7 @@ export default function OfficesList() {
                 </div>
                 <div className="ol-role">{o.role}</div>
                 <div className="ol-addr">{o.address}</div>
-                <a href="#" className="ol-dir" data-cursor="hover">
+                <a href={o.directionsUrl} className="ol-dir" data-cursor="hover">
                   Get directions <span>↗</span>
                 </a>
               </div>

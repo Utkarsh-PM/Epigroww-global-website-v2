@@ -6,9 +6,9 @@ import "./VisionBlock.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const QUOTE = `I wanted an agency that treated the client's P&L like their own — and shipped the creative the brand deserved. Epigroww is that agency. We built it.`;
+const DEFAULT_QUOTE = `I wanted an agency that treated the client's P&L like their own — and shipped the creative the brand deserved. Epigroww is that agency. We built it.`;
 
-const TILES = [
+const DEFAULT_TILES = [
   {
     eyebrow: "The problem",
     title: "Agencies hid behind retainers.",
@@ -29,8 +29,31 @@ const TILES = [
   },
 ];
 
-export default function VisionBlock() {
+const DEFAULT_STAT_CARDS = [
+  { num: "05", label: "Years · since a laptop in Lucknow", accent: false },
+  { num: "100+", label: "Specialists in the room", accent: true },
+  { num: "22", label: "Nationalities · 4 studios", accent: false },
+];
+
+function mapTiles(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_TILES;
+  return rows.map((t, i) => ({
+    eyebrow: t.eyebrow || "",
+    title: t.title || "",
+    body: t.body || "",
+    image: (t.image && t.image.url) || t.imageUrl || DEFAULT_TILES[i]?.image,
+  }));
+}
+
+export default function VisionBlock({ data = {} }) {
   const ref = useRef(null);
+  const QUOTE = data.founderQuote || DEFAULT_QUOTE;
+  const founderLabel = data.founderLabel || "— Founder · Danish Abbasi";
+  const founderName = data.founderName || "Danish Abbasi";
+  const founderRole = data.founderRole || "Founder & CEO · Since 2021";
+  const founderImg = (data.founderImage && data.founderImage.url) || data.founderImageUrl || "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80";
+  const statCards = (data.statCards && data.statCards.length) ? data.statCards : DEFAULT_STAT_CARDS;
+  const TILES = mapTiles(data.tiles);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -68,7 +91,7 @@ export default function VisionBlock() {
       <div className="vb-inner">
         <div className="vb-top">
           <div className="vb-quote-col">
-            <span className="vb-label">— Founder · Danish Abbasi</span>
+            <span className="vb-label">{founderLabel}</span>
             <p className="vb-quote">
               <span className="vb-quote-mark">"</span>
               {QUOTE.split(" ").map((w, i, arr) => (
@@ -79,30 +102,21 @@ export default function VisionBlock() {
               ))}
             </p>
             <div className="vb-sign">
-              <img
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
-                alt="Danish Abbasi"
-              />
+              <img src={founderImg} alt={founderName} />
               <div>
-                <span className="vb-sign-name">Danish Abbasi</span>
-                <span className="vb-sign-role">Founder & CEO · Since 2021</span>
+                <span className="vb-sign-name">{founderName}</span>
+                <span className="vb-sign-role">{founderRole}</span>
               </div>
             </div>
           </div>
 
           <div className="vb-stat-col">
-            <div className="vb-stat-card">
-              <span className="vb-stat-num">05</span>
-              <span className="vb-stat-label">Years · since a laptop in Lucknow</span>
-            </div>
-            <div className="vb-stat-card vb-stat-card-accent">
-              <span className="vb-stat-num">100+</span>
-              <span className="vb-stat-label">Specialists in the room</span>
-            </div>
-            <div className="vb-stat-card">
-              <span className="vb-stat-num">22</span>
-              <span className="vb-stat-label">Nationalities · 4 studios</span>
-            </div>
+            {statCards.map((s, i) => (
+              <div key={i} className={`vb-stat-card${s.accent ? " vb-stat-card-accent" : ""}`}>
+                <span className="vb-stat-num">{s.num}</span>
+                <span className="vb-stat-label">{s.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -110,7 +124,7 @@ export default function VisionBlock() {
           {TILES.map((t, i) => (
             <article key={i} className="vb-tile">
               <div className="vb-tile-img">
-                <img src={t.image} alt="" loading="lazy" />
+                {t.image && <img src={t.image} alt="" loading="lazy" />}
                 <span className="vb-tile-num">{String(i + 1).padStart(2, "0")}</span>
               </div>
               <div className="vb-tile-body">

@@ -6,48 +6,22 @@ import "./Timeline.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const MILESTONES = [
-  {
-    year: "2021",
-    quarter: "Q1",
-    heading: "The Lucknow beginning",
-    body: "Founded in Lucknow, India, by Danish Abbasi. A single brief. One laptop. A stubborn belief that the agency model needed breaking.",
-  },
-  {
-    year: "2022",
-    quarter: "Q4",
-    heading: "Delhi HQ opens",
-    body: "First 25 hires. Launched the performance-creative pod that still powers our retainer clients today.",
-  },
-  {
-    year: "2023",
-    quarter: "Q2",
-    heading: "Mumbai studio",
-    body: "Opened a brand-and-film studio — CGI, TVC commercials, celebrity endorsements. Creative finally got the stage it deserved.",
-  },
-  {
-    year: "2024",
-    quarter: "Q1",
-    heading: "Global footprint",
-    body: "Toronto + Dubai offices launched in the same quarter. We crossed $1B+ in managed media spend.",
-  },
-  {
-    year: "2025",
-    quarter: "Q3",
-    heading: "100+ team",
-    body: "300+ campaigns in 12 months. 500+ brands on the books. 40+ industries served. Quiet compounding, on schedule.",
-  },
-  {
-    year: "2026",
-    quarter: "next",
-    heading: "To be written",
-    body: "AI-native pods, owned-media tooling, and the next 500 brands. The plan hasn't changed: ship weekly, compound forever.",
-  },
+const DEFAULT_MILESTONES = [
+  { year: "2021", quarter: "Q1", heading: "The Lucknow beginning", body: "Founded in Lucknow, India, by Danish Abbasi." },
+  { year: "2022", quarter: "Q4", heading: "Delhi HQ opens", body: "First 25 hires." },
+  { year: "2023", quarter: "Q2", heading: "Mumbai studio", body: "Opened a brand-and-film studio." },
+  { year: "2024", quarter: "Q1", heading: "Global footprint", body: "Toronto + Dubai offices launched." },
+  { year: "2025", quarter: "Q3", heading: "100+ team", body: "300+ campaigns. 500+ brands. 40+ industries." },
+  { year: "2026", quarter: "next", heading: "To be written", body: "Ship weekly, compound forever." },
 ];
 
-export default function Timeline() {
+export default function Timeline({ data = {} }) {
   const ref = useRef(null);
   const progressRef = useRef(null);
+  const MILESTONES = (data.milestones && data.milestones.length) ? data.milestones : DEFAULT_MILESTONES;
+  const label = data.label || "— Story · 2021 → now";
+  const headPrefix = data.headingPrefix || "Five years of compounding.";
+  const headAccent = data.headingAccent || "One plan.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -83,10 +57,10 @@ export default function Timeline() {
     <section ref={ref} className="tl">
       <div className="tl-inner">
         <div className="tl-head">
-          <span className="tl-label">— Story · 2021 → now</span>
+          <span className="tl-label">{label}</span>
           <h2 className="tl-heading">
-            Five years of compounding.<br />
-            <span className="serif">One plan.</span>
+            {headPrefix}<br />
+            <span className="serif">{headAccent}</span>
           </h2>
         </div>
 

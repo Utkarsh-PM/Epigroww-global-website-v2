@@ -6,47 +6,34 @@ import "./Values.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const VALUES = [
-  {
-    k: "01",
-    name: "Think Big",
-    tag: "Ambition",
-    body: "If the plan doesn't scare the CFO a little, it isn't the plan. We choose uncomfortable growth goals and then make them inevitable.",
-    image: "https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?auto=format&fit=crop&w=1400&q=80",
-  },
-  {
-    k: "02",
-    name: "Own It",
-    tag: "Accountability",
-    body: "There are no 'agency wins.' Every campaign is co-signed by the team that built it — and un-signed by no one when it breaks.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80",
-  },
-  {
-    k: "03",
-    name: "Pursue with Curiosity",
-    tag: "Craft",
-    body: "We keep a standing 10% time budget for R&D — new channels, new AI tools, new creative formats. Last year's playbook is this year's floor.",
-    image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1400&q=80",
-  },
-  {
-    k: "04",
-    name: "Diversity & Inclusion",
-    tag: "People",
-    body: "Minority-founded and deliberately mixed — by nationality, craft, and perspective. We ship better work because our rooms disagree well.",
-    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=80",
-  },
-  {
-    k: "05",
-    name: "Unity is Strength",
-    tag: "Team",
-    body: "Brand, media, and tech don't live on different floors here. The pod that launches your campaign is the same one that built the landing page.",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80",
-  },
+const DEFAULT_VALUES = [
+  { k: "01", name: "Think Big", tag: "Ambition", body: "If the plan doesn't scare the CFO a little, it isn't the plan.", image: "https://images.unsplash.com/photo-1494891848038-7bd202a2afeb?auto=format&fit=crop&w=1400&q=80" },
+  { k: "02", name: "Own It", tag: "Accountability", body: "There are no 'agency wins.'", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80" },
+  { k: "03", name: "Pursue with Curiosity", tag: "Craft", body: "10% R&D budget. Always.", image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1400&q=80" },
+  { k: "04", name: "Diversity & Inclusion", tag: "People", body: "Minority-founded and deliberately mixed.", image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=80" },
+  { k: "05", name: "Unity is Strength", tag: "Team", body: "Brand, media, and tech, one pod.", image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80" },
 ];
 
-export default function Values() {
+function mapValues(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_VALUES;
+  return rows.map((v, i) => ({
+    k: v.num || String(i + 1).padStart(2, "0"),
+    name: v.name || "",
+    tag: v.tag || "",
+    body: v.body || "",
+    image: (v.image && v.image.url) || v.imageUrl || DEFAULT_VALUES[i]?.image || "",
+  }));
+}
+
+const wordsOf = (s) => (s || "").split(/\s+/).filter(Boolean);
+
+export default function Values({ data = {} }) {
   const ref = useRef(null);
   const [active, setActive] = useState(0);
+  const VALUES = mapValues(data.items);
+  const label = data.label || "— Values · five of them";
+  const headPrefix = wordsOf(data.headingPrefix || "What we won't");
+  const headAccent = data.headingAccent || "compromise on.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -69,12 +56,14 @@ export default function Values() {
     <section ref={ref} className="v-sec">
       <div className="v-inner">
         <div className="v-head">
-          <span className="v-label">— Values · five of them</span>
+          <span className="v-label">{label}</span>
           <h2 className="v-heading">
-            <span className="word-wrap"><span className="v-head-word">What we</span></span>{" "}
-            <span className="word-wrap"><span className="v-head-word">won't</span></span>{" "}
-            <span className="word-wrap"><span className="v-head-word serif">compromise</span></span>{" "}
-            <span className="word-wrap"><span className="v-head-word">on.</span></span>
+            {headPrefix.map((w, i) => (
+              <span key={`vp${i}`}>
+                <span className="word-wrap"><span className="v-head-word">{w}</span></span>{" "}
+              </span>
+            ))}
+            <span className="word-wrap"><span className="v-head-word serif">{headAccent}</span></span>
           </h2>
         </div>
 

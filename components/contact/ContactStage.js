@@ -2,7 +2,7 @@
 import { useState } from "react";
 import "./ContactStage.scss";
 
-const TOPICS = [
+const DEFAULT_TOPICS = [
   { v: "media", label: "Media / Performance", blurb: "$10K+/mo ad spend brief" },
   { v: "brand", label: "Brand / Creative", blurb: "Launches, films, identity" },
   { v: "tech", label: "Tech / Engineering", blurb: "Build, migrate, or automate" },
@@ -11,12 +11,32 @@ const TOPICS = [
   { v: "other", label: "Something else", blurb: "Say hi" },
 ];
 
-const BUDGETS = ["< $10K", "$10K – $50K", "$50K – $250K", "$250K+", "Not sure yet"];
+const DEFAULT_BUDGETS = ["< $10K", "$10K – $50K", "$50K – $250K", "$250K+", "Not sure yet"];
 
-export default function ContactStage() {
-  const [topic, setTopic] = useState("media");
-  const [budget, setBudget] = useState("$10K – $50K");
+function mapTopics(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_TOPICS;
+  return rows.map((t) => ({ v: t.value || "", label: t.label || "", blurb: t.blurb || "" }));
+}
+
+function mapBudgets(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_BUDGETS;
+  return rows.map((b) => b.label).filter(Boolean);
+}
+
+export default function ContactStage({ data = {}, form = {}, siteSettings = {} }) {
+  const TOPICS = mapTopics(form.topics);
+  const BUDGETS = mapBudgets(form.budgets);
+  const [topic, setTopic] = useState(TOPICS[0]?.v || "media");
+  const [budget, setBudget] = useState(BUDGETS[1] || "$10K – $50K");
   const [sent, setSent] = useState(false);
+  const label = data.label || "— Direct lines";
+  const noteText = data.noteText || "Most briefs get a human reply within 24 hours.";
+  const email = siteSettings.email || "hello@epigrowwglobal.com";
+  const phone = siteSettings.phone || "+91 98765 43210";
+  const partnerships = siteSettings.partnershipsEmail || "partners@epigrowwglobal.com";
+  const press = siteSettings.pressEmail || "press@epigrowwglobal.com";
+  const thanksHeading = form.thanksHeading || "Brief received.";
+  const thanksBody = form.thanksBody || "A human — not an auto-responder — will read this and reply within 24 hours.";
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -28,28 +48,26 @@ export default function ContactStage() {
       <div className="cs-inner">
         <div className="cs-left">
           <div className="cs-bracket">
-            <span>— Direct lines</span>
+            <span>{label}</span>
           </div>
-          <a className="cs-contact-a" href="mailto:hello@epigrowwglobal.com" data-cursor="hover">
+          <a className="cs-contact-a" href={`mailto:${email}`} data-cursor="hover">
             <span className="cs-contact-lab">Email</span>
-            <span className="cs-contact-val">hello@epigrowwglobal.com</span>
+            <span className="cs-contact-val">{email}</span>
           </a>
-          <a className="cs-contact-a" href="#" data-cursor="hover">
+          <a className="cs-contact-a" href={`tel:${phone.replace(/\s+/g, "")}`} data-cursor="hover">
             <span className="cs-contact-lab">WhatsApp</span>
-            <span className="cs-contact-val">+91 98765 43210</span>
+            <span className="cs-contact-val">{phone}</span>
           </a>
-          <a className="cs-contact-a" href="#" data-cursor="hover">
+          <a className="cs-contact-a" href={`mailto:${partnerships}`} data-cursor="hover">
             <span className="cs-contact-lab">Partnerships</span>
-            <span className="cs-contact-val">partners@epigrowwglobal.com</span>
+            <span className="cs-contact-val">{partnerships}</span>
           </a>
-          <a className="cs-contact-a" href="#" data-cursor="hover">
+          <a className="cs-contact-a" href={`mailto:${press}`} data-cursor="hover">
             <span className="cs-contact-lab">Press</span>
-            <span className="cs-contact-val">press@epigrowwglobal.com</span>
+            <span className="cs-contact-val">{press}</span>
           </a>
 
-          <div className="cs-note">
-            Most briefs get a human reply within 24 hours. Serious ones, within 4 hours of Delhi / Dubai business hours.
-          </div>
+          <div className="cs-note">{noteText}</div>
         </div>
 
         <div className="cs-right">
@@ -124,8 +142,8 @@ export default function ContactStage() {
           ) : (
             <div className="cs-thanks">
               <div className="cs-check">✓</div>
-              <h3>Brief received.</h3>
-              <p>A human — not an auto-responder — will read this and reply within 24 hours.</p>
+              <h3>{thanksHeading}</h3>
+              <p>{thanksBody}</p>
               <a href="/work" className="cs-thanks-link">In the meantime, explore the work ↗</a>
             </div>
           )}

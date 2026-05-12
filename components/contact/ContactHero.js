@@ -3,8 +3,16 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import "./ContactHero.scss";
 
-export default function ContactHero() {
+const wordsOf = (s) => (s || "").split(/\s+/).filter(Boolean);
+
+export default function ContactHero({ data = {} }) {
   const ref = useRef(null);
+  const kickerLeft = data.kickerLeft || "08 · Contact";
+  const kickerRight = data.kickerRight || "Reply in under 24 hours";
+  const headPrefix = wordsOf(data.headingPrefix || "You made it");
+  const headAccent = wordsOf(data.headingAccent || "all the way");
+  const headSuffix = wordsOf(data.headingSuffix || "here.");
+  const sub = data.sub || "Four studios, one inbox.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -20,21 +28,27 @@ export default function ContactHero() {
     <section ref={ref} className="co">
       <div className="co-inner">
         <div className="co-kicker">
-          <span><span className="dot" /> 08 · Contact</span>
-          <span>Reply in under 24 hours</span>
+          <span><span className="dot" /> {kickerLeft}</span>
+          <span>{kickerRight}</span>
         </div>
         <h1 className="co-head">
-          <span className="word-wrap"><span className="co-word">You</span></span>{" "}
-          <span className="word-wrap"><span className="co-word">made</span></span>{" "}
-          <span className="word-wrap"><span className="co-word">it</span></span>{" "}
-          <span className="word-wrap"><span className="co-word serif">all</span></span>{" "}
-          <span className="word-wrap"><span className="co-word serif">the</span></span>{" "}
-          <span className="word-wrap"><span className="co-word serif">way</span></span>{" "}
-          <span className="word-wrap"><span className="co-word">here.</span></span>
+          {headPrefix.map((w, i) => (
+            <span key={`cp${i}`}>
+              <span className="word-wrap"><span className="co-word">{w}</span></span>{" "}
+            </span>
+          ))}
+          {headAccent.map((w, i) => (
+            <span key={`ca${i}`}>
+              <span className="word-wrap"><span className="co-word serif">{w}</span></span>{" "}
+            </span>
+          ))}
+          {headSuffix.map((w, i) => (
+            <span key={`cs${i}`}>
+              <span className="word-wrap"><span className="co-word">{w}</span></span>{i < headSuffix.length - 1 ? " " : ""}
+            </span>
+          ))}
         </h1>
-        <p className="co-sub">
-          Four studios, one inbox. If you've got a brief — a vague one, a specific one, a three-hundred-million one — we'd love to read it.
-        </p>
+        <p className="co-sub">{sub}</p>
       </div>
     </section>
   );

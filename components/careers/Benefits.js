@@ -6,19 +6,26 @@ import "./Benefits.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const BENEFITS = [
-  { k: "01", t: "Fully paid health", d: "Medical, dental, vision — covered 100% for employees. Family cover at a deeply discounted rate.", icon: "✚" },
-  { k: "02", t: "Mental health & wellness", d: "Annual wellness budget, therapy reimbursement, and a no-questions mental-health day policy.", icon: "◉" },
-  { k: "03", t: "Flexible time off", d: "Take the time you need, when you need it — no minimums, no maximums, no awkward approvals.", icon: "∞" },
-  { k: "04", t: "Paid company holidays", d: "National holidays off by default — plus four additional paid 'rest weeks' throughout the year.", icon: "✦" },
-  { k: "05", t: "Annual team trip", d: "An all-expenses-paid retreat somewhere interesting. Past years: Udaipur, Da Nang, Tulum.", icon: "◇" },
-  { k: "06", t: "Remote-first, always", d: "Work from anywhere in your time zone. Home-office setup stipend on day one.", icon: "⌂" },
-  { k: "07", t: "Learning & growth", d: "Annual learning budget for courses, conferences, books — plus internal mobility across pods.", icon: "✎" },
-  { k: "08", t: "Top-of-market equity", d: "Every full-time hire gets meaningful equity on a four-year vest with a one-year cliff.", icon: "◆" },
+const DEFAULT_BENEFITS = [
+  { k: "01", t: "Fully paid health", d: "Medical, dental, vision — covered 100% for employees.", icon: "✚" },
 ];
 
-export default function Benefits() {
+function mapBenefits(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_BENEFITS;
+  return rows.map((b, i) => ({
+    k: b.k || String(i + 1).padStart(2, "0"),
+    t: b.title || "",
+    d: b.body || "",
+    icon: b.icon || "",
+  }));
+}
+
+export default function Benefits({ data = {} }) {
   const ref = useRef(null);
+  const BENEFITS = mapBenefits(data.items);
+  const label = data.label || "— Perks & benefits";
+  const headPrefix = data.headingPrefix || "The real list.";
+  const headAccent = data.headingAccent || "No fine print.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -42,10 +49,10 @@ export default function Benefits() {
     <section ref={ref} className="bf">
       <div className="bf-inner">
         <div className="bf-head">
-          <span className="bf-label">— Perks & benefits</span>
+          <span className="bf-label">{label}</span>
           <h2 className="bf-heading">
-            The real list.<br/>
-            <span className="serif">No fine print.</span>
+            {headPrefix}<br/>
+            <span className="serif">{headAccent}</span>
           </h2>
         </div>
 

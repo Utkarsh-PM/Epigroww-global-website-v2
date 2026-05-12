@@ -7,7 +7,7 @@ import "./LivePulse.scss";
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 // Metric seeds — autoincrement at realistic rates so they feel live
-const METRICS = [
+const DEFAULT_METRICS = [
   { k: "imp", label: "Impressions served · today", seed: 14_820_430, perSec: 182, format: (n) => n.toLocaleString(), unit: "" },
   { k: "rev", label: "Revenue tracked · today", seed: 2_412_800, perSec: 36.5, format: (n) => "$" + Math.round(n).toLocaleString(), unit: "" },
   { k: "creatives", label: "Creatives in production · now", seed: 47, perSec: 0.015, format: (n) => Math.floor(n).toLocaleString(), unit: "" },
@@ -15,7 +15,7 @@ const METRICS = [
   { k: "cac", label: "Avg. CAC reduction · YTD", seed: 37, perSec: 0, format: (n) => Math.round(n).toString(), unit: "%" },
 ];
 
-const FEED = [
+const DEFAULT_FEED = [
   { t: "IST 14:32", txt: "JK Lifestyle · Infinity — ad set scaled 40% ↑" },
   { t: "GST 12:58", txt: "MENA retainer — new creative batch shipped (12)" },
   { t: "IST 14:29", txt: "Cinegold OTT — retention flow A+ winner locked" },
@@ -24,8 +24,41 @@ const FEED = [
   { t: "IST 14:19", txt: "FMCG NA — 8 performance cut-downs queued" },
 ];
 
-export default function LivePulse() {
+// CMS stores `format` as a string select; map back to a formatter function
+const FORMATTERS = {
+  number: (n) => Math.round(n).toLocaleString(),
+  usd: (n) => "$" + Math.round(n).toLocaleString(),
+  percent: (n) => Math.round(n).toString(),
+};
+
+const mapMetrics = (rows) => {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_METRICS;
+  return rows.map((m) => ({
+    k: m.key || "",
+    label: m.label || "",
+    seed: Number(m.seed) || 0,
+    perSec: Number(m.perSec) || 0,
+    unit: m.unit || "",
+    format: FORMATTERS[m.format] || FORMATTERS.number,
+  }));
+};
+
+const mapFeed = (rows) => {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_FEED;
+  return rows.map((f) => ({ t: f.timeTag || "", txt: f.text || "" }));
+};
+
+const wordsOf = (s) => (s || "").split(/\s+/).filter(Boolean);
+
+export default function LivePulse({ data = {} }) {
   const ref = useRef(null);
+  const METRICS = mapMetrics(data.lpMetrics);
+  const FEED = mapFeed(data.lpFeed);
+  const label = data.lpLabel || "— 04 / What's happening right now";
+  const liveBadge = data.lpLiveBadge || "LIVE · Q2 2026";
+  const headPrefix = wordsOf(data.lpHeadingPrefix || "Numbers that");
+  const headAccent = data.lpHeadingAccent || "tick";
+  const headSuffix = wordsOf(data.lpHeadingSuffix || "while you're reading.");
   const [values, setValues] = useState(METRICS.map((m) => m.seed));
 
   useEffect(() => {
@@ -79,17 +112,22 @@ export default function LivePulse() {
           <div className="lp-head-top">
             <span className="lp-live">
               <span className="lp-live-dot" />
-              LIVE · Q2 2026
+              {liveBadge}
             </span>
-            <span className="lp-label">— 04 / What's happening right now</span>
+            <span className="lp-label">{label}</span>
           </div>
           <h2 className="lp-heading">
-            <span className="word-wrap"><span className="lp-head-word">Numbers</span></span>{" "}
-            <span className="word-wrap"><span className="lp-head-word">that</span></span>{" "}
-            <span className="word-wrap"><span className="lp-head-word serif">tick</span></span>{" "}
-            <span className="word-wrap"><span className="lp-head-word">while</span></span>{" "}
-            <span className="word-wrap"><span className="lp-head-word">you're</span></span>{" "}
-            <span className="word-wrap"><span className="lp-head-word">reading.</span></span>
+            {headPrefix.map((w, i) => (
+              <span key={`lp${i}`}>
+                <span className="word-wrap"><span className="lp-head-word">{w}</span></span>{" "}
+              </span>
+            ))}
+            <span className="word-wrap"><span className="lp-head-word serif">{headAccent}</span></span>{" "}
+            {headSuffix.map((w, i) => (
+              <span key={`ls${i}`}>
+                <span className="word-wrap"><span className="lp-head-word">{w}</span></span>{i < headSuffix.length - 1 ? " " : ""}
+              </span>
+            ))}
           </h2>
         </div>
 

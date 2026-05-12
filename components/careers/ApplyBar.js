@@ -2,8 +2,13 @@
 import { useState } from "react";
 import "./ApplyBar.scss";
 
-export default function ApplyBar() {
+export default function ApplyBar({ data = {} }) {
   const [sent, setSent] = useState(false);
+  const label = data.label || "— Don't see your role?";
+  const headPrefix = data.headingPrefix || "Share your profile.";
+  const headAccent = data.headingAccent || "We keep it on file";
+  const headSuffix = data.headingSuffix || "for the next wave.";
+  const body = data.body || "We open roles in waves — every quarter. If you're the kind of person who'd be a hire before there's a job title for you, drop us a note.";
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -14,14 +19,12 @@ export default function ApplyBar() {
     <section id="apply" className="ab">
       <div className="ab-inner">
         <div className="ab-left">
-          <span className="ab-label">— Don't see your role?</span>
+          <span className="ab-label">{label}</span>
           <h2 className="ab-heading">
-            Share your profile.<br />
-            We <span className="serif">keep it on file</span> for the next wave.
+            {headPrefix}<br />
+            <span className="serif">{headAccent}</span> {headSuffix}
           </h2>
-          <p className="ab-body">
-            We open roles in waves — every quarter. If you're the kind of person who'd be a hire before there's a job title for you, drop us a note.
-          </p>
+          <p className="ab-body">{body}</p>
         </div>
 
         <div className="ab-right">

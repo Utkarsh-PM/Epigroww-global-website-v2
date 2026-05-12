@@ -6,7 +6,7 @@ import "./Approach.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const STEPS = [
+const DEFAULT_STEPS = [
   {
     n: "01",
     k: "Discover",
@@ -41,8 +41,27 @@ const STEPS = [
   },
 ];
 
-export default function Approach() {
+function mapSteps(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_STEPS;
+  return rows.map((s, i) => ({
+    n: s.num || String(i + 1).padStart(2, "0"),
+    k: s.kind || "",
+    t: s.title || "",
+    d: s.desc || "",
+    chips: (s.chips || []).map((c) => c.label),
+    image: (s.image && s.image.url) || s.imageUrl || DEFAULT_STEPS[i]?.image,
+  }));
+}
+
+const wordsOf = (s) => (s || "").split(/\s+/).filter(Boolean);
+
+export default function Approach({ data = {} }) {
   const ref = useRef(null);
+  const STEPS = mapSteps(data.apSteps);
+  const label = data.apLabel || "— 06 / The approach";
+  const headPrefix = wordsOf(data.apHeadingPrefix || "Omni-channel, data-backed,");
+  const headAccent = data.apHeadingAccent || "creative-fueled.";
+  const lede = data.apLede || "Our four-step operating system — refined across 300+ campaigns and 40+ industries — makes growth measurable, repeatable, and quietly obsessive.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -91,15 +110,16 @@ export default function Approach() {
     <section ref={ref} className="ap">
       <div className="ap-inner">
         <div className="ap-head">
-          <span className="ap-label">— 06 / The approach</span>
+          <span className="ap-label">{label}</span>
           <h2 className="ap-heading">
-            <span className="word-wrap"><span className="ap-head-word">Omni-channel,</span></span>{" "}
-            <span className="word-wrap"><span className="ap-head-word">data-backed,</span></span>{" "}
-            <span className="word-wrap"><span className="ap-head-word serif">creative-fueled.</span></span>
+            {headPrefix.map((w, i) => (
+              <span key={`ap${i}`}>
+                <span className="word-wrap"><span className="ap-head-word">{w}</span></span>{" "}
+              </span>
+            ))}
+            <span className="word-wrap"><span className="ap-head-word serif">{headAccent}</span></span>
           </h2>
-          <p className="ap-lede">
-            Our four-step operating system — refined across 300+ campaigns and 40+ industries — makes growth measurable, repeatable, and quietly obsessive.
-          </p>
+          <p className="ap-lede">{lede}</p>
         </div>
 
         <ol className="ap-steps">

@@ -6,18 +6,21 @@ import "./ContactFAQ.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const FAQS = [
-  { q: "How long until I hear back?", a: "Serious briefs get a human reply within 24 hours, usually within 4 working hours. We don't use auto-responders — every inbound is read by a partner." },
-  { q: "Do you work with smaller brands?", a: "Yes, as long as the ambition is real. Our minimum retainer is $10K/month — below that, we refer you to specialists we trust." },
-  { q: "Can we hire you for just one thing — media, or creative, or tech?", a: "Absolutely. Most new clients start with one pillar. The integration benefit shows up in months 3–6 when pods start collaborating." },
-  { q: "Do you work internationally?", a: "Delhi, Mumbai, Dubai, Toronto — plus 22 nationalities across the team. We run campaigns in English, Arabic, Hindi, French, and Spanish." },
-  { q: "What's your pricing model?", a: "Monthly retainers for ongoing work, scoped engagements for projects. We publish our rate card after the first discovery call — no mystery." },
-  { q: "Do you share case studies?", a: "Named ones after a mutual NDA. You can see client logos, outcomes, and redacted case studies on /work — the juicy ones live in the deck." },
+const DEFAULT_FAQS = [
+  { q: "How long until I hear back?", a: "Serious briefs get a human reply within 24 hours." },
 ];
 
-export default function ContactFAQ() {
+function mapFaqs(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_FAQS;
+  return rows.map((f) => ({ q: f.question || "", a: f.answer || "" }));
+}
+
+export default function ContactFAQ({ data = {}, faqs }) {
   const ref = useRef(null);
   const [open, setOpen] = useState(0);
+  const FAQS = mapFaqs(faqs);
+  const label = data.label || "— Quick answers";
+  const heading = data.heading || "Before you send the brief.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -39,8 +42,8 @@ export default function ContactFAQ() {
     <section ref={ref} className="fq">
       <div className="fq-inner">
         <div className="fq-head">
-          <span className="fq-label">— Quick answers</span>
-          <h2 className="fq-heading">Before you send the brief.</h2>
+          <span className="fq-label">{label}</span>
+          <h2 className="fq-heading">{heading}</h2>
         </div>
 
         <div className="fq-list">

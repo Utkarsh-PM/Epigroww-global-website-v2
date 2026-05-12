@@ -6,104 +6,34 @@ import "./CaseGrid.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const CASES = [
-  {
-    client: "JK Lifestyle — Infinity",
-    tag: "Launch",
-    category: "Brand",
-    services: ["Brand identity", "Launch film", "Performance creatives"],
-    outcome: "3.4× ROAS · 1.2M first-week views",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1400&q=80",
-    size: "lg",
-  },
-  {
-    client: "Cinegold — OTT",
-    tag: "Retention",
-    category: "Media",
-    services: ["OTT campaigns", "Lifecycle CRM"],
-    outcome: "+58% 30-day retention",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=1400&q=80",
-    size: "md",
-  },
-  {
-    client: "JCBL Group",
-    tag: "Stack rebuild",
-    category: "Tech",
-    services: ["ERP migration", "Sales automation"],
-    outcome: "42% faster lead-to-quote",
-    year: "2024",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
-    size: "md",
-  },
-  {
-    client: "Private brand · Dubai",
-    tag: "D2C launch",
-    category: "Media",
-    services: ["Shopify Plus", "Full-stack media"],
-    outcome: "$2.1M revenue · 90 days",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1400&q=80",
-    size: "md",
-  },
-  {
-    client: "FMCG · North America",
-    tag: "Creative engine",
-    category: "Brand",
-    services: ["Performance creative", "UGC"],
-    outcome: "CAC down 37% · 90 days",
-    year: "2024",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1400&q=80",
-    size: "lg",
-  },
-  {
-    client: "BFSI — India",
-    tag: "Paid performance",
-    category: "Media",
-    services: ["Google PMax", "Meta retargeting"],
-    outcome: "2× leads · 35% lower CPL",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=80",
-    size: "md",
-  },
-  {
-    client: "F&B chain — MENA",
-    tag: "Loyalty",
-    category: "Tech",
-    services: ["WhatsApp API", "Klaviyo flows"],
-    outcome: "+28% repeat orders",
-    year: "2024",
-    image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=80",
-    size: "md",
-  },
-  {
-    client: "EdTech — Global",
-    tag: "Rebrand + platform",
-    category: "Brand",
-    services: ["Identity", "Web rebuild"],
-    outcome: "4× organic traffic in 6 mo",
-    year: "2024",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80",
-    size: "md",
-  },
-  {
-    client: "Fintech — SaaS",
-    tag: "AI assistant",
-    category: "Tech",
-    services: ["LLM support bot", "Evals framework"],
-    outcome: "65% deflection rate",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80",
-    size: "lg",
-  },
+const DEFAULT_CASES = [
+  { client: "JK Lifestyle — Infinity", tag: "Launch", category: "Brand", services: ["Brand identity", "Launch film", "Performance creatives"], outcome: "3.4× ROAS · 1.2M first-week views", year: "2025", image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1400&q=80", size: "lg" },
 ];
+
+// Capitalize first letter (category in CMS is lowercase: "brand", "media", ...)
+const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+
+function mapCases(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_CASES;
+  return rows.map((c) => ({
+    client: c.client || "",
+    tag: c.tag || "",
+    category: cap(c.category) || "",
+    services: (c.services || []).map((s) => s.label),
+    outcome: c.outcome || "",
+    year: c.year || "",
+    image: (c.image && c.image.url) || c.imageUrl || "",
+    size: c.size || "md",
+  }));
+}
 
 const CATS = ["All", "Brand", "Media", "Tech"];
 
-export default function CaseGrid() {
+export default function CaseGrid({ data = {}, cases }) {
   const ref = useRef(null);
   const [cat, setCat] = useState("All");
+  const CASES = mapCases(cases);
+  const label = data.label || "— Selected work";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -130,7 +60,7 @@ export default function CaseGrid() {
     <section ref={ref} className="w-cases">
       <div className="w-cases-inner">
         <div className="w-cases-head">
-          <span className="w-cases-label">— Selected work</span>
+          <span className="w-cases-label">{label}</span>
           <div className="w-cases-filters">
             {CATS.map((c) => (
               <button

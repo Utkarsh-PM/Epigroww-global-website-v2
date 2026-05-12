@@ -7,7 +7,7 @@ import "./Pillars.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const PILLARS = [
+const DEFAULT_PILLARS = [
   {
     num: "01",
     title: "Media",
@@ -40,9 +40,25 @@ const PILLARS = [
   },
 ];
 
-export default function Pillars() {
+function mapPillars(refs) {
+  if (!Array.isArray(refs) || refs.length === 0) return DEFAULT_PILLARS;
+  // This component only renders the first 3 (the original UI shows 3 pillars).
+  return refs.slice(0, 3).map((p, i) => ({
+    num: p.num || String(i + 1).padStart(2, "0"),
+    title: p.title || "",
+    href: p.href || "#",
+    tagline: p.tagline || "",
+    desc: p.description || "",
+    capabilities: (p.capabilities || []).map((c) => c.label),
+    image: (p.image && p.image.url) || p.imageUrl || DEFAULT_PILLARS[i]?.image,
+    accent: p.accentHex || DEFAULT_PILLARS[i]?.accent || "#E3E65D",
+  }));
+}
+
+export default function Pillars({ pillars: refs }) {
   const ref = useRef(null);
   const [active, setActive] = useState(0);
+  const PILLARS = mapPillars(refs);
 
   useEffect(() => {
     const ctx = gsap.context(() => {

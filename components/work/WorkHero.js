@@ -3,8 +3,22 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import "./WorkHero.scss";
 
-export default function WorkHero() {
+const wordsOf = (s) => (s || "").split(/\s+/).filter(Boolean);
+
+export default function WorkHero({ data = {} }) {
   const ref = useRef(null);
+  const kickerLeft = data.kickerLeft || "03 · Work";
+  const kickerRight = data.kickerRight || "2021 → 2026 · Selected";
+  const headPrefix = wordsOf(data.headingPrefix || "Five years.");
+  const headAccent = wordsOf(data.headingAccent || "Five hundred");
+  const headSuffix = wordsOf(data.headingSuffix || "brands.");
+  const lede = data.lede || "What follows is a small, named subset of the work.";
+  const stats = (data.heroStats && data.heroStats.length) ? data.heroStats : [
+    { num: "500+", label: "Brands shipped" },
+    { num: "40+", label: "Industries" },
+    { num: "1000+", label: "Creators" },
+    { num: "$1B+", label: "Media spend" },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -20,27 +34,36 @@ export default function WorkHero() {
     <section ref={ref} className="wh">
       <div className="wh-inner">
         <div className="wh-kicker">
-          <span><span className="dot" /> 03 · Work</span>
-          <span>2021 → 2026 · Selected</span>
+          <span><span className="dot" /> {kickerLeft}</span>
+          <span>{kickerRight}</span>
         </div>
 
         <h1 className="wh-head">
-          <span className="word-wrap"><span className="wh-word">Five</span></span>{" "}
-          <span className="word-wrap"><span className="wh-word">years.</span></span>{" "}
-          <span className="word-wrap"><span className="wh-word serif">Five</span></span>{" "}
-          <span className="word-wrap"><span className="wh-word serif">hundred</span></span>{" "}
-          <span className="word-wrap"><span className="wh-word serif">brands.</span></span>
+          {headPrefix.map((w, i) => (
+            <span key={`wp${i}`}>
+              <span className="word-wrap"><span className="wh-word">{w}</span></span>{" "}
+            </span>
+          ))}
+          {headAccent.map((w, i) => (
+            <span key={`wa${i}`}>
+              <span className="word-wrap"><span className="wh-word serif">{w}</span></span>{" "}
+            </span>
+          ))}
+          {headSuffix.map((w, i) => (
+            <span key={`ws${i}`}>
+              <span className="word-wrap"><span className="wh-word serif">{w}</span></span>{i < headSuffix.length - 1 ? " " : ""}
+            </span>
+          ))}
         </h1>
 
         <div className="wh-footer">
-          <p className="wh-lede">
-            What follows is a small, named subset of the work. The full case book — with P&L figures, incrementality curves, and the stuff we can't publish online — is a private share.
-          </p>
+          <p className="wh-lede">{lede}</p>
           <div className="wh-meta">
-            <div className="wh-stat"><span className="n">500+</span><span className="l">Brands shipped</span></div>
-            <div className="wh-stat"><span className="n">40+</span><span className="l">Industries</span></div>
-            <div className="wh-stat"><span className="n">1000+</span><span className="l">Creators</span></div>
-            <div className="wh-stat"><span className="n">$1B+</span><span className="l">Media spend</span></div>
+            {stats.map((s, i) => (
+              <div className="wh-stat" key={i}>
+                <span className="n">{s.num}</span><span className="l">{s.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

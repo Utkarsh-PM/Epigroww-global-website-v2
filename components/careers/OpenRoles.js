@@ -6,26 +6,30 @@ import "./OpenRoles.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const ROLES = [
+const DEFAULT_ROLES = [
   { dept: "Media", title: "Senior Performance Marketing Specialist", loc: "Delhi · Remote OK", type: "Full-time" },
-  { dept: "Media", title: "Performance Marketing Specialist", loc: "Remote · India", type: "Full-time" },
-  { dept: "Media", title: "Senior Account Manager", loc: "Mumbai", type: "Full-time" },
-  { dept: "Media", title: "E-commerce Specialist", loc: "Delhi", type: "Full-time" },
-  { dept: "Brand", title: "Senior Graphic Designer", loc: "Delhi", type: "Full-time" },
-  { dept: "Brand", title: "Video Editor", loc: "Mumbai", type: "Full-time" },
-  { dept: "Brand", title: "Video Editor", loc: "Delhi", type: "Full-time" },
-  { dept: "Brand", title: "Brand Solutions Lead", loc: "Mumbai", type: "Full-time" },
-  { dept: "Tech", title: "Full-stack Engineer (Next.js)", loc: "Remote · Global", type: "Full-time" },
-  { dept: "Tech", title: "Shopify Developer", loc: "Remote · India", type: "Full-time" },
-  { dept: "Operations", title: "Marketing Executive", loc: "Delhi", type: "Full-time" },
-  { dept: "Operations", title: "People & Talent Partner", loc: "Remote · India", type: "Full-time" },
 ];
 
 const DEPTS = ["All", "Media", "Brand", "Tech", "Operations"];
 
-export default function OpenRoles() {
+function mapRoles(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return DEFAULT_ROLES;
+  return rows.map((r) => ({
+    dept: r.dept || "Operations",
+    title: r.title || "",
+    loc: r.loc || "",
+    type: r.type || "Full-time",
+    applyUrl: r.applyUrl || "#apply",
+  }));
+}
+
+export default function OpenRoles({ data = {}, roles }) {
   const ref = useRef(null);
   const [filter, setFilter] = useState("All");
+  const ROLES = mapRoles(roles);
+  const label = data.label || "— Open roles";
+  const headPrefix = data.headingPrefix || `${ROLES.length} current openings.`;
+  const headAccent = data.headingAccent || "Find yours.";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -52,10 +56,10 @@ export default function OpenRoles() {
       <div className="or-inner">
         <div className="or-head">
           <div>
-            <span className="or-label">— Open roles</span>
+            <span className="or-label">{label}</span>
             <h2 className="or-heading">
-              {ROLES.length} current openings.<br />
-              <span className="serif">Find yours.</span>
+              {headPrefix}<br />
+              <span className="serif">{headAccent}</span>
             </h2>
           </div>
           <div className="or-filters">
@@ -84,7 +88,7 @@ export default function OpenRoles() {
             <span></span>
           </div>
           {filtered.map((r, i) => (
-            <a key={i} href="#apply" className="or-row" data-cursor="view" data-cursor-label="Apply">
+            <a key={i} href={r.applyUrl || "#apply"} className="or-row" data-cursor="view" data-cursor-label="Apply">
               <span className="or-dept">{r.dept}</span>
               <span className="or-title">{r.title}</span>
               <span className="or-loc">{r.loc}</span>
