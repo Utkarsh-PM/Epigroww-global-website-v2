@@ -1,10 +1,8 @@
-import type { GlobalConfig } from "payload";
-
 /**
  * Site-wide settings: brand, contact, social.
  * Edited at /admin/globals/site-settings. Read by every page.
  */
-export const SiteSettings: GlobalConfig = {
+export const SiteSettings = {
   slug: "site-settings",
   label: "Site settings",
   admin: {

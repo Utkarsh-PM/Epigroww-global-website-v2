@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "payload": "PAYLOAD_CONFIG_PATH=payload.config.ts payload",
-    "generate:importmap": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:importmap",
-    "generate:types": "PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:types"
+    "payload": "PAYLOAD_CONFIG_PATH=payload.config.js payload",
+    "generate:importmap": "node ./scripts/generate-importmap.mjs",
+    "generate:types": "PAYLOAD_CONFIG_PATH=payload.config.js payload generate:types"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.84.1",
@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
+    "dotenv": "^17.4.2",
     "postcss": "^8.4.47",
     "sass": "^1.80.0",
     "tailwindcss": "^3.4.13",

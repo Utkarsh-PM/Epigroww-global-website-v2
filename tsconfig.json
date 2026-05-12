@@ -29,7 +29,7 @@
         "./src/app/*"
       ],
       "@payload-config": [
-        "./payload.config.ts"
+        "./payload.config.js"
       ]
     },
     "plugins": [

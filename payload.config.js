@@ -1,14 +1,15 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import sharp from "sharp";
 import { buildConfig } from "payload";
 import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 
-import { Users } from "./src/payload/collections/Users";
-import { Media } from "./src/payload/collections/Media";
-import { SiteSettings } from "./src/payload/globals/SiteSettings";
+import { Users } from "./src/payload/collections/Users.js";
+import { Media } from "./src/payload/collections/Media.js";
+import { SiteSettings } from "./src/payload/globals/SiteSettings.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,38 +30,27 @@ const db = process.env.DATABASE_URL
     });
 
 export default buildConfig({
-  // Where the admin UI lives
   routes: { admin: "/admin" },
 
-  // Admin UI customisation
   admin: {
     user: Users.slug,
-    meta: {
-      titleSuffix: " — Epigroww CMS",
-    },
+    meta: { titleSuffix: " — Epigroww CMS" },
+    importMap: { baseDir: __dirname },
   },
 
-  // Collections (lists of editable docs)
   collections: [Users, Media],
-
-  // Globals (singletons — one doc per slug)
   globals: [SiteSettings],
 
-  // Database
   db,
 
-  // Rich text editor used inside content fields
   editor: lexicalEditor({}),
 
-  // Where Payload writes generated TS types
-  typescript: {
-    outputFile: path.resolve(__dirname, "src/payload/payload-types.ts"),
-  },
+  // Used by Media for image resizing into thumbnail/card/hero variants
+  sharp,
 
-  // Auth secret — required. Set in .env.local locally and Vercel env in prod.
   secret: process.env.PAYLOAD_SECRET || "dev-only-secret-replace-in-prod",
 
-  // File storage. Use Vercel Blob in prod; falls back to local filesystem in dev.
+  // Plugins
   plugins: [
     ...(process.env.BLOB_READ_WRITE_TOKEN
       ? [

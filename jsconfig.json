@@ -4,7 +4,8 @@
     "paths": {
       "@/*": ["./*"],
       "@components/*": ["./components/*"],
-      "@app/*": ["./src/app/*"]
+      "@app/*": ["./src/app/*"],
+      "@payload-config": ["./payload.config.js"]
     }
   }
 }

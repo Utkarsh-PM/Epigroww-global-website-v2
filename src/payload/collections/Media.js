@@ -1,10 +1,8 @@
-import type { CollectionConfig } from "payload";
-
 /**
  * Media library — all uploaded images and videos.
  * Stored on Vercel Blob in production, local filesystem in dev.
  */
-export const Media: CollectionConfig = {
+export const Media = {
   slug: "media",
   upload: {
     mimeTypes: ["image/*", "video/*"],

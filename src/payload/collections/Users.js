@@ -1,10 +1,7 @@
-import type { CollectionConfig } from "payload";
-
 /**
  * Admin users. Auth-enabled collection — anyone here can log into /admin.
- * Seeded with utkarsh@epigrowwglobal.com on first boot.
  */
-export const Users: CollectionConfig = {
+export const Users = {
   slug: "users",
   auth: true,
   admin: {
