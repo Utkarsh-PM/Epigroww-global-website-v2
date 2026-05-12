@@ -2,6 +2,8 @@
  * WORK PAGE content. Most data lives in the WorkCases + Industries collections —
  * this global only holds copy and the order of sections.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const WorkPage = {
   slug: "work-page",
   access: { read: () => true },
@@ -9,7 +11,9 @@ export const WorkPage = {
   admin: {
     group: "Pages",
     description: "The Work / Portfolio page. Add or edit individual case studies in the Work cases collection; tweak headlines here.",
+    preview: () => "/work",
   },
+  hooks: { afterChange: [revalidate(["/work"])] },
   fields: [
     {
       type: "tabs",

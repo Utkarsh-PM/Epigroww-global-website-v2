@@ -2,6 +2,8 @@
  * CONTACT PAGE content. Offices live in their own collection,
  * FAQs live in the FAQs collection scoped to page=contact.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const ContactPage = {
   slug: "contact-page",
   access: { read: () => true },
@@ -9,7 +11,9 @@ export const ContactPage = {
   admin: {
     group: "Pages",
     description: "Contact page (/contact). Offices and FAQs live in their own collections.",
+    preview: () => "/contact",
   },
+  hooks: { afterChange: [revalidate(["/contact"])] },
   fields: [
     {
       type: "tabs",

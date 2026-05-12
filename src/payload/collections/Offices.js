@@ -2,9 +2,12 @@
  * Global offices. Used on Home (Global Footprint interactive map),
  * Contact (offices list), Footer (studios), and FullscreenMenu.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const Offices = {
   slug: "offices",
   access: { read: () => true },
+  hooks: { afterChange: [revalidate(["/", "/contact"])] },
   admin: {
     useAsTitle: "city",
     group: "Content · Shared",

@@ -1,6 +1,8 @@
 /**
  * ABOUT PAGE content.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const AboutPage = {
   slug: "about-page",
   access: { read: () => true },
@@ -8,7 +10,9 @@ export const AboutPage = {
   admin: {
     group: "Pages",
     description: "About page sections — Hero, Manifesto, Vision block, Values, Timeline, Team, Diversity.",
+    preview: () => "/about",
   },
+  hooks: { afterChange: [revalidate(["/about"])] },
   fields: [
     {
       type: "tabs",

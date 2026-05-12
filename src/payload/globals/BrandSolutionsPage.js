@@ -1,4 +1,5 @@
 import { buildServicePageFields } from "./_servicePageFields.js";
+import { revalidate } from "../hooks/revalidate.js";
 
 export const BrandSolutionsPage = {
   slug: "brand-solutions-page",
@@ -7,7 +8,9 @@ export const BrandSolutionsPage = {
   admin: {
     group: "Pages",
     description: "Brand Solutions page (/brand-solutions) — creative suite, films, identity, before/after.",
+    preview: () => "/brand-solutions",
   },
+  hooks: { afterChange: [revalidate(["/brand-solutions"])] },
   fields: [
     ...buildServicePageFields({
       defaultPillarKey: "brand",

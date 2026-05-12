@@ -55,8 +55,28 @@ export default buildConfig({
 
   admin: {
     user: Users.slug,
-    meta: { titleSuffix: " — Epigroww CMS" },
+    meta: {
+      titleSuffix: " — Epigroww CMS",
+      icons: [{ rel: "icon", type: "image/png", url: "/favicon.png" }],
+      openGraph: {
+        title: "Epigroww CMS",
+        description: "Content management for epigrowwglobal.com",
+        images: [{ url: "/favicon.png" }],
+      },
+    },
     importMap: { baseDir: __dirname },
+    // Custom CSS overrides — lime accent, branded login, polished cards
+    css: path.resolve(__dirname, "./src/admin-overrides/admin.css"),
+    // Custom React components rendered inside the admin.
+    // Paths are relative to importMap.baseDir (project root). No extension —
+    // Payload's importMap generator picks the right .jsx/.tsx automatically.
+    components: {
+      graphics: {
+        Logo: "/src/admin-overrides/Logo",
+        Icon: "/src/admin-overrides/Icon",
+      },
+      beforeDashboard: ["/src/admin-overrides/BeforeDashboard"],
+    },
   },
 
   collections: [

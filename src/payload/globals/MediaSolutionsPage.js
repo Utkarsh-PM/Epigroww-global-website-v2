@@ -1,4 +1,5 @@
 import { buildServicePageFields } from "./_servicePageFields.js";
+import { revalidate } from "../hooks/revalidate.js";
 
 export const MediaSolutionsPage = {
   slug: "media-solutions-page",
@@ -7,7 +8,9 @@ export const MediaSolutionsPage = {
   admin: {
     group: "Pages",
     description: "Media Solutions page (/media-solutions) — paid media, programmatic, OTT, retention.",
+    preview: () => "/media-solutions",
   },
+  hooks: { afterChange: [revalidate(["/media-solutions"])] },
   fields: [
     ...buildServicePageFields({
       defaultPillarKey: "media",

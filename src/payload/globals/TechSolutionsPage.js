@@ -1,4 +1,5 @@
 import { buildServicePageFields } from "./_servicePageFields.js";
+import { revalidate } from "../hooks/revalidate.js";
 
 export const TechSolutionsPage = {
   slug: "tech-solutions-page",
@@ -7,7 +8,9 @@ export const TechSolutionsPage = {
   admin: {
     group: "Pages",
     description: "Tech Solutions page (/tech-solutions) — web, CRM, automation, AI, stack showcase.",
+    preview: () => "/tech-solutions",
   },
+  hooks: { afterChange: [revalidate(["/tech-solutions"])] },
   fields: [
     ...buildServicePageFields({
       defaultPillarKey: "tech",

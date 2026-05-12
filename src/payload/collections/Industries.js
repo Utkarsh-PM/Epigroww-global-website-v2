@@ -1,9 +1,12 @@
 /**
  * Industries served. Used on the Work page's marquee bands.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const Industries = {
   slug: "industries",
   access: { read: () => true },
+  hooks: { afterChange: [revalidate(["/work"])] },
   admin: {
     useAsTitle: "name",
     group: "Content · Shared",

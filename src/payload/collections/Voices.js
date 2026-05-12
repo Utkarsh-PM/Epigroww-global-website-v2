@@ -1,9 +1,16 @@
 /**
  * Client testimonials. Used on Home (Voices carousel) and each service page.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const Voices = {
   slug: "voices",
   access: { read: () => true },
+  hooks: {
+    afterChange: [
+      revalidate(["/", "/media-solutions", "/brand-solutions", "/tech-solutions", "/ecommerce-solutions"]),
+    ],
+  },
   admin: {
     useAsTitle: "name",
     group: "Content · Shared",

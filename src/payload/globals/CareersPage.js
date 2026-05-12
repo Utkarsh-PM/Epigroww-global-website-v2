@@ -1,6 +1,8 @@
 /**
  * CAREERS PAGE content. Open roles live in the OpenRoles collection.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const CareersPage = {
   slug: "careers-page",
   access: { read: () => true },
@@ -8,7 +10,9 @@ export const CareersPage = {
   admin: {
     group: "Pages",
     description: "Careers page (/careers). Open roles live in their own collection — edit those separately.",
+    preview: () => "/careers",
   },
+  hooks: { afterChange: [revalidate(["/careers"])] },
   fields: [
     {
       type: "tabs",

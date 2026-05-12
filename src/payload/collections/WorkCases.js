@@ -2,9 +2,12 @@
  * Case studies. Each one is a client outcome shown on the Work page,
  * featured cases on the Home page, and metric tiles on /work's ResultsBand.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const WorkCases = {
   slug: "work-cases",
   access: { read: () => true },
+  hooks: { afterChange: [revalidate(["/", "/work"])] },
   admin: {
     useAsTitle: "client",
     group: "Content · Shared",

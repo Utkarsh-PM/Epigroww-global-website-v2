@@ -3,9 +3,12 @@
  * Referenced from Home (GrowthEngine orbital + Pillars stack) and
  * surfaced on each service page's hero.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const Pillars = {
   slug: "pillars",
   access: { read: () => true },
+  hooks: { afterChange: [revalidate(["/"])] },
   admin: {
     useAsTitle: "title",
     group: "Content · Shared",

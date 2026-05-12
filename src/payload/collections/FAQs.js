@@ -1,9 +1,12 @@
 /**
  * FAQs. Currently shown on the Contact page; can be tagged for other pages.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const FAQs = {
   slug: "faqs",
   access: { read: () => true },
+  hooks: { afterChange: [revalidate(["/contact"])] },
   admin: {
     useAsTitle: "question",
     group: "Content · Shared",

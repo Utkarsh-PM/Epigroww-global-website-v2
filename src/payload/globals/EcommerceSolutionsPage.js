@@ -1,4 +1,5 @@
 import { buildServicePageFields } from "./_servicePageFields.js";
+import { revalidate } from "../hooks/revalidate.js";
 
 /**
  * Ecommerce Solutions — the page your senior added in commit 1cc4d79.
@@ -12,7 +13,9 @@ export const EcommerceSolutionsPage = {
   admin: {
     group: "Pages",
     description: "Ecommerce Solutions page (/ecommerce-solutions) — D2C launches, Shopify, marketplaces.",
+    preview: () => "/ecommerce-solutions",
   },
+  hooks: { afterChange: [revalidate(["/ecommerce-solutions"])] },
   fields: buildServicePageFields({
     defaultPillarKey: "ecommerce",
     defaultPillarLabel: "Ecommerce Solutions",

@@ -2,6 +2,8 @@
  * Site-wide settings: brand, contact, social.
  * Edited at /admin/globals/site-settings. Read by every page.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const SiteSettings = {
   slug: "site-settings",
   access: { read: () => true },
@@ -9,6 +11,21 @@ export const SiteSettings = {
   admin: {
     group: "Brand & Site",
     description: "Brand colors, fonts, motion, contact details — applies site-wide.",
+  },
+  hooks: {
+    afterChange: [
+      revalidate([
+        "/",
+        "/about",
+        "/work",
+        "/careers",
+        "/contact",
+        "/media-solutions",
+        "/brand-solutions",
+        "/tech-solutions",
+        "/ecommerce-solutions",
+      ]),
+    ],
   },
   fields: [
     {

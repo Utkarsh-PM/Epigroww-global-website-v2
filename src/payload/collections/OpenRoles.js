@@ -1,9 +1,12 @@
 /**
  * Open job listings. Shown on the Careers page.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const OpenRoles = {
   slug: "open-roles",
   access: { read: () => true },
+  hooks: { afterChange: [revalidate(["/careers"])] },
   admin: {
     useAsTitle: "title",
     group: "Content · Careers",

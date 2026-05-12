@@ -1,6 +1,8 @@
 /**
  * HOME PAGE content. Tabs map 1:1 to the visible sections on /.
  */
+import { revalidate } from "../hooks/revalidate.js";
+
 export const HomePage = {
   slug: "home-page",
   access: { read: () => true },
@@ -8,7 +10,9 @@ export const HomePage = {
   admin: {
     group: "Pages",
     description: "Everything on the home page — Hero, Showreel, Manifesto, Growth Engine, Live Pulse, Featured Work, Approach, Global Footprint, Voices, CTA.",
+    preview: () => "/",
   },
+  hooks: { afterChange: [revalidate(["/"])] },
   fields: [
     {
       type: "tabs",
