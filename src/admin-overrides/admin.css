@@ -1,114 +1,477 @@
 /**
- * Epigroww-branded overrides for the Payload v3 admin UI.
- * Loaded via payload.config.js → admin.css.
+ * Epigroww admin theme — overrides Payload v3.84's default styling across
+ * every screen, not just the dashboard.
  *
- * Approach: override Payload's CSS variables where possible (broad reach,
- * survives Payload version bumps), then add scoped selectors for the few
- * things that aren't variable-driven (login layout, focus rings, etc.).
+ * Strategy:
+ *   1. Re-bind the few global CSS custom properties Payload actually uses
+ *      (--theme-success-* for focus rings + checkboxes, etc.) to the
+ *      Epigroww lime accent.
+ *   2. Then override the specific component classes that aren't variable-
+ *      driven (primary button, active tab underline, etc.) directly.
+ *   3. Add typography + layout polish to the screens an editor lives on
+ *      most: list views, doc edit views, array rows, collapsibles.
+ *
+ * Payload's own styles live inside `@layer payload-default`. Unlayered
+ * styles win, so this file does NOT need a layer wrapper — but does use
+ * !important in a few spots where Payload's selectors are very specific.
  */
 
+/* ──────────────────────────────────────────────────────────────────────
+ * 1. Brand tokens — overrides applied at the :root level.
+ *    Payload uses --theme-success-* for the brand-accent moments (focus
+ *    rings, checked checkboxes, the accessibility outline). We re-map
+ *    those to Epigroww lime so every accent on every screen matches.
+ * ────────────────────────────────────────────────────────────────────── */
 :root,
 :root[data-theme="light"],
 :root[data-theme="dark"] {
-  /* Epigroww brand accent — replaces the default Payload purple */
-  --color-base-50: #fafbe6;
-  --color-base-100: #f4f5c8;
-  --color-base-150: #eef0b4;
-  --color-base-200: #ecedaa;
-  --color-base-250: #e7e89a;
-  --color-base-300: #e3e58c;
-  --color-base-350: #dedf78;
-  --color-base-400: #d8db6d;
-  --color-base-450: #d1d362;
-  --color-base-500: #e3e65d; /* primary */
-  --color-base-550: #cfd255;
-  --color-base-600: #c1c34f;
-  --color-base-650: #b1b248;
-  --color-base-700: #9d9f42;
-  --color-base-750: #898b3a;
-  --color-base-800: #797a33;
-  --color-base-850: #6a6b2c;
-  --color-base-900: #545525;
-  --color-base-950: #424219;
-  --color-base-1000: #2f2f17;
+  --epi-lime: #e3e65d;
+  --epi-lime-soft: rgba(227, 230, 93, 0.55);
+  --epi-lime-glow: rgba(227, 230, 93, 0.18);
+  --epi-bg-dark: #141730;
+  --epi-radius: 12px;
+
+  /* Re-bind Payload's "success" palette to our lime so any place Payload
+   * uses success colors picks up the brand without a class override. */
+  --theme-success-50:  #fbfce6;
+  --theme-success-100: #f4f6c5;
+  --theme-success-150: #eef0b0;
+  --theme-success-200: #e9eb9b;
+  --theme-success-250: #e6e988;
+  --theme-success-300: #e3e677;
+  --theme-success-350: #dee063;
+  --theme-success-400: #d8dc56;
+  --theme-success-450: #d2d54e;
+  --theme-success-500: #e3e65d;
+  --theme-success-550: #cdcf52;
+  --theme-success-600: #b6b848;
+  --theme-success-650: #9fa13e;
+  --theme-success-700: #898a35;
+  --theme-success-750: #74762c;
+  --theme-success-800: #5f6024;
+  --theme-success-850: #4a4b1d;
+  --theme-success-900: #353516;
+  --theme-success-950: #21210e;
+  --theme-success-1000: #0e0e06;
+
+  /* Brand the accessibility outline (focus rings everywhere) */
+  --accessibility-outline: 2px solid var(--epi-lime) !important;
 }
 
-/* Dark theme — pull the bg toward the site's brand bg */
+/* Dark theme — nudge the bg toward the site's brand bg */
 [data-theme="dark"] {
-  --theme-bg: #141730;
+  --theme-bg: var(--epi-bg-dark);
   --theme-input-bg: #1c1f3a;
 }
 
-/* Primary buttons (Save, Create, etc.) — lime with dark text */
-.btn--style-primary,
-.btn--style-primary:not(:disabled):hover {
-  background: #e3e65d;
-  color: #141730;
-  border-color: #e3e65d;
+/* ──────────────────────────────────────────────────────────────────────
+ * 2. Primary button (Save / Create / Confirm)
+ *    Lime bg, dark text, subtle hover lift.
+ * ────────────────────────────────────────────────────────────────────── */
+.btn--style-primary {
+  --bg-color: var(--epi-lime) !important;
+  --color: var(--epi-bg-dark) !important;
+  --hover-bg: #eaee70 !important;
+  --hover-color: var(--epi-bg-dark) !important;
+  font-weight: 700 !important;
+  border-radius: 999px !important;
+  padding-inline: 18px !important;
+  transition: transform 0.15s ease, filter 0.15s ease;
 }
-.btn--style-primary:not(:disabled):hover {
-  filter: brightness(1.06);
+.btn--style-primary:not(.btn--disabled):hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+.btn--style-primary .btn__label {
+  color: var(--epi-bg-dark) !important;
 }
 
-/* Active nav item — left rail */
-.nav-group__indicator,
+/* Secondary button — keep ghost styling, lime border on hover */
+.btn--style-secondary:not(.btn--disabled):hover {
+  --hover-btn-border: 1px solid var(--epi-lime) !important;
+  --hover-color: var(--epi-lime) !important;
+}
+
+/* Pill / chip buttons (filters, etc.) — lime when active */
+.btn--style-pill[aria-pressed="true"],
+.btn--style-pill.is-active {
+  --bg-color: var(--epi-lime-glow) !important;
+  --color: var(--epi-lime) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * 3. Tabs — active state in lime, animated indicator
+ * ────────────────────────────────────────────────────────────────────── */
+.tabs-field__tab-button:after {
+  height: 2px !important;
+  transition: opacity 0.18s ease, background 0.18s ease;
+}
+.tabs-field__tab-button:hover {
+  color: var(--epi-lime) !important;
+}
+.tabs-field__tab-button:hover:after {
+  background: var(--epi-lime-soft) !important;
+  opacity: 0.6 !important;
+}
+.tabs-field__tab-button--active {
+  color: var(--epi-lime) !important;
+  font-weight: 600 !important;
+}
+.tabs-field__tab-button--active:after {
+  background: var(--epi-lime) !important;
+  opacity: 1 !important;
+  height: 2px !important;
+}
+
+/* Doc-level edit/API tabs in the top-right */
+.doc-tab--active,
+.doc-tabs__tabs > a[aria-current="page"] {
+  color: var(--epi-lime) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * 4. Form inputs — rounded corners, lime focus
+ * ────────────────────────────────────────────────────────────────────── */
+.field-type input:not([type="checkbox"]):not([type="radio"]),
+.field-type textarea,
+.field-type .react-select__control,
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="url"],
+input[type="search"],
+input[type="password"],
+textarea {
+  border-radius: 10px !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.field-type input:not([type="checkbox"]):not([type="radio"]):hover,
+.field-type textarea:hover,
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="number"]:hover,
+input[type="url"]:hover,
+input[type="search"]:hover,
+input[type="password"]:hover,
+textarea:hover {
+  border-color: rgba(227, 230, 93, 0.35) !important;
+}
+
+.field-type input:not([type="checkbox"]):not([type="radio"]):focus,
+.field-type input:not([type="checkbox"]):not([type="radio"]):focus-visible,
+.field-type textarea:focus,
+.field-type textarea:focus-visible,
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible {
+  border-color: var(--epi-lime) !important;
+  box-shadow: 0 0 0 3px var(--epi-lime-glow) !important;
+  outline: none !important;
+}
+
+/* Select dropdown — react-select control */
+.field-type .react-select__control--is-focused {
+  border-color: var(--epi-lime) !important;
+  box-shadow: 0 0 0 3px var(--epi-lime-glow) !important;
+}
+.field-type .react-select__option--is-selected,
+.field-type .react-select__option--is-focused {
+  background: var(--epi-lime-glow) !important;
+  color: var(--epi-lime) !important;
+}
+
+/* Checkbox — lime when checked */
+.checkbox-input.is-checked .checkbox-input__input,
+input[type="checkbox"]:checked {
+  background: var(--epi-lime) !important;
+  border-color: var(--epi-lime) !important;
+}
+.checkbox-input.is-checked .checkbox-input__icon .stroke,
+input[type="checkbox"]:checked + svg .stroke {
+  stroke: var(--epi-bg-dark) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * 5. Field labels & descriptions — better typography hierarchy
+ * ────────────────────────────────────────────────────────────────────── */
+.field-label,
+.field-type label,
+label.field-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  opacity: 0.7;
+  margin-bottom: 6px !important;
+}
+.field-description,
+.field-type__description {
+  font-size: 12px !important;
+  opacity: 0.55;
+  margin-top: 6px !important;
+  line-height: 1.5 !important;
+}
+
+/* Required-indicator (the red dot) — keep red but soften */
+.field-label .required {
+  color: var(--theme-error-500);
+  margin-left: 4px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * 6. Collapsibles + arrays — every nested section feels like a card
+ * ────────────────────────────────────────────────────────────────────── */
+.collapsible {
+  border-radius: var(--epi-radius) !important;
+  border: 1px solid var(--theme-elevation-100) !important;
+  background: var(--theme-elevation-50);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.collapsible__toggle-wrap {
+  padding: 4px 10px !important;
+}
+.collapsible__toggle-wrap:hover {
+  background: rgba(227, 230, 93, 0.05) !important;
+}
+.collapsible--collapsed {
+  background: transparent;
+}
+
+/* Array rows — rounded with subtle lime hover */
+.array-field__row,
+.array-field__draggable-row,
+[class*="ArrayRow"] {
+  border-radius: var(--epi-radius) !important;
+}
+.array-field__draggable-rows > * {
+  border-radius: var(--epi-radius) !important;
+  transition: border-color 0.15s ease;
+}
+.array-field__draggable-rows > *:hover {
+  border-color: rgba(227, 230, 93, 0.3) !important;
+}
+
+/* Drag handles */
+.collapsible__drag,
+.array-field__drag-handle {
+  opacity: 0.4;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+.collapsible__drag:hover,
+.array-field__drag-handle:hover {
+  opacity: 1;
+  color: var(--epi-lime);
+}
+
+/* "Add row" button */
+.array-field__add-row-button,
+.blocks-field__add-button {
+  border-radius: 999px !important;
+  border: 1px dashed var(--theme-elevation-300) !important;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.array-field__add-row-button:hover,
+.blocks-field__add-button:hover {
+  border-color: var(--epi-lime) !important;
+  color: var(--epi-lime) !important;
+  background: var(--epi-lime-glow) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * 7. Doc header (title + breadcrumb + save area)
+ * ────────────────────────────────────────────────────────────────────── */
+.doc-header,
+.doc-controls__header {
+  padding-bottom: 18px;
+}
+
+.step-nav,
+.app-header__step-nav {
+  font-size: 12px;
+  opacity: 0.7;
+  letter-spacing: 0.04em;
+}
+.step-nav a:hover,
+.step-nav__last {
+  color: var(--epi-lime) !important;
+}
+
+.doc-controls {
+  padding: 12px 0;
+  border-top: 1px solid var(--theme-elevation-100);
+  border-bottom: 1px solid var(--theme-elevation-100);
+  margin-bottom: 22px;
+}
+
+/* Page title (h1 in doc header) — bigger, weightier */
+.doc-header h1,
+.collection-list__header h1,
+.dashboard h1 {
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.15 !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * 8. Left sidebar nav — active item highlighted, group labels styled
+ * ────────────────────────────────────────────────────────────────────── */
+.nav-group__label,
+.nav-group__toggle {
+  font-size: 10px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.16em !important;
+  opacity: 0.55;
+}
+.nav-group__toggle::before {
+  content: "● ";
+  color: var(--epi-lime);
+  margin-right: 6px;
+  font-size: 11px;
+}
+
+.nav__link,
+.nav a {
+  position: relative;
+  padding: 7px 10px !important;
+  border-radius: 8px !important;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.nav__link:hover,
+.nav a:hover {
+  background: rgba(227, 230, 93, 0.08) !important;
+  color: var(--epi-lime) !important;
+}
 .nav__link--active,
-.nav .nav__link.active {
-  color: #e3e65d !important;
+.nav__link[aria-current="page"],
+.nav a[aria-current="page"],
+.nav a.active {
+  background: var(--epi-lime-glow) !important;
+  color: var(--epi-lime) !important;
+  font-weight: 600 !important;
+}
+.nav__link--active::before,
+.nav__link[aria-current="page"]::before,
+.nav a[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: var(--epi-lime);
+  border-radius: 3px;
 }
 
-/* Tab + breadcrumb accents */
-.tabs-field__tab-button--active,
-.step-nav__last,
-a:focus-visible {
-  color: #e3e65d;
+/* ──────────────────────────────────────────────────────────────────────
+ * 9. List view — search box + table rows
+ * ────────────────────────────────────────────────────────────────────── */
+.collection-list,
+.list-controls {
+  padding-top: 8px;
 }
 
-/* Toggle / chip "selected" states */
-.chips-input__chip--selected,
+.search-filter input,
+.list-controls input[type="search"] {
+  border-radius: 999px !important;
+  padding-inline: 16px !important;
+}
+
+.table tbody tr {
+  transition: background 0.12s ease;
+}
+.table tbody tr:hover {
+  background: rgba(227, 230, 93, 0.05);
+}
+
+/* Status pills (Draft, Published, etc.) */
+.pill {
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+}
 .pill--style-success {
-  background: rgba(227, 230, 93, 0.18);
-  border-color: rgba(227, 230, 93, 0.55);
-  color: #e3e65d;
+  background: var(--epi-lime-glow) !important;
+  color: var(--epi-lime) !important;
+  border-color: var(--epi-lime-soft) !important;
 }
 
-/* Focus ring — consistent brand color */
-*:focus-visible {
-  outline-color: #e3e65d !important;
-}
-
-/* Login screen — center, expand the card, add a subtle glow */
+/* ──────────────────────────────────────────────────────────────────────
+ * 10. Login screen — branded background + card glow
+ * ────────────────────────────────────────────────────────────────────── */
 .template-minimal__wrap,
 .template-default__wrap--minimal {
   background:
-    radial-gradient(800px 600px at 50% -10%, rgba(227, 230, 93, 0.12), transparent 60%),
-    var(--theme-bg, #0b0d22);
+    radial-gradient(900px 700px at 50% -20%, var(--epi-lime-glow), transparent 60%),
+    radial-gradient(700px 500px at 50% 130%, rgba(227, 230, 93, 0.06), transparent 60%),
+    var(--theme-bg) !important;
 }
 
-.login__wrap,
+.login__form,
 .template-minimal__wrap .render-fields {
+  background: var(--theme-elevation-50);
+  border: 1px solid var(--theme-elevation-100);
+  border-radius: 18px;
+  padding: 28px !important;
   max-width: 440px;
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.7);
 }
 
-/* Dashboard cards — round their corners and tighten hover */
+.login__form input,
+.template-minimal__wrap input {
+  background: var(--theme-bg) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * 11. Dashboard groupings — round + brand the section labels
+ * ────────────────────────────────────────────────────────────────────── */
 .dashboard__group .card {
-  border-radius: 14px;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  border-radius: 14px !important;
+  transition: transform 0.18s ease, border-color 0.18s ease;
 }
 .dashboard__group .card:hover {
-  border-color: rgba(227, 230, 93, 0.55) !important;
+  border-color: var(--epi-lime-soft) !important;
   transform: translateY(-2px);
 }
 
-/* Section group headings — bigger, lime accent dot */
 .dashboard__label {
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 11px !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
   opacity: 0.7;
 }
 .dashboard__label::before {
   content: "● ";
-  color: #e3e65d;
+  color: var(--epi-lime);
   margin-right: 4px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * 12. Scrollbars — subtle brand presence
+ * ────────────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--theme-elevation-200);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--epi-lime-soft);
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+ * 13. Toasts / notifications — pull success toasts toward the brand
+ * ────────────────────────────────────────────────────────────────────── */
+.toast-success,
+[data-payload-toast="success"] {
+  background: var(--epi-bg-dark) !important;
+  border: 1px solid var(--epi-lime-soft) !important;
+  color: var(--epi-lime) !important;
 }
