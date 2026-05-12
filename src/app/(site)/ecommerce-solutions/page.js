@@ -1,8 +1,8 @@
-import ServiceHero from "../../../components/service/ServiceHero";
-import CapabilityGrid from "../../../components/service/CapabilityGrid";
-import ServiceApproach from "../../../components/service/ServiceApproach";
-import ServiceVoices from "../../../components/service/ServiceVoices";
-import CTA from "../../../components/shared/CTA";
+import ServiceHero from "../../../../components/service/ServiceHero";
+import CapabilityGrid from "../../../../components/service/CapabilityGrid";
+import ServiceApproach from "../../../../components/service/ServiceApproach";
+import ServiceVoices from "../../../../components/service/ServiceVoices";
+import CTA from "../../../../components/shared/CTA";
 
 export const metadata = {
   title: "Ecommerce Solutions — Epigroww Global",

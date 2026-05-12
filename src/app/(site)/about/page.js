@@ -1,11 +1,11 @@
-import AboutHero from "../../../components/about/AboutHero";
-import AboutManifesto from "../../../components/about/AboutManifesto";
-import VisionBlock from "../../../components/about/VisionBlock";
-import Values from "../../../components/about/Values";
-import Timeline from "../../../components/about/Timeline";
-import Team from "../../../components/about/Team";
-import Diversity from "../../../components/about/Diversity";
-import CTA from "../../../components/shared/CTA";
+import AboutHero from "../../../../components/about/AboutHero";
+import AboutManifesto from "../../../../components/about/AboutManifesto";
+import VisionBlock from "../../../../components/about/VisionBlock";
+import Values from "../../../../components/about/Values";
+import Timeline from "../../../../components/about/Timeline";
+import Team from "../../../../components/about/Team";
+import Diversity from "../../../../components/about/Diversity";
+import CTA from "../../../../components/shared/CTA";
 
 export const metadata = {
   title: "About — Epigroww Global",

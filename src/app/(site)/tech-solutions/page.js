@@ -1,10 +1,10 @@
-import ServiceHero from "../../../components/service/ServiceHero";
-import CapabilityGrid from "../../../components/service/CapabilityGrid";
-import TerminalLive from "../../../components/service/TerminalLive";
-import StackShowcase from "../../../components/service/StackShowcase";
-import ServiceApproach from "../../../components/service/ServiceApproach";
-import ServiceVoices from "../../../components/service/ServiceVoices";
-import CTA from "../../../components/shared/CTA";
+import ServiceHero from "../../../../components/service/ServiceHero";
+import CapabilityGrid from "../../../../components/service/CapabilityGrid";
+import TerminalLive from "../../../../components/service/TerminalLive";
+import StackShowcase from "../../../../components/service/StackShowcase";
+import ServiceApproach from "../../../../components/service/ServiceApproach";
+import ServiceVoices from "../../../../components/service/ServiceVoices";
+import CTA from "../../../../components/shared/CTA";
 
 export const metadata = {
   title: "Tech Solutions — Epigroww Global",

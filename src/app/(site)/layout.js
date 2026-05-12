@@ -1,11 +1,11 @@
-import SmoothScrollProvider from "../../components/providers/SmoothScrollProvider";
-import ScrollTriggerCleanup from "../../components/providers/ScrollTriggerCleanup";
-import PageShell from "../../components/providers/PageShell";
-import CustomCursor from "../../components/cursor/CustomCursor";
-import Nav from "../../components/navigation/Nav";
-import MenuProvider from "../../components/navigation/MenuProvider";
-import Footer from "../../components/footer/Footer";
-import "./globals.scss";
+import SmoothScrollProvider from "../../../components/providers/SmoothScrollProvider";
+import ScrollTriggerCleanup from "../../../components/providers/ScrollTriggerCleanup";
+import PageShell from "../../../components/providers/PageShell";
+import CustomCursor from "../../../components/cursor/CustomCursor";
+import Nav from "../../../components/navigation/Nav";
+import MenuProvider from "../../../components/navigation/MenuProvider";
+import Footer from "../../../components/footer/Footer";
+import "../globals.scss";
 
 export const metadata = {
   title: "Epigroww Global — Growth. Engineered Globally.",

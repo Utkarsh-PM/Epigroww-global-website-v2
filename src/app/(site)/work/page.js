@@ -1,8 +1,8 @@
-import WorkHero from "../../../components/work/WorkHero";
-import ResultsBand from "../../../components/work/ResultsBand";
-import CaseGrid from "../../../components/work/CaseGrid";
-import IndustryBand from "../../../components/work/IndustryBand";
-import CTA from "../../../components/shared/CTA";
+import WorkHero from "../../../../components/work/WorkHero";
+import ResultsBand from "../../../../components/work/ResultsBand";
+import CaseGrid from "../../../../components/work/CaseGrid";
+import IndustryBand from "../../../../components/work/IndustryBand";
+import CTA from "../../../../components/shared/CTA";
 
 export const metadata = {
   title: "Work — Epigroww Global",

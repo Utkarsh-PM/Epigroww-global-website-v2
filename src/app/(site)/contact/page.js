@@ -1,7 +1,7 @@
-import ContactHero from "../../../components/contact/ContactHero";
-import ContactStage from "../../../components/contact/ContactStage";
-import OfficesList from "../../../components/contact/OfficesList";
-import ContactFAQ from "../../../components/contact/ContactFAQ";
+import ContactHero from "../../../../components/contact/ContactHero";
+import ContactStage from "../../../../components/contact/ContactStage";
+import OfficesList from "../../../../components/contact/OfficesList";
+import ContactFAQ from "../../../../components/contact/ContactFAQ";
 
 export const metadata = {
   title: "Contact — Epigroww Global",
