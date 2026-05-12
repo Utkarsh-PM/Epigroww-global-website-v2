@@ -8,7 +8,7 @@ import Link from "next/link";
 import { getPayload } from "payload";
 import config from "../../payload.config.js";
 
-const tile = {
+const tileBase = {
   display: "flex",
   flexDirection: "column",
   gap: 6,
@@ -18,12 +18,26 @@ const tile = {
   border: "1px solid var(--theme-elevation-100)",
   textDecoration: "none",
   color: "inherit",
-  transition: "transform .15s ease, border-color .15s ease",
 };
 
-const card = {
-  ...tile,
-  cursor: "pointer",
+const linkRow = {
+  display: "inline-flex",
+  gap: 14,
+  fontSize: 12,
+  marginTop: 6,
+};
+
+const linkBtn = {
+  color: "inherit",
+  opacity: 0.85,
+  textDecoration: "underline",
+  textUnderlineOffset: 3,
+};
+
+const tileLink = {
+  ...linkBtn,
+  fontWeight: 700,
+  opacity: 1,
 };
 
 const PAGES = [
@@ -141,22 +155,18 @@ export default async function BeforeDashboard() {
         }}
       >
         {PAGES.map((p) => (
-          <Link key={p.slug} href={`/admin/globals/${p.slug}`} style={card}>
+          <div key={p.slug} style={tileBase}>
             <span style={{ fontWeight: 700, fontSize: 14 }}>{p.label}</span>
             <span style={{ fontSize: 12, opacity: 0.7 }}>{p.desc}</span>
-            <span style={{ fontSize: 11, opacity: 0.5, marginTop: 4 }}>
-              Edit ↗ &nbsp;·&nbsp;{" "}
-              <a
-                href={p.view}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                style={{ color: "inherit", textDecoration: "underline" }}
-              >
-                view live
+            <span style={linkRow}>
+              <Link href={`/admin/globals/${p.slug}`} style={tileLink}>
+                Edit ↗
+              </Link>
+              <a href={p.view} target="_blank" rel="noopener noreferrer" style={linkBtn}>
+                View live ↗
               </a>
             </span>
-          </Link>
+          </div>
         ))}
       </div>
 
@@ -180,7 +190,7 @@ export default async function BeforeDashboard() {
         }}
       >
         {COLLECTIONS.map((c) => (
-          <Link key={c.slug} href={`/admin/collections/${c.slug}`} style={tile}>
+          <Link key={c.slug} href={`/admin/collections/${c.slug}`} style={tileBase}>
             <span style={{ fontWeight: 700, fontSize: 14 }}>{c.label}</span>
             <span style={{ fontSize: 22, fontWeight: 800, color: "#E3E65D", lineHeight: 1 }}>
               {counts[c.slug] ?? 0}
