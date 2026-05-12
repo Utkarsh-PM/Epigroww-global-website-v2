@@ -24,6 +24,12 @@ export default function SmoothScrollProvider({ children }) {
     // scroll position when the user navigates to a new page.
     window.__lenis = lenis;
 
+    // Belt-and-braces refresh-to-top: the boot script already disables
+    // `history.scrollRestoration`, but if the browser still nudges the page
+    // (Safari, bf-cache, lazy images) we re-pin to the top once Lenis is alive.
+    lenis.scrollTo(0, { immediate: true });
+    requestAnimationFrame(() => lenis.scrollTo(0, { immediate: true }));
+
     lenis.on("scroll", ScrollTrigger.update);
     const tickerFn = (time) => lenis.raf(time * 1000);
     gsap.ticker.add(tickerFn);

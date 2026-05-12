@@ -14,7 +14,9 @@ export const metadata = {
   icons: { icon: "/favicon.svg" },
 };
 
-// Inlined into <head> so it runs BEFORE paint — prevents a flash of wrong theme.
+// Inlined into <head> so it runs BEFORE paint — prevents a flash of wrong theme
+// AND tells the browser not to restore scroll on refresh (Lenis-powered smooth
+// scrolling fights with the browser's auto restore; users expect refresh → top).
 const themeBootScript = `
   (function() {
     try {
@@ -24,6 +26,11 @@ const themeBootScript = `
     } catch (e) {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
+    try {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      // Cancel any pre-paint scroll the browser may have queued.
+      window.scrollTo(0, 0);
+    } catch (e) {}
   })();
 `;
 

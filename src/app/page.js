@@ -1,4 +1,5 @@
 import Hero from "../../components/home/Hero";
+import BrandMarquee from "../../components/home/BrandMarquee";
 import Showreel from "../../components/home/Showreel";
 import Manifesto from "../../components/home/Manifesto";
 import GrowthEngine from "../../components/home/GrowthEngine";
@@ -16,6 +17,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <BrandMarquee />
       <Showreel />
       <Manifesto />
       <GrowthEngine />

@@ -1,0 +1,174 @@
+.bm {
+  position: relative;
+  padding: clamp(3rem, 5vw, 4.5rem) 0 clamp(3rem, 5vw, 4.5rem);
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.bm-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.bm-head {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem) clamp(1.5rem, 2.5vw, 2rem);
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  flex-wrap: wrap;
+}
+
+.bm-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand-lime, var(--accent));
+  box-shadow: 0 0 0 4px rgba(var(--brand-lime-rgb, var(--accent-rgb)), 0.22);
+}
+
+.bm-label { color: var(--ink); }
+.bm-count {
+  margin-left: auto;
+  color: var(--ink-60);
+
+  @media (max-width: 700px) {
+    margin-left: 0;
+  }
+}
+
+.bm-stage {
+  position: relative;
+  overflow: hidden;
+}
+
+.bm-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+  padding: 0.6rem 0;
+}
+
+.bm-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(2rem, 4vw, 3.5rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  opacity: 0.72;
+  white-space: nowrap;
+  transition: opacity 0.4s ease, color 0.4s ease, transform 0.4s ease;
+  user-select: none;
+
+  &:hover {
+    opacity: 1;
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+}
+
+/* Style variants — give each logo its own visual character so the marquee
+   reads like a logo wall rather than a list of words. */
+.bm-style-italic-bold {
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+.bm-style-oval {
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  padding: 0.4rem 1.6rem;
+  margin: 0 clamp(1rem, 2vw, 2rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.bm-style-outline {
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -0.35rem -0.6rem;
+    border: 1.5px solid currentColor;
+    border-radius: 6px;
+    opacity: 0.6;
+  }
+  padding-left: clamp(2.6rem, 5vw, 4rem);
+  padding-right: clamp(2.6rem, 5vw, 4rem);
+}
+.bm-style-diamond {
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  &::before {
+    content: '◆';
+    margin-right: 0.55rem;
+    font-size: 0.7em;
+    opacity: 0.7;
+  }
+}
+.bm-style-wave {
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.bm-style-script {
+  font-family: "Lato", var(--font-display);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.02em;
+}
+.bm-style-lower {
+  text-transform: lowercase;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  font-style: italic;
+}
+.bm-style-serif {
+  font-family: "Lato", var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.45em;
+}
+.bm-style-stack {
+  font-size: clamp(0.95rem, 1.8vw, 1.3rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  line-height: 1;
+  text-align: center;
+  white-space: pre-line;
+  &::after {
+    content: '';
+  }
+}
+.bm-style-block {
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.bm-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(60px, 10vw, 140px);
+  pointer-events: none;
+  z-index: 2;
+}
+.bm-fade-l {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg) 0%, rgba(var(--bg-rgb), 0) 100%);
+}
+.bm-fade-r {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg) 0%, rgba(var(--bg-rgb), 0) 100%);
+}

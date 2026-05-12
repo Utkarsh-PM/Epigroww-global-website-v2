@@ -1,33 +1,48 @@
 .sa {
+  position: relative;
   padding: clamp(5rem, 10vw, 9rem) clamp(1.25rem, 3vw, 2.5rem);
   background: var(--dark-bg);
   color: var(--cream-on-dark);
   border-radius: 40px 40px 0 0;
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 80% 20%, rgba(var(--accent-rgb), 0.18), transparent 55%);
-    pointer-events: none;
-  }
+  overflow: hidden;
 }
 
-.sa-inner { position: relative; max-width: min(1240px, var(--container-max)); margin: 0 auto; }
+.sa-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 85% 15%, rgba(var(--accent-rgb), 0.22), transparent 60%),
+    radial-gradient(40% 35% at 10% 90%, rgba(var(--accent-rgb), 0.12), transparent 70%);
+}
+
+.sa-inner {
+  position: relative;
+  max-width: min(1320px, var(--container-max));
+  margin: 0 auto;
+}
 
 .sa-head {
-  margin-bottom: clamp(3rem, 5vw, 4rem);
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.3rem;
+  margin-bottom: clamp(3rem, 5vw, 4rem);
 
   .sa-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
     font-family: var(--font-body);
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--accent);
+  }
+  .sa-label-line {
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.6;
   }
 }
 
@@ -40,6 +55,17 @@
   max-width: 22ch;
 }
 
+.sa-stage {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+
+  @media (max-width: 980px) {
+    grid-template-columns: 1fr;
+  }
+}
+
 .sa-list {
   list-style: none;
   display: flex;
@@ -48,59 +74,175 @@
 }
 
 .sa-step {
+  position: relative;
   display: grid;
-  grid-template-columns: 80px 1fr 60px;
-  gap: 2rem;
-  padding: 2rem 0;
+  grid-template-columns: 70px 1fr 50px;
+  gap: 1.8rem;
+  padding: 1.8rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   align-items: start;
-  transition: padding-left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+  transition: padding-left 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              color 0.4s ease;
 
-  &:hover { padding-left: 1.2rem; }
-  &:hover .sa-step-num { color: var(--accent); }
-  &:hover h3 {
-    color: var(--accent);
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 400;
+  .sa-step-line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:hover, &.is-active {
+    padding-left: 1.3rem;
+    .sa-step-line { transform: scaleY(1); }
+    .sa-step-num { color: var(--accent); }
+    h3 {
+      color: var(--accent);
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+    }
+    .sa-step-icon { transform: rotate(45deg) scale(1.15); }
   }
 }
 
 .sa-step-num {
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 500;
-  color: rgba(var(--ink-rgb), 0.4);
+  color: rgba(var(--ink-rgb), 0.45);
   letter-spacing: -0.015em;
-  padding-top: 0.1rem;
-  transition: color 0.3s ease;
+  padding-top: 0.4rem;
+  transition: color 0.35s ease;
 }
 
 .sa-step-content {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.65rem;
 
   h3 {
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
     font-weight: 500;
     letter-spacing: -0.015em;
-    line-height: 1.1;
-    transition: color 0.3s ease;
+    line-height: 1.12;
+    transition: color 0.35s ease;
   }
   p {
     font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.55;
+    font-size: 0.98rem;
+    line-height: 1.6;
     color: rgba(var(--ink-rgb), 0.7);
-    max-width: 60ch;
+    max-width: 56ch;
   }
 }
 
 .sa-step-icon {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: var(--accent);
-  padding-top: 0.2rem;
+  padding-top: 0.4rem;
   text-align: right;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Visual panel — sticky on desktop, hidden on mobile (steps are enough) */
+.sa-visual {
+  position: sticky;
+  top: clamp(6rem, 12vh, 8rem);
+  aspect-ratio: 4 / 5;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+
+  @media (max-width: 980px) {
+    position: relative;
+    top: auto;
+    aspect-ratio: 5 / 4;
+    margin-top: 2rem;
+  }
+}
+
+.sa-visual-frame {
+  position: absolute;
+  inset: 0;
+}
+
+.sa-visual-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.05);
+  filter: saturate(0.7) brightness(0.85);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  &.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sa-visual-tint {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(14, 16, 34, 0.0) 30%, rgba(14, 16, 34, 0.85) 100%),
+    radial-gradient(50% 60% at 30% 30%, rgba(var(--accent-rgb), 0.18), transparent 70%);
+  pointer-events: none;
+}
+
+.sa-visual-meta {
+  position: absolute;
+  left: 1.4rem;
+  right: 1.4rem;
+  bottom: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  pointer-events: none;
+
+  .sa-visual-num {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .sa-visual-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: -0.01em;
+    line-height: 1.18;
+  }
+}
+
+.sa-visual-rings {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  display: flex;
+  gap: 0.4rem;
+  pointer-events: none;
+
+  span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+  }
+  span:first-child {
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.25);
+  }
 }

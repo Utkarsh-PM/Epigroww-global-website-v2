@@ -333,6 +333,26 @@ html[data-theme="light"] {
     span { color: #fff; }
     &:hover { background: #1E1F3A; }
   }
+
+  /* 18 — Pillars (Capabilities) italic subtitles ("Creative sits at the top.",
+          "Precision in every impression.", etc.) use `--pillar-accent` which is
+          a very pale lime — invisible on the cream/white light-mode background.
+          Swap to dark ink + a lime highlighter, matching the existing
+          `.serif` / `.hero-accent` treatment so the brand pop stays. */
+  .pillar-title .pillar-title-sub {
+    color: var(--ink);
+    background-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 72%,
+      rgba(var(--brand-lime-rgb), 0.7) 72%,
+      rgba(var(--brand-lime-rgb), 0.7) 96%,
+      transparent 96%
+    );
+    background-repeat: no-repeat;
+    display: inline-block;
+    padding: 0 0.18em;
+  }
 }
 
 html, body {

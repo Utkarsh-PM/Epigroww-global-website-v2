@@ -47,8 +47,12 @@
   display: grid;
   grid-template-columns: 2fr repeat(4, 1fr) 1.4fr;
   padding: 1.2rem 1.5rem;
-  background: var(--ink);
-  color: var(--cream-on-dark);
+  /* Theme-stable dark bar: in light mode --ink is navy + --cream-on-dark is
+     light = readable. In dark mode --ink is light cream + --cream-on-dark is
+     also light = invisible. Pin to the dark slab token + fixed light text so
+     the header reads in BOTH themes. */
+  background: var(--dark-bg);
+  color: #F0F0F0;
   font-family: var(--font-body);
   font-size: 0.72rem;
   letter-spacing: 0.15em;

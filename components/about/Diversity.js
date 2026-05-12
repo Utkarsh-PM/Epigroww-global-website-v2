@@ -7,11 +7,11 @@ import "./Diversity.scss";
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const BARS = [
-  { label: "White", pct: 40, color: "#E3E65D" },
-  { label: "Asian", pct: 30, color: "#CFDE54" },
-  { label: "Hispanic · Latinx", pct: 19, color: "#F4F0A0" },
-  { label: "Black", pct: 8, color: "#B5B847" },
-  { label: "Two or more races", pct: 3, color: "#F0F0F0" },
+  { label: "New Delhi · India", pct: 38, color: "#E3E65D" },
+  { label: "Mumbai · India", pct: 26, color: "#CFDE54" },
+  { label: "Kolkata · India", pct: 14, color: "#F4F0A0" },
+  { label: "Dubai · UAE", pct: 12, color: "#B5B847" },
+  { label: "Toronto · Canada", pct: 10, color: "#F0F0F0" },
 ];
 
 export default function Diversity() {
@@ -76,7 +76,7 @@ export default function Diversity() {
 
         <div className="dv-chart">
           <div className="dv-chart-top">
-            <span>Workforce composition</span>
+            <span>Team distribution · studios</span>
             <span>FY 2025 – 26</span>
           </div>
           {BARS.map((b, i) => (

@@ -12,7 +12,7 @@ const CITIES = [
     country: "India",
     tz: "IST +05:30",
     role: "Global HQ · Media & Tech",
-    x: 68.5, y: 40.5,
+    lat: 28.6139, lng: 77.2090,
     time: "09:00",
     blurb: "Our growth engine room — performance, analytics, and the research lab.",
   },
@@ -21,7 +21,7 @@ const CITIES = [
     country: "India",
     tz: "IST +05:30",
     role: "Brand & Film Studio",
-    x: 67, y: 45,
+    lat: 19.0760, lng: 72.8777,
     time: "09:00",
     blurb: "Where the creative happens — writers, art directors, and our in-house film team.",
   },
@@ -30,7 +30,7 @@ const CITIES = [
     country: "United Arab Emirates",
     tz: "GST +04:00",
     role: "MENA Growth Hub",
-    x: 62, y: 44,
+    lat: 25.276987, lng: 55.296249,
     time: "07:30",
     blurb: "Servicing brands across the Gulf — Arabic-native production and MENA media buys.",
   },
@@ -39,7 +39,7 @@ const CITIES = [
     country: "Canada",
     tz: "EDT −04:00",
     role: "North America Studio",
-    x: 25, y: 34,
+    lat: 43.6532, lng: -79.3832,
     time: "23:30",
     blurb: "Our bridge to NA brands — account leads, performance creative, and new-market launches.",
   },
@@ -48,6 +48,28 @@ const CITIES = [
 export default function GlobalFootprint() {
   const ref = useRef(null);
   const [active, setActive] = useState(0);
+  // Debounced "map city" — the right-side list highlights instantly, but the
+  // map fade only commits once the cursor settles. Stops the opacity cross-
+  // fade from re-triggering on every micro-hover between adjacent rows.
+  const [mapCity, setMapCity] = useState(0);
+  // Which city iframes have been mounted at least once. We keep them mounted
+  // forever so the second visit to a city is instant (no Google Maps reload).
+  const [loaded, setLoaded] = useState(() => new Set([0]));
+
+  useEffect(() => {
+    if (active === mapCity) return;
+    const t = setTimeout(() => setMapCity(active), 220);
+    return () => clearTimeout(t);
+  }, [active, mapCity]);
+
+  useEffect(() => {
+    if (loaded.has(mapCity)) return;
+    setLoaded((prev) => {
+      const next = new Set(prev);
+      next.add(mapCity);
+      return next;
+    });
+  }, [mapCity, loaded]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -64,31 +86,21 @@ export default function GlobalFootprint() {
       );
 
       gsap.fromTo(
-        ".gf-map-dot",
-        { scale: 0, opacity: 0 },
+        ".gf-map",
+        { opacity: 0, y: 30 },
         {
-          scale: 1,
           opacity: 1,
-          duration: 0.75,
-          ease: "back.out(1.6)",
-          stagger: 0.12,
-          scrollTrigger: { trigger: ".gf-map", start: "top 80%" },
-        }
-      );
-
-      gsap.fromTo(
-        ".gf-map-arc",
-        { strokeDashoffset: 600 },
-        {
-          strokeDashoffset: 0,
-          duration: 2.4,
+          y: 0,
+          duration: 1.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".gf-map", start: "top 75%" },
+          scrollTrigger: { trigger: ".gf-map", start: "top 85%" },
         }
       );
     }, ref);
     return () => ctx.revert();
   }, []);
+
+  const current = CITIES[mapCity];
 
   return (
     <section ref={ref} className="gf">
@@ -106,48 +118,36 @@ export default function GlobalFootprint() {
 
         <div className="gf-stage">
           <div className="gf-map">
-            <svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-              <defs>
-                <pattern id="dotgrid" x="0" y="0" width="1.2" height="1.2" patternUnits="userSpaceOnUse">
-                  <circle cx="0.6" cy="0.6" r="0.15" fill="rgba(10,10,10,0.2)" />
-                </pattern>
-                <mask id="worldmask">
-                  <rect width="100" height="60" fill="black" />
-                  {/* Simplified world landmass suggestions */}
-                  <ellipse cx="26" cy="32" rx="12" ry="9" fill="white" />
-                  <ellipse cx="50" cy="42" rx="7" ry="11" fill="white" />
-                  <ellipse cx="50" cy="28" rx="10" ry="6" fill="white" />
-                  <ellipse cx="68" cy="36" rx="16" ry="10" fill="white" />
-                  <ellipse cx="82" cy="46" rx="6" ry="4" fill="white" />
-                </mask>
-              </defs>
-              <rect width="100" height="60" fill="url(#dotgrid)" mask="url(#worldmask)" />
+            <div className="gf-map-frame">
+              {CITIES.map((c, i) => {
+                if (!loaded.has(i)) return null;
+                const src = `https://maps.google.com/maps?q=${c.lat},${c.lng}&z=10&output=embed`;
+                return (
+                  <iframe
+                    key={c.city}
+                    title={`Map of ${c.city}`}
+                    src={src}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                    className={`gf-map-iframe ${mapCity === i ? "is-active" : ""}`}
+                  />
+                );
+              })}
+            </div>
 
-              {/* Arcs connecting cities */}
-              <path className="gf-map-arc" d="M 25 34 Q 46 22 68.5 40.5" />
-              <path className="gf-map-arc" d="M 68.5 40.5 Q 65.5 40 67 45" />
-              <path className="gf-map-arc" d="M 67 45 Q 64.5 44 62 44" />
-              <path className="gf-map-arc" d="M 62 44 Q 42 22 25 34" />
-            </svg>
+            <div className="gf-map-overlay" aria-hidden="true">
+              <span className="gf-map-pin">
+                <span className="gf-map-pin-ring" />
+                <span className="gf-map-pin-core" />
+              </span>
+            </div>
 
-            {CITIES.map((c, i) => (
-              <button
-                key={c.city}
-                className={`gf-map-dot ${active === i ? "is-active" : ""}`}
-                style={{ left: `${c.x}%`, top: `${c.y}%` }}
-                onMouseEnter={() => setActive(i)}
-                onClick={() => setActive(i)}
-                data-cursor="hover"
-                aria-label={c.city}
-              >
-                <span className="gf-dot-ring" />
-                <span className="gf-dot-core" />
-                <span className="gf-dot-label">
-                  <span>{c.city}</span>
-                  <span className="gf-dot-time">{c.time}</span>
-                </span>
-              </button>
-            ))}
+            <div className="gf-map-badge">
+              <span className="gf-map-badge-dot" />
+              <span className="gf-map-badge-city">{current.city}</span>
+              <span className="gf-map-badge-time">{current.time} · {current.tz}</span>
+            </div>
           </div>
 
           <div className="gf-detail">

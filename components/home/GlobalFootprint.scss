@@ -56,7 +56,11 @@
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: clamp(2rem, 4vw, 4rem);
-  align-items: stretch;
+  /* `start` (not the default `stretch`) so the right-column detail panel's
+     natural height — which varies per city blurb — never stretches the map
+     cell next to it. That stretch was driving the section "shake" when the
+     active city flipped on hover. */
+  align-items: start;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
@@ -70,95 +74,112 @@
   background: var(--bg);
   border: 1px solid var(--line);
   overflow: hidden;
-  padding: 1.4rem;
+  box-shadow: 0 22px 60px rgba(20, 23, 48, 0.18);
 
-  svg {
+  .gf-map-frame {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
   }
 
-  .gf-map-arc {
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 0.3;
-    stroke-linecap: round;
-    stroke-dasharray: 600;
-    stroke-dashoffset: 600;
-    opacity: 0.6;
+  /* All four city maps stack inside .gf-map-frame and only the active one
+     is faded in. They mount once on first activation and stay mounted forever,
+     so re-visiting a city is instant (no Google Maps reload, no flash). */
+  .gf-map-iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    /* Slightly desaturate the embed so it sits nicely with the surrounding
+       cream / navy theme instead of fighting it. */
+    filter: saturate(0.85) contrast(0.96);
+    transition: opacity 0.45s ease;
+    will-change: opacity;
+
+    &.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
   }
 }
 
-.gf-map-dot {
+/* Centre map pin overlay — pure decoration that sits above the iframe so a
+   familiar marker is always visible, regardless of where Google centres the
+   embed. */
+.gf-map-overlay {
   position: absolute;
-  transform: translate(-50%, -50%);
-  width: 36px;
-  height: 36px;
-  background: none;
-  padding: 0;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.gf-map-pin {
+  position: relative;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  .gf-dot-ring {
+  .gf-map-pin-ring {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    inset: -6px;
     border-radius: 50%;
-    border: 1px solid var(--accent);
-    opacity: 0.25;
-    animation: pingDot 2.4s ease-out infinite;
+    border: 1.5px solid var(--accent);
+    opacity: 0.35;
+    animation: gfPingDot 2.4s ease-out infinite;
   }
-  .gf-dot-core {
-    position: relative;
-    width: 10px;
-    height: 10px;
+  .gf-map-pin-core {
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: var(--accent);
-    box-shadow: 0 0 0 3px rgba(14, 16, 34, 0.8);
-    z-index: 1;
-    transition: transform 0.3s ease;
-  }
-
-  .gf-dot-label {
-    position: absolute;
-    left: calc(100% + 10px);
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    background: var(--ink);
-    color: var(--bg);
-    padding: 0.4rem 0.7rem;
-    border-radius: 8px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    font-family: var(--font-body);
-    font-size: 0.78rem;
-    font-weight: 500;
-
-    .gf-dot-time {
-      font-size: 0.7rem;
-      color: rgba(244, 241, 234, 0.6);
-      letter-spacing: 0.08em;
-    }
-  }
-
-  &:hover .gf-dot-label,
-  &.is-active .gf-dot-label {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-  }
-  &:hover .gf-dot-core,
-  &.is-active .gf-dot-core {
-    transform: scale(1.6);
+    box-shadow: 0 0 0 3px rgba(20, 23, 48, 0.78),
+                0 6px 14px rgba(20, 23, 48, 0.45);
   }
 }
 
-@keyframes pingDot {
-  0% { transform: scale(0.6); opacity: 0.6; }
-  100% { transform: scale(2.4); opacity: 0; }
+.gf-map-badge {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.95rem;
+  background: rgba(14, 16, 34, 0.82);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  border-radius: 40px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #f0f0f0;
+  z-index: 3;
+
+  .gf-map-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.25);
+  }
+  .gf-map-badge-city { font-weight: 600; letter-spacing: 0.12em; }
+  .gf-map-badge-time { opacity: 0.65; }
+}
+
+@keyframes gfPingDot {
+  0% { transform: scale(0.85); opacity: 0.55; }
+  100% { transform: scale(1.9); opacity: 0; }
 }
 
 .gf-detail {
@@ -214,6 +235,12 @@
   color: var(--ink);
   margin-top: 0.6rem;
   max-width: 38ch;
+  /* Different city blurbs wrap to a different number of lines. Without a
+     locked min-height, switching the active city would resize this paragraph
+     → push the list below it up / down → move the row under the cursor →
+     flip the active city again → infinite shake. Reserve room for the
+     longest blurb (~3 lines) so the list rows below stay anchored. */
+  min-height: calc(3 * 1.55em);
 }
 
 .gf-detail-list {
@@ -234,7 +261,11 @@
   font-size: 0.9rem;
   color: var(--ink-60);
   text-align: left;
-  transition: color 0.3s ease, padding-left 0.3s ease;
+  /* Transform-based shift is GPU-accelerated and skips layout, so adjacent
+     rows don't shake when the cursor moves between them. */
+  transform: translateX(0);
+  will-change: transform;
+  transition: color 0.3s ease, transform 0.3s ease;
 
   span:first-child {
     font-size: 0.72rem;
@@ -250,7 +281,7 @@
 
   &:hover, &.is-active {
     color: var(--ink);
-    padding-left: 0.6rem;
+    transform: translateX(0.6rem);
     .gf-detail-arrow { opacity: 1; transform: translateX(0); }
   }
 }
