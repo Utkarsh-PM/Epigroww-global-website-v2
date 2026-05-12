@@ -40,8 +40,9 @@ const payload = await getPayload({ config });
  * Re-running this is a no-op if the user is already there.
  * ────────────────────────────────────────────────────────────────────── */
 
+// Fixed credentials — do not change in scripts. Reset only via the admin UI.
 const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL || "utkarsh@epigrowwglobal.com";
-const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD || "ChangeMe!2026";
+const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD || "Empire2026!";
 
 {
   const { docs } = await payload.find({
