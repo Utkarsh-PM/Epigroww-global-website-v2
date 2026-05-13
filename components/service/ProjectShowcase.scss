@@ -6,11 +6,13 @@
   color: var(--ink);
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  /* Clip absolutely-positioned cards inside the section. Without this the
+     last card's body extends past the section's 100vh and bleeds into the
+     section below (the "colliding cards" reported on the AI / Tech pages). */
+  overflow: hidden;
 
   @media (max-width: 900px) {
     height: auto;
-    overflow: hidden;
     padding: clamp(4rem, 8vw, 6rem) clamp(1.25rem, 3vw, 2.5rem);
   }
 }
@@ -25,10 +27,13 @@
   padding: 0 clamp(1.25rem, 3vw, 2.5rem);
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  /* Match the section's clipping — anything outside .ps-stage during the
+     pinned-stack animation should be cut off, not bleed downward. */
+  overflow: hidden;
 
   @media (max-width: 900px) {
     padding: 0;
+    overflow: visible;
   }
 }
 

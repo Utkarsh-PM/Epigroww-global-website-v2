@@ -6,7 +6,7 @@ import FunnelStages from "../../../components/service/FunnelStages";
 import CTA from "../../../components/shared/CTA";
 
 export const metadata = {
-  title: "Ecommerce Solutions — Epigroww Global",
+  title: "Commerce Solutions — Epigroww Global",
   description:
     "End-to-end D2C and marketplace commerce — Shopify, custom storefronts, marketplace P&Ls, CRO, fulfilment integrations and retention engines. One pod, one revenue line.",
 };
@@ -111,7 +111,7 @@ export default function EcommerceSolutionsPage() {
   return (
     <>
       <ServiceHero
-        pillarLabel="Ecommerce Solutions"
+        pillarLabel="Commerce Solutions"
         pillarNum="05"
         headingStart="Commerce that"
         headingAccent="compounds"

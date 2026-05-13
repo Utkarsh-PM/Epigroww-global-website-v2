@@ -46,7 +46,7 @@ const PILLARS = [
   {
     k: "ecommerce",
     num: "05",
-    label: "Ecommerce",
+    label: "Commerce",
     sub: "The revenue line",
     desc: "D2C storefronts, marketplace P&Ls, CRO, fulfilment and retention — engineered as one revenue product, not five stitched vendors.",
     services: ["Shopify & D2C", "Marketplaces", "CRO", "Retention"],

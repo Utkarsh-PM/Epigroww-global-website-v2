@@ -1,6 +1,11 @@
 .ss {
   padding: clamp(5rem, 10vw, 9rem) clamp(1.25rem, 3vw, 2.5rem);
-  background: var(--bg-alt);
+  /* Match the section that precedes ServiceApproach on the AI page
+     (VisualShowcase uses var(--bg)). Using --bg here means the rounded-top
+     corners of the next section (ServiceApproach) reveal the same canvas
+     tone instead of the lighter --bg-alt strip that previously created a
+     visible mismatched band at the corners. */
+  background: var(--bg);
 }
 
 .ss-inner { max-width: min(1240px, var(--container-max)); margin: 0 auto; }
@@ -46,7 +51,9 @@
   grid-template-columns: 90px 1fr;
   gap: 1.5rem;
   padding: 2rem;
-  background: var(--bg);
+  /* Section background is now --bg, so layer cards lift to --bg-alt to keep
+     a visible card silhouette against the canvas. */
+  background: var(--bg-alt);
   border: 1px solid var(--line);
   border-radius: 18px;
   transition: border-color 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -100,7 +107,9 @@
       border: 1px solid var(--line);
       border-radius: 50px;
       color: var(--ink);
-      background: var(--bg-alt);
+      /* Pills sit on the --bg-alt layer card, so step back to --bg to
+         keep them readable against the card surface. */
+      background: var(--bg);
     }
   }
 }

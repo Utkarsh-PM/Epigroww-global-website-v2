@@ -36,65 +36,72 @@ export default function ProjectShowcase({
       const cards = cardsRef.current.filter(Boolean);
       if (!cards.length) return;
 
-      // Mobile / narrow viewports: don't pin or stack. Cards render as a
-      // normal vertical list and the user just scrolls past them.
-      const isNarrow = window.matchMedia("(max-width: 900px)").matches;
-      if (isNarrow) {
-        cards.forEach((c) => gsap.set(c, { clearProps: "all" }));
-        return;
-      }
+      // gsap.matchMedia handles teardown automatically when the viewport
+      // crosses the breakpoint. This prevents desktop-pinned ScrollTriggers
+      // from "sticking" after a resize to mobile (which was making the page
+      // feel scroll-locked on narrow viewports).
+      const mm = gsap.matchMedia();
 
-      const sectionH = sectionRef.current.offsetHeight;
-      const headerH = headerRef.current.offsetHeight;
-      const cardsContainerH = sectionH - headerH;
+      mm.add("(min-width: 901px)", () => {
+        const sectionH = sectionRef.current.offsetHeight;
+        const headerH = headerRef.current.offsetHeight;
+        const cardsContainerH = sectionH - headerH;
 
-      // Reserve enough room for the *last* card's content panel to remain
-      // visible when every previous card has stacked on top. Stripes between
-      // cards (the part of the prior card that peeks above the next) auto-
-      // scale to fit this constraint.
-      const reservedForContent = 420;
-      const maxOffset = Math.max(0, cardsContainerH - reservedForContent);
-      const stripH = Math.max(
-        50,
-        Math.min(120, Math.floor(maxOffset / Math.max(1, cards.length - 1)))
-      );
+        // Reserve enough room for the *last* card's content panel to remain
+        // visible when every previous card has stacked on top. Stripes between
+        // cards (the part of the prior card that peeks above the next) auto-
+        // scale to fit this constraint.
+        const reservedForContent = 420;
+        const maxOffset = Math.max(0, cardsContainerH - reservedForContent);
+        const stripH = Math.max(
+          50,
+          Math.min(120, Math.floor(maxOffset / Math.max(1, cards.length - 1)))
+        );
 
-      // Sync the JS-derived strip height with CSS via a custom property —
-      // the card "strip" header sizes to match.
-      sectionRef.current.style.setProperty("--ps-strip-h", `${stripH}px`);
+        // Sync the JS-derived strip height with CSS via a custom property —
+        // the card "strip" header sizes to match.
+        sectionRef.current.style.setProperty("--ps-strip-h", `${stripH}px`);
 
-      // Centre the section title vertically initially, then animate to top
-      // during the first card's entrance.
-      const centerY = (sectionH - headerH) / 2;
-      gsap.set(headerRef.current, { y: centerY });
-      cards.forEach((card) => gsap.set(card, { yPercent: 100 }));
+        // Centre the section title vertically initially, then animate to top
+        // during the first card's entrance.
+        const centerY = (sectionH - headerH) / 2;
+        gsap.set(headerRef.current, { y: centerY });
+        cards.forEach((card) => gsap.set(card, { yPercent: 100 }));
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: () => `+=${cards.length * window.innerHeight * 0.8}`,
-          pin: true,
-          scrub: 1,
-          pinSpacing: true,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // Phase 0 — header moves to top + first card slides up
-      tl.to(headerRef.current, { y: 0, duration: 1, ease: "none" }, 0);
-      tl.to(cards[0], { yPercent: 0, duration: 1, ease: "none" }, 0);
-
-      // Subsequent cards slide up, stopping at progressive strip offsets so
-      // a thin slice of each prior card stays visible.
-      for (let i = 1; i < cards.length; i++) {
-        tl.to(cards[i], {
-          yPercent: 0,
-          y: i * stripH,
-          duration: 1,
-          ease: "none",
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${cards.length * window.innerHeight * 0.8}`,
+            pin: true,
+            scrub: 1,
+            pinSpacing: true,
+            invalidateOnRefresh: true,
+          },
         });
-      }
+
+        // Phase 0 — header moves to top + first card slides up
+        tl.to(headerRef.current, { y: 0, duration: 1, ease: "none" }, 0);
+        tl.to(cards[0], { yPercent: 0, duration: 1, ease: "none" }, 0);
+
+        // Subsequent cards slide up, stopping at progressive strip offsets so
+        // a thin slice of each prior card stays visible.
+        for (let i = 1; i < cards.length; i++) {
+          tl.to(cards[i], {
+            yPercent: 0,
+            y: i * stripH,
+            duration: 1,
+            ease: "none",
+          });
+        }
+
+        return () => {
+          // matchMedia cleanup — clear any inline transforms left behind so
+          // the card list reflows as the normal mobile stack.
+          gsap.set(headerRef.current, { clearProps: "all" });
+          cards.forEach((c) => gsap.set(c, { clearProps: "all" }));
+        };
+      });
     }, sectionRef);
 
     return () => ctx.revert();

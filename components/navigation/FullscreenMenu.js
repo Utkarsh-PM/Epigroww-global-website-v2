@@ -12,7 +12,7 @@ const MENU_ITEMS = [
   { label: "Brand Solutions", href: "/brand-solutions", num: "05" },
   { label: "Tech Solutions", href: "/tech-solutions", num: "06" },
   { label: "AI Solutions", href: "/ai-solutions", num: "07" },
-  { label: "Ecommerce Solutions", href: "/ecommerce-solutions", num: "08" },
+  { label: "Commerce Solutions", href: "/ecommerce-solutions", num: "08" },
   { label: "Careers", href: "/careers", num: "09" },
   { label: "Contact", href: "/contact", num: "10" },
 ];

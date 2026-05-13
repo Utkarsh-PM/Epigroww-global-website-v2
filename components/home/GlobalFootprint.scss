@@ -94,6 +94,9 @@
     border: 0;
     display: block;
     opacity: 0;
+    /* Map is presentational only. Disabling pointer-events kills Google's
+       wheel-capture overlay ("Use ⌘ + scroll to zoom the map") and prevents
+       the iframe from intercepting page scroll. */
     pointer-events: none;
     /* Slightly desaturate the embed so it sits nicely with the surrounding
        cream / navy theme instead of fighting it. */
@@ -103,7 +106,6 @@
 
     &.is-active {
       opacity: 1;
-      pointer-events: auto;
     }
   }
 }
