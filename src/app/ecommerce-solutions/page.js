@@ -6,104 +6,110 @@ import FunnelStages from "../../../components/service/FunnelStages";
 import CTA from "../../../components/shared/CTA";
 
 export const metadata = {
-  title: "Commerce Solutions — Epigroww Global",
+  title: "Commerce Vertical — Epigroww Global",
   description:
-    "End-to-end D2C and marketplace commerce — Shopify, custom storefronts, marketplace P&Ls, CRO, fulfilment integrations and retention engines. One pod, one revenue line.",
+    "Full-spectrum commerce built for beauty brands. Strategy, product development, marketplace management, content, visibility and intelligence — all under one roof. Fragrance, Makeup, Personal Care.",
 };
 
 const CAPS = [
   {
     icon: "◆",
-    title: "Shopify & D2C Storefronts",
-    body: "Shopify Plus, Headless, and custom Next.js builds. CRO-led, sub-second LCP, theme-as-code so the next campaign ships in days.",
-    chips: ["Shopify Plus", "Headless", "Next.js", "Sanity"],
+    title: "Strategy & Brand Foundation",
+    body: "Where every brand journey begins — brand consultation, GTM, RTM, AOP, pricing architecture and whitespace identification before a single rupee on execution.",
+    chips: ["GTM", "AOP", "Positioning", "Whitespace"],
     image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1000&q=80",
   },
   {
     icon: "▣",
-    title: "Marketplace Storefronts",
-    body: "Amazon Brand Stores, Flipkart, Myntra, Noon — A+ content, video modules, and creative tuned to convert in-feed.",
-    chips: ["Amazon A+", "Flipkart", "Myntra", "Noon"],
-    image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1000&q=80",
+    title: "Product Development Consultation",
+    body: "From concept to shelf — NPD for fragrance, makeup and skincare, formulation briefs, packaging strategy and regulatory guidance grounded in market intelligence.",
+    chips: ["Fragrance", "Makeup", "Skincare", "Regulatory"],
+    image: "https://images.unsplash.com/photo-1522335789203-aaa2c1c01b9c?auto=format&fit=crop&w=1000&q=80",
   },
   {
     icon: "◉",
-    title: "Conversion Rate Optimization",
-    body: "PDP audits, funnel teardowns, on-site search, exit-intent flows — every percentage point of lift compounds into the LTV line.",
-    chips: ["A/B testing", "Heatmaps", "PDP CRO", "Funnel"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80",
+    title: "E-Commerce Management",
+    body: "End-to-end marketplace ownership — onboarding, listings, ads, inventory, pricing monitoring and QCOM across Amazon, Flipkart, Nykaa, Myntra, Blinkit and beyond.",
+    chips: ["Amazon", "Flipkart", "Nykaa", "QCOM"],
+    image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1000&q=80",
   },
   {
     icon: "●",
-    title: "Catalog, OMS & Fulfilment",
-    body: "PIM, OMS, WMS, and 3PL integrations. Stock, pricing, and SKU sanity stitched into one source of truth.",
-    chips: ["PIM", "OMS", "WMS", "3PL"],
-    image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1000&q=80",
+    title: "Content & Digital Presence",
+    body: "Content that converts — SEO listings, A+ pages, brand stores, photography and video direction benchmarked against competitor content at every scroll.",
+    chips: ["A+ Content", "Brand Store", "SEO", "Imagery"],
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=1000&q=80",
   },
   {
     icon: "▲",
-    title: "Retention & Lifecycle",
-    body: "Email, SMS, WhatsApp, loyalty — second-purchase engines that out-earn your acquisition spend by month four.",
-    chips: ["Klaviyo", "MoEngage", "WhatsApp", "Loyalty"],
+    title: "Visibility, Traffic & Growth",
+    body: "Driving discovery across touchpoints — category visibility, campaign planning (BBD, GIF, Pink Friday), external traffic, influencer, affiliate and CRM loyalty.",
+    chips: ["Banners", "Meta", "Google", "Influencer"],
     image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=1000&q=80",
   },
   {
     icon: "✦",
-    title: "Payments, Cart & Checkout",
-    body: "Local payment rails, one-page checkout, BNPL, COD recovery, address intelligence — engineered against drop-off, not for it.",
-    chips: ["Razorpay", "Stripe", "BNPL", "COD"],
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1000&q=80",
+    title: "Intelligence & Operations",
+    body: "The backbone of scalable commerce — live competitor and performance dashboards, GT structuring, warehousing, last-mile and supply-chain consulting.",
+    chips: ["Dashboards", "GT", "Warehousing", "Supply Chain"],
+    image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1000&q=80",
   },
 ];
 
 const APPROACH = [
   {
-    title: "Storefront as a revenue product",
-    body: "We treat your storefront like a software product — releases, instrumentation, weekly metric reviews. Not a one-off 'project'.",
+    title: "Pricing & Assortment",
+    body: "Live competitor price monitoring across platforms — every SKU benchmarked against the category leaders, every day.",
     icon: "↗",
     image: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=1100&q=80",
   },
   {
-    title: "Funnel-first, not feature-first",
-    body: "Every roadmap item earns its slot against a funnel KPI. Vanity features get killed before the sprint starts.",
+    title: "Ad Share & Keywords",
+    body: "Keyword gaps and sponsored-slot benchmarking — your ad rupee placed exactly where competitors are losing ground.",
     icon: "※",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1100&q=80",
   },
   {
-    title: "Creative + commerce, same pod",
-    body: "PDP copy, hero films, lifecycle creatives — produced by the same studio shipping your media. Brand voice never leaks.",
+    title: "Content & Listings",
+    body: "Title, claims, A+ and image benchmarking — every listing module measured against what's already converting in your category.",
     icon: "◉",
     image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1100&q=80",
   },
   {
-    title: "Compounds via retention",
-    body: "Acquisition pays the first order. Retention pays the brand. We engineer for second-purchase from day one.",
+    title: "Review & Sentiment",
+    body: "Mining competitor reviews for positioning gaps — turning what their customers complain about into your next claim.",
     icon: "∞",
     image: "https://images.unsplash.com/photo-1556228724-4dac9da92d52?auto=format&fit=crop&w=1100&q=80",
+  },
+  {
+    title: "Visibility & Share",
+    body: "Share-of-voice and category placement tracking — banner, search and homepage real estate audited against the competition, weekly.",
+    icon: "△",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1100&q=80",
   },
 ];
 
 const VOICES = [
   {
     quote:
-      "Replatform to Shopify Plus + retention rebuild — repeat purchase rate doubled inside two quarters.",
+      "From listings to last-mile — finally one team that understands beauty. Our marketplace P&L looks like a real business now.",
     name: "Sandeep Arora",
     role: "CEO · JK Lifestyle",
-    tag: "D2C · Beauty",
+    tag: "Fragrance · D2C",
   },
   {
     quote:
-      "Our Amazon P&L finally looks like a real business. The PPC, A+ and retention loops all run from the same pod.",
+      "The competitor dashboard alone changed how we price every launch. We see ad share and keyword gaps before our category managers do.",
     name: "Jatinder Chaudhary",
     role: "Director · JCBL Group",
-    tag: "Marketplace",
+    tag: "Personal Care",
   },
   {
     quote:
-      "Sub-second LCP on a catalog of 4,000 SKUs — and a CMS our merchandiser actually opens every morning.",
+      "Strategy, NPD, content and ops out of one pod — we cut three vendors and shipped two new SKUs in a single quarter.",
     name: "Mohit Bubber",
     role: "Founder · Cinegold",
-    tag: "Commerce · Tech",
+    tag: "Makeup",
   },
 ];
 
@@ -111,39 +117,39 @@ export default function EcommerceSolutionsPage() {
   return (
     <>
       <ServiceHero
-        pillarLabel="Commerce Solutions"
+        pillarLabel="Commerce Vertical"
         pillarNum="05"
-        headingStart="Commerce that"
-        headingAccent="compounds"
-        headingEnd="from first click to second purchase."
-        lede="D2C storefronts, marketplace P&Ls, CRO, fulfilment and retention — engineered as one revenue product, not five stitched vendors. Sub-second pages, weekly releases, second-purchase rates that actually move."
+        headingStart="Full-spectrum commerce."
+        headingAccent="Built"
+        headingEnd="for beauty brands."
+        lede="A dedicated commerce partner for Fragrance, Makeup and Personal Care. From first brief to last mile — strategy, execution and intelligence under one expert team, with competitor benchmarking embedded at every layer."
         stats={[
-          { num: "120+", label: "Stores shipped" },
-          { num: "0.9s", label: "Median LCP" },
-          { num: "2.4×", label: "Avg. repeat-purchase lift" },
+          { num: "50+", label: "Brands scaled" },
+          { num: "8+", label: "Platforms & QCOM" },
+          { num: "360°", label: "Coverage" },
         ]}
         variant="ecommerce"
       />
       <EcommerceCapabilities
-        title="Six surfaces."
+        title="Six services."
         accent="One commerce engine."
-        intro="Storefront, marketplace, CRO, catalog, retention, payments — one team, one scorecard, one revenue line. The bits your CFO reads agree with the bits your merchandiser ships."
+        intro="Strategy, NPD, marketplace, content, visibility and intelligence — one expert team, one scorecard, one revenue line. Every decision benchmarked against the competition."
         items={CAPS}
       />
       <FunnelStages />
       <ServiceApproach
-        title="Storefront-as-product. Funnel-first."
-        subtitle="The operating philosophy"
+        title="Competitor intelligence, embedded in everything."
+        subtitle="Our approach"
         steps={APPROACH}
       />
       <ServiceVoices
-        title="Operators who compounded with us."
+        title="Operators who scaled with us."
         voices={VOICES}
       />
       <CTA
-        eyebrow="— Commerce starts here"
-        heading="Ready to make your storefront the most reliable line on your P&L?"
-        accent="most reliable line on your P&L"
+        eyebrow="— Build a brand that sells"
+        heading="Ready to build a brand that sells across every shelf?"
+        accent="brand that sells"
       />
     </>
   );
