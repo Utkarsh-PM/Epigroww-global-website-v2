@@ -8,6 +8,7 @@ import CTA from "../../../components/shared/CTA";
 export const metadata = {
   title: "Media Solutions — Epigroww Global",
   description: "Omni-channel paid media that earns its CAC. Paid social, search, programmatic, OTT, marketplaces, and retention — always-on and live-tuned.",
+  alternates: { canonical: "/media-solutions" },
 };
 
 const CAPS = [

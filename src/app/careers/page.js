@@ -8,6 +8,7 @@ import ApplyBar from "../../../components/careers/ApplyBar";
 export const metadata = {
   title: "Careers — Epigroww Global",
   description: "Join a culture that values big ideas over bureaucracy. Remote-first, globally delivered, empire-built — not ladder-climbed.",
+  alternates: { canonical: "/careers" },
 };
 
 export default function CareersPage() {

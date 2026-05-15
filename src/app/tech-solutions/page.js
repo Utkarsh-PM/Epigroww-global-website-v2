@@ -11,6 +11,7 @@ import CTA from "../../../components/shared/CTA";
 export const metadata = {
   title: "Tech Solutions — Epigroww Global",
   description: "Custom software, websites, and mobile apps engineered with modern design, GSAP and Framer Motion animations, AI-accelerated delivery, and SaaS-grade architecture ready for market launch.",
+  alternates: { canonical: "/tech-solutions" },
 };
 
 const CAPS = [

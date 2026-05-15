@@ -7,6 +7,7 @@ import "./BrandMarquee.scss";
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const LOGOS = [
+  { name: "HALDIRAM", style: "script" },
   { name: "WINZO", style: "italic-bold" },
   { name: "SATMOLA", style: "oval" },
   { name: "POSTBOX", style: "outline" },

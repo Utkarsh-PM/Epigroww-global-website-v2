@@ -9,6 +9,7 @@ import CTA from "../../../components/shared/CTA";
 export const metadata = {
   title: "Brand Solutions — Epigroww Global",
   description: "Creative sits at the top. From copy to TVC commercials, from influencer UGC to CGI — a creative house producing 100+ pieces of work every week.",
+  alternates: { canonical: "/brand-solutions" },
 };
 
 const CAPS = [

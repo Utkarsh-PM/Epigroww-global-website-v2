@@ -9,6 +9,7 @@ export const metadata = {
   title: "Commerce Vertical — Epigroww Global",
   description:
     "Full-spectrum commerce built for beauty brands. Strategy, product development, marketplace management, content, visibility and intelligence — all under one roof. Fragrance, Makeup, Personal Care.",
+  alternates: { canonical: "/ecommerce-solutions" },
 };
 
 const CAPS = [

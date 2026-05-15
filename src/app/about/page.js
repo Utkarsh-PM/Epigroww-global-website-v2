@@ -10,6 +10,7 @@ import CTA from "../../../components/shared/CTA";
 export const metadata = {
   title: "About — Epigroww Global",
   description: "Minority-founded in 2021. 100+ specialists across Delhi, Mumbai, Dubai & Toronto. Our mission is to become the world's most trusted growth partner.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {

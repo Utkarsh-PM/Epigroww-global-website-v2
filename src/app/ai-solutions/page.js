@@ -10,6 +10,7 @@ import CTA from "../../../components/shared/CTA";
 export const metadata = {
   title: "AI Solutions — Epigroww Global",
   description: "AI automations, custom agentic systems, and AI-powered products engineered to automate business processes and scale revenue for ambitious brands.",
+  alternates: { canonical: "/ai-solutions" },
 };
 
 const CAPS = [

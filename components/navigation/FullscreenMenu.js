@@ -147,9 +147,9 @@ export default function FullscreenMenu({ open, onClose }) {
           </div>
           <div className="fs-meta-col">
             <div className="fs-caption">Social</div>
-            <a href="#" data-cursor="hover">LinkedIn ↗</a>
-            <a href="#" data-cursor="hover">Instagram ↗</a>
-            <a href="#" data-cursor="hover">Facebook ↗</a>
+            <a href="https://www.linkedin.com/company/epigroww-global" target="_blank" rel="noopener noreferrer" data-cursor="hover">LinkedIn ↗</a>
+            <a href="https://www.instagram.com/epigrowwglobal" target="_blank" rel="noopener noreferrer" data-cursor="hover">Instagram ↗</a>
+            <a href="https://www.facebook.com/epigrowwhq" target="_blank" rel="noopener noreferrer" data-cursor="hover">Facebook ↗</a>
           </div>
         </div>
       </div>

@@ -86,9 +86,9 @@ export default function Footer() {
             </ul>
             <div className="footer-caption" style={{ marginTop: '1.2rem' }}>Socials</div>
             <ul className="footer-socials">
-              <li><a href="#" data-cursor="hover">LinkedIn ↗</a></li>
-              <li><a href="#" data-cursor="hover">Instagram ↗</a></li>
-              <li><a href="#" data-cursor="hover">Facebook ↗</a></li>
+              <li><a href="https://www.linkedin.com/company/epigroww-global" target="_blank" rel="noopener noreferrer" data-cursor="hover">LinkedIn ↗</a></li>
+              <li><a href="https://www.instagram.com/epigrowwglobal" target="_blank" rel="noopener noreferrer" data-cursor="hover">Instagram ↗</a></li>
+              <li><a href="https://www.facebook.com/epigrowwhq" target="_blank" rel="noopener noreferrer" data-cursor="hover">Facebook ↗</a></li>
             </ul>
           </div>
         </div>
@@ -109,6 +109,14 @@ export default function Footer() {
               </span>
             ))}
           </div>
+        </div>
+
+        <div className="footer-legal">
+          <Link href="/privacy-policy" data-cursor="hover">Privacy Policy</Link>
+          <span className="footer-legal-sep" aria-hidden="true">·</span>
+          <Link href="/terms-and-conditions" data-cursor="hover">Terms &amp; Conditions</Link>
+          <span className="footer-legal-sep" aria-hidden="true">·</span>
+          <Link href="/refunds-policy" data-cursor="hover">Refund &amp; Cancellation</Link>
         </div>
 
         <div className="footer-bottom">

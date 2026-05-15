@@ -158,6 +158,35 @@
 
 .footer-socials li a { font-size: 0.88rem; }
 
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  padding-top: 1.4rem;
+  margin-top: 0.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: rgba(var(--ink-rgb), 0.55);
+
+  a {
+    color: rgba(var(--ink-rgb), 0.7);
+    transition: color 0.25s var(--ease-soft);
+    &:hover { color: var(--accent); }
+  }
+
+  .footer-legal-sep {
+    color: rgba(var(--ink-rgb), 0.25);
+  }
+
+  @media (max-width: 720px) {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
 .footer-bottom {
   display: flex;
   justify-content: space-between;
