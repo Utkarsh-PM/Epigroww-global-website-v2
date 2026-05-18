@@ -16,22 +16,62 @@ if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 const TEAM_FOLDER = "epigroww-global-website/about/team";
 
 const TEAM = [
-  { name: "Danish Abbasi",       role: "Founder",                                  slug: "danish-abbasi" },
-  { name: "Avi Madan Sharma",    role: "Group Head · Media Solutions",             slug: "avi-madan-sharma" },
-  { name: "Sandeep Arora",       role: "Ecommerce Director",                       slug: "sandeep-arora" },
-  { name: "Gauri Malhotra",      role: "Group Account Manager · Brand Solutions",  slug: "gauri-malhotra" },
-  { name: "Tanush Puri",         role: "Senior Business Manager",                  slug: "tanush-puri" },
-  { name: "Abhishek Passi",      role: "Creative Manager · Brand Solutions",       slug: "abhishek-passi" },
-  { name: "Abhishek Rajvanshi",  role: "Creative Manager · Brand Solutions",       slug: "abhishek-rajvanshi" },
-  { name: "Akshay Wadhwa",       role: "Creative Manager · Brand Solutions",       slug: "akshay-wadhwa" },
-  { name: "Utkarsh Chandna",     role: "Product Manager · Technology Solutions",   slug: "utkarsh-chandna" },
-  { name: "Vishal Kumar",        role: "Senior Creative Lead · Brand Solutions",   slug: "vishal-kumar" },
-  { name: "Arkalal Chakravarty", role: "Software Engineer · Technology Solutions", slug: "arkalal-chakravarty" },
-  { name: "Anuj Khirwar",        role: "Group Account Manager · Brand Solutions",  slug: "anuj-khirwar" },
+  { name: "Danish Abbasi", role: "Founder", slug: "danish-abbasi" },
+  {
+    name: "Avi Madan Sharma",
+    role: "Group Head · Media Solutions",
+    slug: "avi-madan-sharma",
+  },
+  { name: "Sandeep Arora", role: "Ecommerce Director", slug: "sandeep-arora" },
+  {
+    name: "Gauri Malhotra",
+    role: "Group Account Manager · Brand Solutions",
+    slug: "gauri-malhotra",
+  },
+  { name: "Tanush Puri", role: "Senior Business Manager", slug: "tanush-puri" },
+  {
+    name: "Abhishek Passi",
+    role: "Creative Manager · Brand Solutions",
+    slug: "abhishek-passi",
+  },
+  {
+    name: "Abhishek Rajvanshi",
+    role: "Creative Manager · Brand Solutions",
+    slug: "abhishek-rajvanshi",
+  },
+  {
+    name: "Akshay Wadhwa",
+    role: "Creative Manager · Brand Solutions",
+    slug: "akshay-wadhwa",
+  },
+  {
+    name: "Utkarsh Chandna",
+    role: "Product Manager · Technology Solutions",
+    slug: "utkarsh-chandna",
+  },
+  {
+    name: "Vishal Kumar",
+    role: "Senior Creative Lead · Brand Solutions",
+    slug: "vishal-kumar",
+  },
+  {
+    name: "Arkalal Chakravarty",
+    role: "Software Engineer · Technology Solutions",
+    slug: "arkalal-chakravarty",
+  },
+  {
+    name: "Anuj Khirwar",
+    role: "Group Account Manager · Brand Solutions",
+    slug: "anuj-khirwar",
+  },
 ];
 
 const portraitUrl = (slug, width) =>
-  getCloudinaryUrl(`${TEAM_FOLDER}/${slug}`, { width, crop: "fill", gravity: "auto" });
+  getCloudinaryUrl(`${TEAM_FOLDER}/${slug}`, {
+    width,
+    crop: "fill",
+    gravity: "auto",
+  });
 
 export default function Team() {
   const ref = useRef(null);
@@ -49,7 +89,7 @@ export default function Team() {
             delay: (i % 3) * 0.08,
             ease: "power3.out",
             scrollTrigger: { trigger: card, start: "top 85%" },
-          }
+          },
         );
       });
     }, ref);
@@ -67,7 +107,9 @@ export default function Team() {
             </h2>
           </div>
           <p className="tm-intro">
-            100+ specialists across four cities. Designers, performance marketers, film-makers, engineers, analysts — who sit on the same Slack channel and care about the same spreadsheet.
+            100+ specialists across four cities. Designers, performance
+            marketers, film-makers, engineers, analysts — who sit on the same
+            Slack channel and care about the same spreadsheet.
           </p>
         </div>
 
@@ -93,7 +135,7 @@ export default function Team() {
           ))}
 
           <article className="tm-card tm-card-end">
-            <div className="tm-end-number">+ 94</div>
+            <div className="tm-end-number">+ 50</div>
             <div className="tm-end-body">
               <h3>and the rest of the team.</h3>
               <p>Growing carefully, one hire at a time.</p>
