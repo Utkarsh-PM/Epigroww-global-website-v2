@@ -53,107 +53,75 @@
   align-items: center;
   width: max-content;
   will-change: transform;
-  padding: 0.6rem 0;
+  padding: clamp(0.8rem, 1.4vw, 1.2rem) 0;
 }
 
+/* Each brand is a transparent cell — no background card. Cell width is fixed
+   per category (regular vs `wide`) so logos with wildly different intrinsic
+   aspect ratios still occupy visually comparable space on the marquee row. */
 .bm-logo {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 clamp(2rem, 4vw, 3.5rem);
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--ink);
-  opacity: 0.72;
-  white-space: nowrap;
-  transition: opacity 0.4s ease, color 0.4s ease, transform 0.4s ease;
+  height: clamp(80px, 9.5vw, 112px);
+  width: clamp(150px, 16vw, 200px);
+  padding: 0 clamp(1.2rem, 2.4vw, 2.4rem);
+  flex: 0 0 auto;
   user-select: none;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
 
-  &:hover {
-    opacity: 1;
-    color: var(--accent);
-    transform: translateY(-2px);
+  &.bm-logo-wide {
+    width: clamp(190px, 21vw, 260px);
   }
 }
 
-/* Style variants — give each logo its own visual character so the marquee
-   reads like a logo wall rather than a list of words. */
-.bm-style-italic-bold {
-  font-style: italic;
-  font-weight: 900;
-  letter-spacing: -0.01em;
+/* Logos render at uniform max-height with their natural aspect preserved. */
+.bm-logo-img {
+  --logo-filter: brightness(1);                  /* identity — no visual change */
+  display: block;
+  max-height: clamp(42px, 5.2vw, 62px);
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: var(--logo-filter);
+  opacity: 1;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  transition: filter 0.45s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.bm-style-oval {
-  border: 1.5px solid currentColor;
-  border-radius: 999px;
-  padding: 0.4rem 1.6rem;
-  margin: 0 clamp(1rem, 2vw, 2rem);
-  font-weight: 800;
-  letter-spacing: 0.08em;
+
+/* === Theme-aware tone filters ============================================
+   - `color` brands keep their natural identity colours in both themes.
+   - `dark`  brands (dark text / dark mark on transparent) need inverting on
+             the dark navy section background so they stay legible; in light
+             theme their natural dark colour reads fine, so no filter.
+   - `white` brands (pure-white artwork on transparent) are already visible
+             on the dark background; in light theme we invert them to black. */
+
+.bm-logo-tone-color .bm-logo-img { --logo-filter: brightness(1); }
+.bm-logo-tone-dark  .bm-logo-img { --logo-filter: brightness(0) invert(1); }
+.bm-logo-tone-white .bm-logo-img { --logo-filter: brightness(1); }
+
+html[data-theme="light"] {
+  .bm-logo-tone-color .bm-logo-img { --logo-filter: brightness(1); }
+  .bm-logo-tone-dark  .bm-logo-img { --logo-filter: brightness(1); }
+  .bm-logo-tone-white .bm-logo-img { --logo-filter: brightness(0); }
 }
-.bm-style-outline {
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  position: relative;
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -0.35rem -0.6rem;
-    border: 1.5px solid currentColor;
-    border-radius: 6px;
-    opacity: 0.6;
+
+/* Hover: subtle lime drop-shadow halo on the logo itself, gentle lift + scale.
+   We append drop-shadow to the existing tone filter via the CSS custom
+   property so the silhouette state is preserved during the hover animation. */
+.bm-logo:hover {
+  transform: translateY(-3px);
+
+  .bm-logo-img {
+    transform: scale(1.06);
+    filter: var(--logo-filter)
+            drop-shadow(0 0 14px rgba(var(--accent-rgb), 0.55))
+            drop-shadow(0 4px 22px rgba(var(--accent-rgb), 0.28));
   }
-  padding-left: clamp(2.6rem, 5vw, 4rem);
-  padding-right: clamp(2.6rem, 5vw, 4rem);
-}
-.bm-style-diamond {
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  &::before {
-    content: '◆';
-    margin-right: 0.55rem;
-    font-size: 0.7em;
-    opacity: 0.7;
-  }
-}
-.bm-style-wave {
-  font-style: italic;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-}
-.bm-style-script {
-  font-family: "Lato", var(--font-display);
-  font-weight: 900;
-  font-style: italic;
-  letter-spacing: -0.02em;
-}
-.bm-style-lower {
-  text-transform: lowercase;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  font-style: italic;
-}
-.bm-style-serif {
-  font-family: "Lato", var(--font-display);
-  font-weight: 500;
-  letter-spacing: 0.45em;
-}
-.bm-style-stack {
-  font-size: clamp(0.95rem, 1.8vw, 1.3rem);
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  line-height: 1;
-  text-align: center;
-  white-space: pre-line;
-  &::after {
-    content: '';
-  }
-}
-.bm-style-block {
-  font-weight: 900;
-  letter-spacing: 0.06em;
 }
 
 .bm-fade {

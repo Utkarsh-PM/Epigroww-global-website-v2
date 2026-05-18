@@ -10,29 +10,75 @@
 
 ---
 
+## 0. Iron rule — reuse before upload
+
+There must not be no duplication of the same assets in the cloudinary as per the project.
+
+**Whenever the user asks for an image or video to appear somewhere, FIRST
+check whether that asset already exists on Cloudinary under this project's
+namespace. If it does, reuse the existing `public_id`. Only upload a new
+asset when one of these is true:**
+
+1. The exact source the user supplied is genuinely not on Cloudinary yet, AND
+   there is no existing asset that the user is fine reusing in its place.
+2. The user explicitly says to upload a new file (e.g. _"upload this video to
+   Cloudinary and use it"_ or _"replace the existing X with this new one"_).
+
+This rule exists because:
+
+- Re-uploading wastes Cloudinary monthly upload quota.
+- Duplicate `public_id`s (or near-duplicate slugs) make the dashboard
+  unmaintainable.
+- Most "use a video in card X" requests are satisfied by an existing reel
+  already curated for the showreel marquee.
+
+**Discovery workflow** (when you're not sure what's already up there):
+
+```bash
+# Option A — Cloudinary Admin API (programmatic, scriptable)
+cloudinary.api.resources({
+  type: 'upload',
+  resource_type: 'video',     // or 'image'
+  prefix: '<project-slug>/',  // namespace
+  max_results: 500,
+});
+
+# Option B — grep the codebase for already-referenced public_ids
+grep -rn "<project-slug>/" components/ src/ utils/
+```
+
+**Replacement workflow** (when the user _does_ ask to swap an existing
+asset): upload the new file with `overwrite: true` to the _same_ `public_id`.
+Cloudinary versions it automatically; old delivery URLs continue to work,
+but every consumer of `f_auto,q_auto/<public_id>` now serves the new asset.
+Do **not** create a new `public_id` for a "replacement" — that orphans the
+old one and clutters the account.
+
+---
+
 ## 1. Why this pattern
 
 The default of "put media in `/public` and reference it directly" breaks down
 quickly:
 
-| Problem with `/public` | Why it hurts |
-|---|---|
-| Single fixed file per asset | One mobile user downloads the same 2 MB hero image as a 4K-monitor user |
-| Single fixed format | Modern browsers wanting AV1/AVIF still get a fat mp4/jpg |
-| No CDN edge caching beyond your origin | Slow TTFB for global users |
-| Repo bloat | Heavy mp4s in git history kill clone time and CI cache |
-| No transformations | Need a thumbnail variant? You hand-resize in Photoshop |
+| Problem with `/public`                 | Why it hurts                                                            |
+| -------------------------------------- | ----------------------------------------------------------------------- |
+| Single fixed file per asset            | One mobile user downloads the same 2 MB hero image as a 4K-monitor user |
+| Single fixed format                    | Modern browsers wanting AV1/AVIF still get a fat mp4/jpg                |
+| No CDN edge caching beyond your origin | Slow TTFB for global users                                              |
+| Repo bloat                             | Heavy mp4s in git history kill clone time and CI cache                  |
+| No transformations                     | Need a thumbnail variant? You hand-resize in Photoshop                  |
 
 Embedding YouTube / Vimeo iframes solves origin bandwidth, but introduces a
 worse class of problem for **autoplay-on-view card backgrounds**:
 
-| Problem with YouTube iframes | Why it hurts |
-|---|---|
-| Each iframe is a full sub-document | 10 iframes ≈ 10 mini-browsers on one page |
-| Player chrome is not fully suppressible | Center pause/play overlays leak through during state transitions |
-| Chrome's autoplay budget pauses overflow | Multiple muted iframes will get auto-paused |
-| 50–300 ms postMessage round-trip | Cannot react to state changes in the same frame they paint |
-| `loop=1` requires `playlist=<id>` which draws playlist navigation chrome | No clean way to seamlessly loop a single video |
+| Problem with YouTube iframes                                             | Why it hurts                                                     |
+| ------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| Each iframe is a full sub-document                                       | 10 iframes ≈ 10 mini-browsers on one page                        |
+| Player chrome is not fully suppressible                                  | Center pause/play overlays leak through during state transitions |
+| Chrome's autoplay budget pauses overflow                                 | Multiple muted iframes will get auto-paused                      |
+| 50–300 ms postMessage round-trip                                         | Cannot react to state changes in the same frame they paint       |
+| `loop=1` requires `playlist=<id>` which draws playlist navigation chrome | No clean way to seamlessly loop a single video                   |
 
 **The pattern below is what every enterprise marketing site actually does**
 (Stripe, Linear, Apple, Notion, Vercel, Framer): native HTML5 `<video>` and
@@ -86,7 +132,9 @@ per visitor.
 ## 3. One-time setup
 
 ### 3.1 Cloudinary account
+
 Free plan limits to know:
+
 - **10 MB per image upload**
 - **100 MB per video upload**
 - 25 GB monthly delivery bandwidth
@@ -188,7 +236,7 @@ appear on the site.
 // scripts/compress-image.js
 const sharp = require("sharp");
 await sharp(inputPath)
-  .webp({ lossless: true })     // zero quality loss
+  .webp({ lossless: true }) // zero quality loss
   .toFile(outputPath);
 // sharp also strips EXIF by default — that alone saves hundreds of KB
 ```
@@ -196,9 +244,7 @@ await sharp(inputPath)
 If lossless WebP still exceeds 10 MB:
 
 ```js
-sharp(inputPath)
-  .webp({ nearLossless: true, quality: 95 })
-  .toFile(outputPath);
+sharp(inputPath).webp({ nearLossless: true, quality: 95 }).toFile(outputPath);
 ```
 
 ### 5.3 Upload script template
@@ -216,7 +262,13 @@ cloudinary.config({
 });
 
 async function main() {
-  const file = path.resolve(__dirname, "..", "raw-assets", "HOME PAGE", "founder.png");
+  const file = path.resolve(
+    __dirname,
+    "..",
+    "raw-assets",
+    "HOME PAGE",
+    "founder.png",
+  );
   const folder = "<project-slug>/home";
   const public_id = "founder-portrait";
 
@@ -224,14 +276,17 @@ async function main() {
     folder,
     public_id,
     resource_type: "image",
-    overwrite: true,        // idempotent: safe to re-run
+    overwrite: true, // idempotent: safe to re-run
     unique_filename: false,
     use_filename: false,
   });
   console.log("Uploaded:", res.secure_url);
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
 ```
 
 Run with `node scripts/upload-image.js`. Re-running is safe — the same
@@ -247,7 +302,8 @@ export const CLOUDINARY_CLOUD_NAME =
 export function getCloudinaryUrl(publicId, opts = {}) {
   if (!publicId) return "";
   const {
-    width, height,
+    width,
+    height,
     quality = "auto",
     format = "auto",
     crop = "fill",
@@ -255,15 +311,16 @@ export function getCloudinaryUrl(publicId, opts = {}) {
     dpr = "auto",
   } = opts;
   const parts = [`f_${format}`, `q_${quality}`, `dpr_${dpr}`];
-  if (crop)    parts.push(`c_${crop}`);
+  if (crop) parts.push(`c_${crop}`);
   if (gravity) parts.push(`g_${gravity}`);
-  if (width)   parts.push(`w_${width}`);
-  if (height)  parts.push(`h_${height}`);
+  if (width) parts.push(`w_${width}`);
+  if (height) parts.push(`h_${height}`);
   return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${parts.join(",")}/${publicId}`;
 }
 ```
 
 Always use `f_auto,q_auto,dpr_auto` for production. Cloudinary then:
+
 - serves AVIF / WebP to browsers that accept them, jpg / png otherwise
 - tunes quality to a perceptual sweet spot
 - scales for the device pixel ratio of the viewer
@@ -276,7 +333,11 @@ import { getCloudinaryUrl } from "../utils/cloudinary";
 const PORTRAIT = "<project-slug>/home/founder-portrait";
 
 <img
-  src={getCloudinaryUrl(PORTRAIT, { width: 1200, crop: "fill", gravity: "auto" })}
+  src={getCloudinaryUrl(PORTRAIT, {
+    width: 1200,
+    crop: "fill",
+    gravity: "auto",
+  })}
   srcSet={`
     ${getCloudinaryUrl(PORTRAIT, { width: 600 })} 600w,
     ${getCloudinaryUrl(PORTRAIT, { width: 900 })} 900w,
@@ -286,7 +347,7 @@ const PORTRAIT = "<project-slug>/home/founder-portrait";
   alt="..."
   loading="lazy"
   decoding="async"
-/>
+/>;
 ```
 
 `loading="lazy"` + `decoding="async"` are free wins — don't omit them.
@@ -297,13 +358,13 @@ const PORTRAIT = "<project-slug>/home/founder-portrait";
 
 ### 6.1 The non-negotiables
 
-| Rule | Why |
-|---|---|
-| Compress every video locally with ffmpeg before upload | Cloudinary caps videos at 100 MB upload; you also want web-shaped files |
-| Strip audio if the player will be muted | Saves bytes, sidesteps audio decode cost |
-| Cap long edge at 1080 px | A 4K source on a 280 px card is wasted bytes; 1080 covers retina too |
-| `+faststart` flag | moov atom up front → playback can start before download finishes |
-| Use `<video>` not iframe for autoplay-on-view backgrounds | Iframe approach is architecturally limited (see §1) |
+| Rule                                                      | Why                                                                     |
+| --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Compress every video locally with ffmpeg before upload    | Cloudinary caps videos at 100 MB upload; you also want web-shaped files |
+| Strip audio if the player will be muted                   | Saves bytes, sidesteps audio decode cost                                |
+| Cap long edge at 1080 px                                  | A 4K source on a 280 px card is wasted bytes; 1080 covers retina too    |
+| `+faststart` flag                                         | moov atom up front → playback can start before download finishes        |
+| Use `<video>` not iframe for autoplay-on-view backgrounds | Iframe approach is architecturally limited (see §1)                     |
 
 ### 6.2 The ffmpeg recipe
 
@@ -314,25 +375,42 @@ const fs = require("fs");
 const path = require("path");
 
 function compress(src, out) {
-  if (fs.existsSync(out)) return;   // idempotent: skip if already done
-  execFileSync("ffmpeg", [
-    "-hide_banner", "-loglevel", "error", "-y",
-    "-i", src,
-    "-vf", "scale='min(1080,iw)':-2",   // cap long edge at 1080; -2 keeps even chroma
-    "-c:v", "libx264",
-    "-crf", "23",                       // x264 default — visually indistinguishable from source
-    "-preset", "slow",                  // better compression vs encode time tradeoff
-    "-profile:v", "high", "-pix_fmt", "yuv420p",  // universal compatibility incl. Safari
-    "-movflags", "+faststart",
-    "-an",                              // strip audio
-    out,
-  ], { stdio: "inherit" });
+  if (fs.existsSync(out)) return; // idempotent: skip if already done
+  execFileSync(
+    "ffmpeg",
+    [
+      "-hide_banner",
+      "-loglevel",
+      "error",
+      "-y",
+      "-i",
+      src,
+      "-vf",
+      "scale='min(1080,iw)':-2", // cap long edge at 1080; -2 keeps even chroma
+      "-c:v",
+      "libx264",
+      "-crf",
+      "23", // x264 default — visually indistinguishable from source
+      "-preset",
+      "slow", // better compression vs encode time tradeoff
+      "-profile:v",
+      "high",
+      "-pix_fmt",
+      "yuv420p", // universal compatibility incl. Safari
+      "-movflags",
+      "+faststart",
+      "-an", // strip audio
+      out,
+    ],
+    { stdio: "inherit" },
+  );
 }
 
 // Build a JOBS array of { src, out } objects and loop over compress().
 ```
 
 **Expected results** (typical 1080p 10–30 s clip):
+
 - Source: 50–150 MB
 - Compressed: 3–25 MB
 - Reduction: 75–95%
@@ -367,7 +445,7 @@ async function uploadOne({ file, folder, public_id }) {
     overwrite: true,
     unique_filename: false,
     use_filename: false,
-    chunk_size: 20 * 1024 * 1024,    // 20 MB chunks
+    chunk_size: 20 * 1024 * 1024, // 20 MB chunks
   });
 }
 
@@ -397,8 +475,10 @@ import { useEffect, useRef, useState } from "react";
 import "./VideoBackground.scss";
 
 const CLOUDINARY_CLOUD = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const videoUrl  = (id) => `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/f_auto,q_auto/${id}.mp4`;
-const posterUrl = (id) => `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/so_0.5,f_jpg,q_auto/${id}.jpg`;
+const videoUrl = (id) =>
+  `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/f_auto,q_auto/${id}.mp4`;
+const posterUrl = (id) =>
+  `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/so_0.5,f_jpg,q_auto/${id}.jpg`;
 
 export default function VideoBackground({
   publicId,
@@ -417,10 +497,18 @@ export default function VideoBackground({
   useEffect(() => {
     const node = wrapRef.current;
     if (!node) return;
-    if (typeof IntersectionObserver === "undefined") { setShouldLoad(true); return; }
+    if (typeof IntersectionObserver === "undefined") {
+      setShouldLoad(true);
+      return;
+    }
     const io = new IntersectionObserver(
-      (entries) => { if (entries.some((e) => e.isIntersecting)) { setShouldLoad(true); io.disconnect(); } },
-      { rootMargin }
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setShouldLoad(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin },
     );
     io.observe(node);
     return () => io.disconnect();
@@ -428,7 +516,9 @@ export default function VideoBackground({
 
   const src = shouldLoad ? videoUrl(publicId) : undefined;
   const posterSrc = poster
-    ? (poster.startsWith("http") ? poster : posterUrl(poster))
+    ? poster.startsWith("http")
+      ? poster
+      : posterUrl(poster)
     : posterUrl(publicId);
 
   return (
@@ -438,13 +528,26 @@ export default function VideoBackground({
       aria-label={title}
       data-playing={playing ? "true" : "false"}
     >
-      <img className="vbg-poster" src={posterSrc} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <img
+        className="vbg-poster"
+        src={posterSrc}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+      />
       {shouldLoad && (
         <video
-          ref={(el) => { videoRef.current = el; if (el && onVideoReady) onVideoReady(el); }}
+          ref={(el) => {
+            videoRef.current = el;
+            if (el && onVideoReady) onVideoReady(el);
+          }}
           className="vbg-video"
           src={src}
-          autoPlay muted loop playsInline
+          autoPlay
+          muted
+          loop
+          playsInline
           preload="metadata"
           tabIndex={-1}
           aria-hidden="true"
@@ -461,46 +564,52 @@ The matching SCSS:
 
 ```scss
 .vbg {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background: #050505;
   isolation: isolate;
 }
 .vbg-video {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   z-index: 1;
   pointer-events: none;
 }
 .vbg-poster {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   z-index: 2;
   opacity: 1;
-  transition: opacity 0s linear;  /* covers INSTANTLY */
+  transition: opacity 0s linear; /* covers INSTANTLY */
   pointer-events: none;
 }
 .vbg[data-playing="true"] .vbg-poster {
   opacity: 0;
-  transition: opacity 0.5s ease;  /* reveals SMOOTHLY */
+  transition: opacity 0.5s ease; /* reveals SMOOTHLY */
 }
 ```
 
 ### 6.6 Why this component is fast
 
-| Decision | Reason |
-|---|---|
-| Lazy-mount via `IntersectionObserver` (200 px rootMargin) | No network or decoder cost until the card nears the viewport |
-| HTML5 `<video>` not iframe | ~10× lighter; no separate document, no cross-origin postMessage, no third-party chrome |
-| Poster fills card at first paint | Card is never blank or loading-state |
-| Poster cover is instant (`transition: 0s`), reveal is smooth (`0.5s`) | Hides any brief decoder warm-up frame, transitions in feel intentional |
-| `preload="metadata"` not `preload="auto"` | Browser fetches just enough to know duration/dims; full video starts on play |
-| `muted` + `playsInline` | Universal mobile autoplay allowed by every browser policy |
-| `object-fit: cover` | Same sizing math for 16:9 and 9:16 sources — no iframe geometry tricks |
-| Cloudinary `f_auto, q_auto` | Per-browser codec + per-viewer bitrate without us doing anything |
+| Decision                                                              | Reason                                                                                 |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Lazy-mount via `IntersectionObserver` (200 px rootMargin)             | No network or decoder cost until the card nears the viewport                           |
+| HTML5 `<video>` not iframe                                            | ~10× lighter; no separate document, no cross-origin postMessage, no third-party chrome |
+| Poster fills card at first paint                                      | Card is never blank or loading-state                                                   |
+| Poster cover is instant (`transition: 0s`), reveal is smooth (`0.5s`) | Hides any brief decoder warm-up frame, transitions in feel intentional                 |
+| `preload="metadata"` not `preload="auto"`                             | Browser fetches just enough to know duration/dims; full video starts on play           |
+| `muted` + `playsInline`                                               | Universal mobile autoplay allowed by every browser policy                              |
+| `object-fit: cover`                                                   | Same sizing math for 16:9 and 9:16 sources — no iframe geometry tricks                 |
+| Cloudinary `f_auto, q_auto`                                           | Per-browser codec + per-viewer bitrate without us doing anything                       |
 
 ### 6.7 Usage
 
@@ -534,7 +643,7 @@ storage cost creeps and the dashboard becomes a graveyard.
 
 ```js
 await cloudinary.uploader.destroy("<project-slug>/home/founder-portrait", {
-  resource_type: "image",   // or "video"
+  resource_type: "image", // or "video"
 });
 ```
 
@@ -612,18 +721,18 @@ refresh of 10–20 assets.
 
 ## 10. Anti-patterns to avoid
 
-| Don't | Do |
-|---|---|
-| Commit raw mp4s / huge images to git | Keep them in gitignored `raw-assets/` |
-| Ship a single resolution for an image | Use `srcSet` + Cloudinary width transforms |
-| Hardcode `?w=600&q=80` once | Use `f_auto,q_auto,dpr_auto` and let Cloudinary decide |
-| Embed YouTube iframes for autoplaying card backgrounds | Use HTML5 `<video>` from Cloudinary |
-| Mount 20 autoplaying videos at hydration | Lazy-mount via IntersectionObserver |
-| Fade poster on iframe `onLoad` | Fade poster on `<video>` `onPlaying` (first frame guaranteed) |
-| Compress to `crf 30+` to save bytes | Stay at `crf 23–26`; let Cloudinary's `q_auto` do the final shave |
-| Upload audio you'll mute | `ffmpeg -an` strips it; smaller file, faster start |
-| Use a flat public_id like `hero` | Namespace: `<project>/<page>/<asset>` |
-| Hand-delete in the Cloudinary dashboard | Use a script — auditable, repeatable |
+| Don't                                                  | Do                                                                |
+| ------------------------------------------------------ | ----------------------------------------------------------------- |
+| Commit raw mp4s / huge images to git                   | Keep them in gitignored `raw-assets/`                             |
+| Ship a single resolution for an image                  | Use `srcSet` + Cloudinary width transforms                        |
+| Hardcode `?w=600&q=80` once                            | Use `f_auto,q_auto,dpr_auto` and let Cloudinary decide            |
+| Embed YouTube iframes for autoplaying card backgrounds | Use HTML5 `<video>` from Cloudinary                               |
+| Mount 20 autoplaying videos at hydration               | Lazy-mount via IntersectionObserver                               |
+| Fade poster on iframe `onLoad`                         | Fade poster on `<video>` `onPlaying` (first frame guaranteed)     |
+| Compress to `crf 30+` to save bytes                    | Stay at `crf 23–26`; let Cloudinary's `q_auto` do the final shave |
+| Upload audio you'll mute                               | `ffmpeg -an` strips it; smaller file, faster start                |
+| Use a flat public_id like `hero`                       | Namespace: `<project>/<page>/<asset>`                             |
+| Hand-delete in the Cloudinary dashboard                | Use a script — auditable, repeatable                              |
 
 ---
 
@@ -631,13 +740,13 @@ refresh of 10–20 assets.
 
 Use Chrome DevTools → Network → "Disable cache", filter to Media + Img:
 
-| Metric | Acceptable | Notes |
-|---|---|---|
-| Hero image initial paint | < 200 ms LCP for foreground hero | Use `priority` / `fetchpriority="high"` for above-fold |
-| Reel card mp4 first byte | < 400 ms TTFB to Cloudinary | `+faststart` ensures playback starts well before file end |
-| Reel card payload | < 5 MB delivered | Check that `f_auto` is actually serving AV1/VP9, not mp4, in Chrome |
-| Number of simultaneously autoplaying `<video>` | Up to ~25 has been verified smooth | Beyond that, lazy-mount throttling is essential |
-| Lighthouse Best Practices | 100 / 100 | Cloudinary delivers correctly-sized images so no warnings here |
+| Metric                                         | Acceptable                         | Notes                                                               |
+| ---------------------------------------------- | ---------------------------------- | ------------------------------------------------------------------- |
+| Hero image initial paint                       | < 200 ms LCP for foreground hero   | Use `priority` / `fetchpriority="high"` for above-fold              |
+| Reel card mp4 first byte                       | < 400 ms TTFB to Cloudinary        | `+faststart` ensures playback starts well before file end           |
+| Reel card payload                              | < 5 MB delivered                   | Check that `f_auto` is actually serving AV1/VP9, not mp4, in Chrome |
+| Number of simultaneously autoplaying `<video>` | Up to ~25 has been verified smooth | Beyond that, lazy-mount throttling is essential                     |
+| Lighthouse Best Practices                      | 100 / 100                          | Cloudinary delivers correctly-sized images so no warnings here      |
 
 ---
 

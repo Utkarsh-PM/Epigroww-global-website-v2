@@ -2,33 +2,36 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { getCloudinaryUrl } from "../../utils/cloudinary";
 import "./Team.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-// Image URLs are placeholders cycling through the original Unsplash set — the
-// names and roles are the source of truth from the client; real headshots will
-// replace `image` once provided. The `city` field is intentionally optional;
-// the chip in the card image only renders when set.
-const PLACEHOLDER_M1 = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80";
-const PLACEHOLDER_M2 = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80";
-const PLACEHOLDER_M3 = "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80";
-const PLACEHOLDER_F1 = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80";
+// Each portrait lives on Cloudinary under epigroww-global-website/about/team/
+// as a pre-designed 1:1 brand card (photo + name + role + Epigroww logo all
+// baked into the image). Because name and role are already inside the
+// graphic, the card body (separate <h3>/<span> below the image) would be a
+// duplicate — it's hidden via CSS for a clean gallery look, kept in the DOM
+// for SEO / a11y / screen readers.
+const TEAM_FOLDER = "epigroww-global-website/about/team";
 
 const TEAM = [
-  { name: "Danish Abbasi",       role: "Founder",                                  image: PLACEHOLDER_M1 },
-  { name: "Avi Madan Sharma",    role: "Group Head · Media Solutions",             image: PLACEHOLDER_M2 },
-  { name: "Sandeep Arora",       role: "Ecommerce Director",                       image: PLACEHOLDER_M3 },
-  { name: "Gauri Malhotra",      role: "Group Account Manager · Brand Solutions",  image: PLACEHOLDER_F1 },
-  { name: "Tanush Puri",         role: "Senior Business Manager",                  image: PLACEHOLDER_M1 },
-  { name: "Abhishek Passi",      role: "Creative Manager · Brand Solutions",       image: PLACEHOLDER_M2 },
-  { name: "Abhishek Rajvanshi",  role: "Creative Manager · Brand Solutions",       image: PLACEHOLDER_M3 },
-  { name: "Akshay Wadhwa",       role: "Creative Manager · Brand Solutions",       image: PLACEHOLDER_M1 },
-  { name: "Utkarsh Chandna",     role: "Product Manager · Technology Solutions",   image: PLACEHOLDER_M2 },
-  { name: "Vishal Kumar",        role: "Senior Creative Lead · Brand Solutions",   image: PLACEHOLDER_M3 },
-  { name: "Arkalal Chakravarty", role: "Software Engineer · Technology Solutions", image: PLACEHOLDER_M1 },
-  { name: "Anuj Khirwar",        role: "Group Account Manager · Brand Solutions",  image: PLACEHOLDER_M2 },
+  { name: "Danish Abbasi",       role: "Founder",                                  slug: "danish-abbasi" },
+  { name: "Avi Madan Sharma",    role: "Group Head · Media Solutions",             slug: "avi-madan-sharma" },
+  { name: "Sandeep Arora",       role: "Ecommerce Director",                       slug: "sandeep-arora" },
+  { name: "Gauri Malhotra",      role: "Group Account Manager · Brand Solutions",  slug: "gauri-malhotra" },
+  { name: "Tanush Puri",         role: "Senior Business Manager",                  slug: "tanush-puri" },
+  { name: "Abhishek Passi",      role: "Creative Manager · Brand Solutions",       slug: "abhishek-passi" },
+  { name: "Abhishek Rajvanshi",  role: "Creative Manager · Brand Solutions",       slug: "abhishek-rajvanshi" },
+  { name: "Akshay Wadhwa",       role: "Creative Manager · Brand Solutions",       slug: "akshay-wadhwa" },
+  { name: "Utkarsh Chandna",     role: "Product Manager · Technology Solutions",   slug: "utkarsh-chandna" },
+  { name: "Vishal Kumar",        role: "Senior Creative Lead · Brand Solutions",   slug: "vishal-kumar" },
+  { name: "Arkalal Chakravarty", role: "Software Engineer · Technology Solutions", slug: "arkalal-chakravarty" },
+  { name: "Anuj Khirwar",        role: "Group Account Manager · Brand Solutions",  slug: "anuj-khirwar" },
 ];
+
+const portraitUrl = (slug, width) =>
+  getCloudinaryUrl(`${TEAM_FOLDER}/${slug}`, { width, crop: "fill", gravity: "auto" });
 
 export default function Team() {
   const ref = useRef(null);
@@ -69,10 +72,17 @@ export default function Team() {
         </div>
 
         <div className="tm-grid">
-          {TEAM.map((t, i) => (
-            <article key={i} className="tm-card" data-cursor="hover">
+          {TEAM.map((t) => (
+            <article key={t.slug} className="tm-card" data-cursor="hover">
               <div className="tm-card-img">
-                <img src={t.image} alt={t.name} />
+                <img
+                  src={portraitUrl(t.slug, 800)}
+                  srcSet={`${portraitUrl(t.slug, 500)} 500w, ${portraitUrl(t.slug, 800)} 800w, ${portraitUrl(t.slug, 1100)} 1100w`}
+                  sizes="(max-width: 520px) 90vw, (max-width: 900px) 45vw, 30vw"
+                  alt={`${t.name} — ${t.role}`}
+                  loading="lazy"
+                  decoding="async"
+                />
                 {t.city && <span className="tm-city">{t.city}</span>}
               </div>
               <div className="tm-card-body">

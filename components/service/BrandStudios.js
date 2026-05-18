@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import VideoBackground from "../shared/VideoBackground";
 import "./BrandStudios.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
@@ -83,7 +84,16 @@ export default function BrandStudios({ title, accent, intro, items = [] }) {
                 <span className="bs-card-num">{String(i + 1).padStart(2, "0")}</span>
                 <span className="bs-card-glyph">{it.icon}</span>
                 <div className="bs-card-photo">
-                  {it.image && <img src={it.image} alt="" loading="lazy" />}
+                  {it.videoPublicId ? (
+                    <VideoBackground
+                      publicId={it.videoPublicId}
+                      orientation="vertical"
+                      title={it.title}
+                      rootMargin="300px"
+                    />
+                  ) : (
+                    it.image && <img src={it.image} alt="" loading="lazy" />
+                  )}
                   <div className="bs-card-photo-grain" />
                 </div>
                 <div className="bs-card-tape bs-card-tape--tl" />
