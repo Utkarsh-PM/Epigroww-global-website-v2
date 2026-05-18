@@ -6,43 +6,28 @@ import "./Team.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
+// Image URLs are placeholders cycling through the original Unsplash set — the
+// names and roles are the source of truth from the client; real headshots will
+// replace `image` once provided. The `city` field is intentionally optional;
+// the chip in the card image only renders when set.
+const PLACEHOLDER_M1 = "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80";
+const PLACEHOLDER_M2 = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80";
+const PLACEHOLDER_M3 = "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80";
+const PLACEHOLDER_F1 = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80";
+
 const TEAM = [
-  {
-    name: "Danish Abbasi",
-    role: "Founder & CEO",
-    city: "New Delhi",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    name: "Priyam Mehra",
-    role: "Co-Director",
-    city: "Mumbai",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    name: "Aanya Kapoor",
-    role: "VP · Creative",
-    city: "Mumbai",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    name: "Rahul Verma",
-    role: "VP · Media",
-    city: "New Delhi",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    name: "Mariam Al-Noori",
-    role: "Head · MENA",
-    city: "Dubai",
-    image: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    name: "Ethan O'Connell",
-    role: "Head · NA",
-    city: "Toronto",
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80",
-  },
+  { name: "Danish Abbasi",       role: "Founder",                                  image: PLACEHOLDER_M1 },
+  { name: "Avi Madan Sharma",    role: "Group Head · Media Solutions",             image: PLACEHOLDER_M2 },
+  { name: "Sandeep Arora",       role: "Ecommerce Director",                       image: PLACEHOLDER_M3 },
+  { name: "Gauri Malhotra",      role: "Group Account Manager · Brand Solutions",  image: PLACEHOLDER_F1 },
+  { name: "Tanush Puri",         role: "Senior Business Manager",                  image: PLACEHOLDER_M1 },
+  { name: "Abhishek Passi",      role: "Creative Manager · Brand Solutions",       image: PLACEHOLDER_M2 },
+  { name: "Abhishek Rajvanshi",  role: "Creative Manager · Brand Solutions",       image: PLACEHOLDER_M3 },
+  { name: "Akshay Wadhwa",       role: "Creative Manager · Brand Solutions",       image: PLACEHOLDER_M1 },
+  { name: "Utkarsh Chandna",     role: "Product Manager · Technology Solutions",   image: PLACEHOLDER_M2 },
+  { name: "Vishal Kumar",        role: "Senior Creative Lead · Brand Solutions",   image: PLACEHOLDER_M3 },
+  { name: "Arkalal Chakravarty", role: "Software Engineer · Technology Solutions", image: PLACEHOLDER_M1 },
+  { name: "Anuj Khirwar",        role: "Group Account Manager · Brand Solutions",  image: PLACEHOLDER_M2 },
 ];
 
 export default function Team() {
@@ -88,7 +73,7 @@ export default function Team() {
             <article key={i} className="tm-card" data-cursor="hover">
               <div className="tm-card-img">
                 <img src={t.image} alt={t.name} />
-                <span className="tm-city">{t.city}</span>
+                {t.city && <span className="tm-city">{t.city}</span>}
               </div>
               <div className="tm-card-body">
                 <h3 className="tm-name">{t.name}</h3>

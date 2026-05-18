@@ -48,3 +48,5 @@ yarn-error.log*
 /*.png
 /*.jpg
 /*.jpeg
+
+raw-assets

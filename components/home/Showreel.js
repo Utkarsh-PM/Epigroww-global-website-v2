@@ -2,24 +2,36 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import VideoBackground from "../shared/VideoBackground";
 import "./Showreel.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
+// Main showreel — long-form landscape clip in the 16:9 canvas. Served from
+// Cloudinary as an HTML5 mp4 (with f_auto / q_auto delivery transforms) so
+// every browser gets the best codec it supports.
+const HERO_VIDEO = "epigroww-global-website/home/showreel-hero";
+
+// Vertical reels populating the floating-card marquee. HTML5 <video> is
+// ~10× lighter than a YouTube iframe, so the full list of ten reels plays
+// concurrently without saturating the main thread that drives the rAF
+// marquee animation.
 const STRIP = [
-  { k: "WK 17", t: "Launch film · Beauty", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80" },
-  { k: "WK 16", t: "TVC · Automotive", img: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80" },
-  { k: "WK 16", t: "UGC reel · F&B", img: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=80" },
-  { k: "WK 15", t: "CGI · Perfume", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80" },
-  { k: "WK 15", t: "Shopify launch", img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" },
-  { k: "WK 14", t: "Performance reel", img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=800&q=80" },
-  { k: "WK 14", t: "Identity · Fashion", img: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80" },
-  { k: "WK 13", t: "Influencer · D2C", img: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80" },
+  { k: "WK 17", t: "Launch film · Beauty",   pid: "epigroww-global-website/home/reels/wk-17-launch-film-beauty" },
+  { k: "WK 16", t: "TVC · Automotive",       pid: "epigroww-global-website/home/reels/wk-16-tvc-automotive" },
+  { k: "WK 16", t: "UGC reel · F&B",         pid: "epigroww-global-website/home/reels/wk-16-ugc-reel-fnb" },
+  { k: "WK 15", t: "CGI · Perfume",          pid: "epigroww-global-website/home/reels/wk-15-cgi-perfume" },
+  { k: "WK 15", t: "Shopify launch",         pid: "epigroww-global-website/home/reels/wk-15-shopify-launch" },
+  { k: "WK 14", t: "Performance reel",       pid: "epigroww-global-website/home/reels/wk-14-performance-reel" },
+  { k: "WK 14", t: "Identity · Fashion",     pid: "epigroww-global-website/home/reels/wk-14-identity-fashion" },
+  { k: "WK 13", t: "Influencer · D2C",       pid: "epigroww-global-website/home/reels/wk-13-influencer-d2c" },
+  { k: "WK 13", t: "Brand film · Lifestyle", pid: "epigroww-global-website/home/reels/wk-13-brand-film-lifestyle" },
+  { k: "WK 12", t: "Social reel · Beauty",   pid: "epigroww-global-website/home/reels/wk-12-social-reel-beauty" },
 ];
 
 export default function Showreel() {
   const ref = useRef(null);
-  const videoRef = useRef(null);
+  const heroVideoRef = useRef(null);
   const trackRef = useRef(null);
   const [playing, setPlaying] = useState(true);
 
@@ -102,11 +114,19 @@ export default function Showreel() {
     return () => ctx.revert();
   }, []);
 
+  // Hero canvas is a native <video> now — toggle directly via HTMLMediaElement
+  // methods. Muted is locked on, so play() is always allowed without a user
+  // gesture.
   const togglePlay = () => {
-    const v = videoRef.current;
+    const v = heroVideoRef.current;
     if (!v) return;
-    if (v.paused) { v.play(); setPlaying(true); }
-    else { v.pause(); setPlaying(false); }
+    if (v.paused) {
+      v.play();
+      setPlaying(true);
+    } else {
+      v.pause();
+      setPlaying(false);
+    }
   };
 
   return (
@@ -130,18 +150,12 @@ export default function Showreel() {
         </div>
 
         <div className="sr-canvas">
-          <video
-            ref={videoRef}
-            className="sr-video"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            poster="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1600&q=80"
-          >
-            <source src="https://videos.pexels.com/video-files/3195394/3195394-hd_1920_1080_25fps.mp4" type="video/mp4" />
-          </video>
+          <VideoBackground
+            publicId={HERO_VIDEO}
+            orientation="horizontal"
+            title="Epigroww Global — Showreel"
+            onVideoReady={(el) => { heroVideoRef.current = el; }}
+          />
           <div className="sr-canvas-tint" />
 
           <div className="sr-overlay">
@@ -191,7 +205,12 @@ export default function Showreel() {
                 data-cursor-label="View"
               >
                 <div className="sr-frame-inner">
-                  <img src={s.img} alt={s.t} />
+                  <VideoBackground
+                    publicId={s.pid}
+                    orientation="vertical"
+                    title={`${s.k} — ${s.t}`}
+                    rootMargin="200px"
+                  />
                   <span className="sr-frame-shine" aria-hidden="true" />
                   <span className="sr-frame-badge">
                     <span className="sr-frame-badge-dot" />

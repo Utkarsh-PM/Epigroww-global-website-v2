@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import VideoBackground from "../shared/VideoBackground";
 import "./FeaturedWork.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
@@ -13,7 +14,7 @@ const WORK = [
     project: "Infinity — Fragrance launch",
     services: ["Brand", "Media", "Commerce"],
     outcome: "3.4× ROAS · 1.2M first-week views",
-    image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1400&q=80",
+    videoPublicId: "epigroww-global-website/home/featured/featured-work-1",
     color: "#1e3a2f",
   },
   {
@@ -132,7 +133,16 @@ export default function FeaturedWork() {
                 data-cursor-label="Open"
               >
                 <div className="fw-card-image">
-                  <img src={w.image} alt={w.project} />
+                  {w.videoPublicId ? (
+                    <VideoBackground
+                      publicId={w.videoPublicId}
+                      orientation="vertical"
+                      title={`${w.client} — ${w.project}`}
+                      rootMargin="400px"
+                    />
+                  ) : (
+                    <img src={w.image} alt={w.project} />
+                  )}
                   <div className="fw-card-tint" />
                 </div>
                 <div className="fw-card-head">

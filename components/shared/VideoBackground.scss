@@ -1,0 +1,47 @@
+/* ────────────────────────────────────────────────────────────────────────
+   VideoBackground — cover-mode HTML5 video
+   - Stacking: video (z-index 1) ⟶ poster (z-index 2)
+   - The poster covers the card until the video reports its first
+     `playing` event, then fades out smoothly.
+   - For vertical 9:16 sources we still use object-fit: cover, which is the
+     only sizing math <video> ever needs (unlike the 16:9 iframe trick).
+   ──────────────────────────────────────────────────────────────────────── */
+.vbg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #050505;
+  isolation: isolate;
+}
+
+.vbg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+  /* Saturation kept consistent with the older YT integration. */
+  filter: saturate(0.97);
+}
+
+.vbg-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0s linear;
+  pointer-events: none;
+  filter: saturate(0.95);
+}
+
+.vbg[data-playing="true"] .vbg-poster {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
