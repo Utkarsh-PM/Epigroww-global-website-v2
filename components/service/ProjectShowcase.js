@@ -32,79 +32,99 @@ export default function ProjectShowcase({
 
   useIsoLayoutEffect(() => {
     if (typeof window === "undefined") return;
-    const ctx = gsap.context(() => {
-      const cards = cardsRef.current.filter(Boolean);
-      if (!cards.length) return;
 
-      // gsap.matchMedia handles teardown automatically when the viewport
-      // crosses the breakpoint. This prevents desktop-pinned ScrollTriggers
-      // from "sticking" after a resize to mobile (which was making the page
-      // feel scroll-locked on narrow viewports).
-      const mm = gsap.matchMedia();
+    // Defer setup until the parent route-change handlers (ScrollTrigger
+    // cleanup, scroll-to-top, Lenis snap) have settled. Without this the
+    // pinned ScrollTrigger occasionally measures a transient layout — the
+    // pin-spacer never gets inserted and the stacked cards stay offscreen
+    // (`yPercent: 100`) on the first navigation to the page. Refreshing
+    // after the timeline is built guarantees a correct measurement.
+    let cancelled = false;
+    let ctx;
+    let raf1 = 0;
+    let raf2 = 0;
+    let mountedRefreshTimer = 0;
 
-      mm.add("(min-width: 901px)", () => {
-        const sectionH = sectionRef.current.offsetHeight;
-        const headerH = headerRef.current.offsetHeight;
-        const cardsContainerH = sectionH - headerH;
+    const setup = () => {
+      if (cancelled) return;
+      ctx = gsap.context(() => {
+        const cards = cardsRef.current.filter(Boolean);
+        if (!cards.length) return;
 
-        // Reserve enough room for the *last* card's content panel to remain
-        // visible when every previous card has stacked on top. Stripes between
-        // cards (the part of the prior card that peeks above the next) auto-
-        // scale to fit this constraint.
-        const reservedForContent = 420;
-        const maxOffset = Math.max(0, cardsContainerH - reservedForContent);
-        const stripH = Math.max(
-          50,
-          Math.min(120, Math.floor(maxOffset / Math.max(1, cards.length - 1)))
-        );
+        const mm = gsap.matchMedia();
 
-        // Sync the JS-derived strip height with CSS via a custom property —
-        // the card "strip" header sizes to match.
-        sectionRef.current.style.setProperty("--ps-strip-h", `${stripH}px`);
+        mm.add("(min-width: 901px)", () => {
+          const sectionH = sectionRef.current.offsetHeight;
+          const headerH = headerRef.current.offsetHeight;
+          const cardsContainerH = sectionH - headerH;
 
-        // Centre the section title vertically initially, then animate to top
-        // during the first card's entrance.
-        const centerY = (sectionH - headerH) / 2;
-        gsap.set(headerRef.current, { y: centerY });
-        cards.forEach((card) => gsap.set(card, { yPercent: 100 }));
+          const reservedForContent = 420;
+          const maxOffset = Math.max(0, cardsContainerH - reservedForContent);
+          const stripH = Math.max(
+            50,
+            Math.min(120, Math.floor(maxOffset / Math.max(1, cards.length - 1)))
+          );
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: () => `+=${cards.length * window.innerHeight * 0.8}`,
-            pin: true,
-            scrub: 1,
-            pinSpacing: true,
-            invalidateOnRefresh: true,
-          },
-        });
+          sectionRef.current.style.setProperty("--ps-strip-h", `${stripH}px`);
 
-        // Phase 0 — header moves to top + first card slides up
-        tl.to(headerRef.current, { y: 0, duration: 1, ease: "none" }, 0);
-        tl.to(cards[0], { yPercent: 0, duration: 1, ease: "none" }, 0);
+          const centerY = (sectionH - headerH) / 2;
+          gsap.set(headerRef.current, { y: centerY });
+          cards.forEach((card) => gsap.set(card, { yPercent: 100 }));
 
-        // Subsequent cards slide up, stopping at progressive strip offsets so
-        // a thin slice of each prior card stays visible.
-        for (let i = 1; i < cards.length; i++) {
-          tl.to(cards[i], {
-            yPercent: 0,
-            y: i * stripH,
-            duration: 1,
-            ease: "none",
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top top",
+              end: () => `+=${cards.length * window.innerHeight * 0.8}`,
+              pin: true,
+              scrub: 1,
+              pinSpacing: true,
+              invalidateOnRefresh: true,
+            },
           });
-        }
 
-        return () => {
-          // matchMedia cleanup — clear any inline transforms left behind so
-          // the card list reflows as the normal mobile stack.
-          gsap.set(headerRef.current, { clearProps: "all" });
-          cards.forEach((c) => gsap.set(c, { clearProps: "all" }));
-        };
-      });
-    }, sectionRef);
+          tl.to(headerRef.current, { y: 0, duration: 1, ease: "none" }, 0);
+          tl.to(cards[0], { yPercent: 0, duration: 1, ease: "none" }, 0);
 
-    return () => ctx.revert();
+          for (let i = 1; i < cards.length; i++) {
+            tl.to(cards[i], {
+              yPercent: 0,
+              y: i * stripH,
+              duration: 1,
+              ease: "none",
+            });
+          }
+
+          // Force a refresh now that the pin + timeline exist. The
+          // ScrollTriggerCleanup that runs on route change ran its refresh
+          // before our trigger was created, so without this the pin-spacer
+          // is missing on first navigation and the cards never animate in.
+          ScrollTrigger.refresh();
+          // Once more on the next frame in case layout (fonts, images) is
+          // still settling.
+          mountedRefreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 300);
+
+          return () => {
+            gsap.set(headerRef.current, { clearProps: "all" });
+            cards.forEach((c) => gsap.set(c, { clearProps: "all" }));
+          };
+        });
+      }, sectionRef);
+    };
+
+    // Double-rAF so the deferred setup runs AFTER ScrollTriggerCleanup's own
+    // double-rAF refresh has executed on route change.
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(setup);
+    });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      clearTimeout(mountedRefreshTimer);
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   return (

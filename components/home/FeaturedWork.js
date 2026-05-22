@@ -38,7 +38,7 @@ const WORK = [
     project: "Full-stack D2C launch",
     services: ["Brand", "Media", "Tech"],
     outcome: "$2.1M revenue in Q1",
-    image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1400&q=80",
+    videoPublicId: "epigroww-global-website/home/featured/featured-work-2",
     color: "#2b1b3a",
   },
   {
@@ -46,7 +46,7 @@ const WORK = [
     project: "Performance creative engine",
     services: ["Creative", "Media"],
     outcome: "CAC down 37% in 90 days",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1400&q=80",
+    image: "https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1400/epigroww-global-website/home/featured/featured-work-4",
     color: "#102a43",
   },
 ];

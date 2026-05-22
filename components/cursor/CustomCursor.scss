@@ -43,17 +43,16 @@
   color: inherit;
 }
 
-/* Variants
-   Rule: light/lime bg → navy text · dark bg → cream text
-*/
+/* Variants — keep the ring transparent so the words underneath stay
+   readable. The border + label still carry the affordance. */
 .cursor-hover {
   &.cursor-dot { opacity: 0; }
   &.cursor-ring {
     width: 80px;
     height: 80px;
-    background: var(--ink);          /* light #F0F0F0 */
+    background: transparent;
     border-color: var(--ink);
-    color: var(--on-accent);                  /* navy text on light bg */
+    color: var(--ink);
   }
 }
 
@@ -62,9 +61,9 @@
   &.cursor-ring {
     width: 110px;
     height: 110px;
-    background: var(--accent);       /* lime */
+    background: transparent;
     border-color: var(--accent);
-    color: var(--on-accent);                  /* navy text on lime */
+    color: var(--accent);
   }
 }
 
@@ -73,9 +72,9 @@
   &.cursor-ring {
     width: 95px;
     height: 95px;
-    background: rgba(14, 16, 34, 0.92);  /* always-dark navy bg */
-    border-color: transparent;
-    color: #F0F0F0;                       /* always-light text on always-dark bg */
+    background: transparent;
+    border-color: var(--ink);
+    color: var(--ink);
   }
 }
 

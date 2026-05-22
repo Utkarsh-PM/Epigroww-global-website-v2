@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import VideoBackground from "../shared/VideoBackground";
 import "./ServiceApproach.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
@@ -86,6 +87,21 @@ export default function ServiceApproach({ title, subtitle, steps = [] }) {
             <div className="sa-visual-frame">
               {steps.map((s, i) => {
                 const img = s.image || FALLBACK_VISUALS[i % FALLBACK_VISUALS.length];
+                if (s.videoPublicId) {
+                  return (
+                    <div
+                      key={i}
+                      className={`sa-visual-slide sa-visual-slide--video ${active === i ? "is-active" : ""}`}
+                    >
+                      <VideoBackground
+                        publicId={s.videoPublicId}
+                        orientation="horizontal"
+                        title={s.title}
+                        rootMargin="400px"
+                      />
+                    </div>
+                  );
+                }
                 return (
                   <div
                     key={i}

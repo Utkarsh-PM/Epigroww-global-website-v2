@@ -51,6 +51,13 @@ export default function Footer() {
                 </svg>
               </span>
             </Link>
+            <div className="footer-ready-legal">
+              <Link href="/privacy-policy" data-cursor="hover">Privacy Policy</Link>
+              <span className="footer-legal-sep" aria-hidden="true">·</span>
+              <Link href="/terms-and-conditions" data-cursor="hover">Terms &amp; Conditions</Link>
+              <span className="footer-legal-sep" aria-hidden="true">·</span>
+              <Link href="/refunds-policy" data-cursor="hover">Refund &amp; Cancellation</Link>
+            </div>
           </div>
 
           <div className="footer-col">
@@ -111,18 +118,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="footer-legal">
-          <Link href="/privacy-policy" data-cursor="hover">Privacy Policy</Link>
-          <span className="footer-legal-sep" aria-hidden="true">·</span>
-          <Link href="/terms-and-conditions" data-cursor="hover">Terms &amp; Conditions</Link>
-          <span className="footer-legal-sep" aria-hidden="true">·</span>
-          <Link href="/refunds-policy" data-cursor="hover">Refund &amp; Cancellation</Link>
-        </div>
-
         <div className="footer-bottom">
           <span>© 2026 Epigroww Global Pvt Ltd</span>
-          <span>Minority-founded · Globally delivered</span>
-          <span>v4.0 — released April 2026</span>
         </div>
       </div>
     </footer>

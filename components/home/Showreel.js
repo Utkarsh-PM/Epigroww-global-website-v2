@@ -75,28 +75,45 @@ export default function Showreel() {
         }
       );
 
-      // Infinite drift marquee — rAF-driven loop on the inner track. The
-      // track is rendered with two copies of the strip back-to-back; we move
-      // it from 0 → -halfWidth, then snap back for a seamless loop. Hover
-      // smoothly eases the speed to 0 so cards become readable on dwell.
+      // Infinite drift marquee — delta-time driven loop so the apparent
+      // speed stays constant even when video decoding causes frame drops or
+      // the browser throttles rAF. We render two copies of the strip
+      // back-to-back and move x from 0 → -halfWidth, then wrap. Hover
+      // smoothly eases the speed multiplier to 0 for readability.
       const track = trackRef.current;
       if (track) {
         const setX = gsap.quickSetter(track, "x", "px");
         const state = { x: 0, mult: 1, half: 0 };
         const measure = () => { state.half = track.scrollWidth / 2; };
         measure();
+        // Re-measure once videos report metadata so the seamless-loop math
+        // stays correct as lazy-loaded media sizes itself.
+        const vids = track.querySelectorAll("video");
+        vids.forEach((v) => v.addEventListener("loadedmetadata", measure, { once: true }));
         window.addEventListener("resize", measure);
 
-        const speed = 0.55; // px / frame — premium drift
+        const pxPerSec = 36; // constant drift speed regardless of fps
+        const MAX_DT = 1 / 30; // clamp huge gaps (tab inactive) to ~33ms
+        let last = 0;
         let raf = 0;
-        const tick = () => {
-          state.x -= speed * state.mult;
-          if (state.x <= -state.half) state.x += state.half;
-          if (state.x > 0) state.x -= state.half;
+        const tick = (now) => {
+          if (!last) last = now;
+          const dt = Math.min((now - last) / 1000, MAX_DT);
+          last = now;
+          state.x -= pxPerSec * dt * state.mult;
+          if (state.half > 0) {
+            if (state.x <= -state.half) state.x += state.half;
+            if (state.x > 0) state.x -= state.half;
+          }
           setX(state.x);
           raf = requestAnimationFrame(tick);
         };
         raf = requestAnimationFrame(tick);
+
+        // Reset the delta clock when the tab becomes visible again so a long
+        // background interval doesn't produce a single huge jump.
+        const onVis = () => { last = 0; };
+        document.addEventListener("visibilitychange", onVis);
 
         const onEnter = () => gsap.to(state, { mult: 0, duration: 0.6, ease: "power2.out" });
         const onLeave = () => gsap.to(state, { mult: 1, duration: 0.8, ease: "power2.out" });
@@ -106,6 +123,7 @@ export default function Showreel() {
         return () => {
           cancelAnimationFrame(raf);
           window.removeEventListener("resize", measure);
+          document.removeEventListener("visibilitychange", onVis);
           track.removeEventListener("mouseenter", onEnter);
           track.removeEventListener("mouseleave", onLeave);
         };

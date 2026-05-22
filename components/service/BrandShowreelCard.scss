@@ -1,0 +1,195 @@
+.bsc {
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 3vw, 2.5rem) clamp(5rem, 10vw, 8rem);
+  background: var(--bg);
+  position: relative;
+}
+
+.bsc-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.bsc-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bsc-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+
+  .bsc-label-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.18);
+  }
+}
+
+.bsc-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  max-width: 22ch;
+  color: var(--ink);
+
+  .word-wrap {
+    display: inline-flex;
+    overflow: hidden;
+    padding-right: 0.15em;
+    padding-bottom: 0.04em;
+    vertical-align: baseline;
+  }
+  .bsc-head-word {
+    display: inline-block;
+    will-change: transform;
+    &.serif {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--accent);
+      font-weight: 400;
+    }
+  }
+}
+
+.bsc-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--dark-bg);
+  will-change: clip-path, transform;
+  box-shadow: 0 40px 100px rgba(10, 10, 10, 0.22);
+}
+
+.bsc-canvas-tint {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10, 10, 10, 0.1) 0%, rgba(10, 10, 10, 0) 25%, rgba(10, 10, 10, 0) 60%, rgba(10, 10, 10, 0.7) 100%);
+  pointer-events: none;
+
+  @media (max-width: 720px) {
+    background: none;
+  }
+}
+
+.bsc-overlay {
+  position: absolute;
+  inset: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #fff;
+  pointer-events: none;
+
+  > * { pointer-events: auto; }
+
+  @media (max-width: 720px) {
+    display: none;
+  }
+}
+
+.bsc-overlay-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.bsc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.95rem;
+  background: rgba(10, 10, 10, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+  .bsc-chip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: bscDotPulse 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes bscDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.bsc-overlay-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.bsc-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.3rem 0.75rem 1rem;
+  background: var(--accent);
+  color: var(--on-accent);
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: transform 0.3s ease;
+
+  svg {
+    width: 34px;
+    height: 34px;
+    padding: 8px;
+    background: var(--on-accent);
+    border-radius: 50%;
+    color: var(--accent);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:hover { transform: scale(1.04); }
+  &:hover svg { transform: scale(1.08); }
+}
+
+.bsc-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  color: #fff;
+
+  .bsc-info-num {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+  }
+  .bsc-info-sub {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+}

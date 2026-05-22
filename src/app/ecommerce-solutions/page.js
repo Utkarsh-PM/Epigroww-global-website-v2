@@ -1,5 +1,6 @@
 import ServiceHero from "../../../components/service/ServiceHero";
 import EcommerceCapabilities from "../../../components/service/EcommerceCapabilities";
+import CommerceMarquee from "../../../components/service/CommerceMarquee";
 import ServiceApproach from "../../../components/service/ServiceApproach";
 import ServiceVoices from "../../../components/service/ServiceVoices";
 import FunnelStages from "../../../components/service/FunnelStages";
@@ -19,6 +20,7 @@ const CAPS = [
     body: "Where every brand journey begins — brand consultation, GTM, RTM, AOP, pricing architecture and whitespace identification before a single rupee on execution.",
     chips: ["GTM", "AOP", "Positioning", "Whitespace"],
     image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1000&q=80",
+    videoPublicId: "epigroww-global-website/ecommerce/strategy-infinity",
   },
   {
     icon: "▣",
@@ -131,6 +133,7 @@ export default function EcommerceSolutionsPage() {
         ]}
         variant="ecommerce"
       />
+      <CommerceMarquee />
       <EcommerceCapabilities
         title="Six services."
         accent="One commerce engine."

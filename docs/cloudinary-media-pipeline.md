@@ -10,9 +10,12 @@
 
 ---
 
-## 0. Iron rule — reuse before upload
+## 0. Iron rule — reuse before upload, never duplicate
 
-There must not be no duplication of the same assets in the cloudinary as per the project.
+**No asset may exist twice under this project's Cloudinary namespace.** Two
+public_ids whose binary content (or near-identical resized re-encode of the
+same source) is the same is a duplication — it wastes storage and bandwidth
+quota and clutters the dashboard. This rule is strict and non-negotiable.
 
 **Whenever the user asks for an image or video to appear somewhere, FIRST
 check whether that asset already exists on Cloudinary under this project's
@@ -23,6 +26,63 @@ asset when one of these is true:**
    there is no existing asset that the user is fine reusing in its place.
 2. The user explicitly says to upload a new file (e.g. _"upload this video to
    Cloudinary and use it"_ or _"replace the existing X with this new one"_).
+
+Practical mechanics that keep this rule honest:
+
+- **One source file → one public_id.** Don't upload the same JPG to two
+  different folders because two different sections want it. Pick one
+  canonical location and reference it from both. Cloudinary URLs are cheap;
+  storage and audit clarity are not.
+- **Same source, two crops? Don't re-upload.** Cloudinary's URL
+  transformations (`c_fill,g_auto,w_…`) generate any crop you need from a
+  single asset. Re-uploading a manually cropped version of an already-stored
+  image is a duplicate.
+- **Identical content under different names is still a duplicate.** Even if
+  the public_ids are different (`hero/banner` vs `home/banner-final`), if
+  the bytes match they're the same asset — pick one, point everything at
+  it, delete the other.
+- **Before uploading a "new" file, always:**
+  1. List `cloudinary.api.resources({ prefix: '<project-slug>/' })`.
+  2. Compare filename / suspected slug against the result.
+  3. If a likely match exists, reuse it (or overwrite-in-place if it's a
+     true replacement — see §0a).
+
+Run the duplicate-audit workflow in §7.5 routinely (and definitely after
+any large media batch) to make sure nothing slipped in.
+
+---
+
+## 0a. Iron rule — replacements must delete the old asset
+
+**When the user asks you to update / swap / replace an existing asset with a
+new one, you MUST clean up the old asset from Cloudinary as part of the same
+change.** Cloudinary is not a junk drawer — every public_id that survives the
+swap should still be referenced from the codebase.
+
+The required workflow for ANY replacement:
+
+1. **Confirm the old asset isn't used elsewhere.** Grep the project for the
+   old `public_id` (and any variant slug) across `components/`, `src/`,
+   `utils/`, `scripts/`. If it's still referenced from a different page or
+   component, leave it in place and just upload the new asset under a fresh
+   public_id — the old one is still load-bearing.
+2. **If the old asset is genuinely orphaned by the swap:**
+   - If the new asset has the **same shape / role** (e.g. swapping one hero
+     image for another), upload the new file to the **same public_id** with
+     `overwrite: true`. Cloudinary versions it in place; old URLs keep
+     working; no orphan is created. This is the cleanest path.
+   - If the new asset needs a **different public_id** (different folder,
+     different aspect ratio bucket, etc.), upload the new one, update every
+     code reference to point at the new public_id, then **explicitly delete
+     the old one** with `cloudinary.uploader.destroy(<old_public_id>, { resource_type: ... })`.
+3. **Never leave orphan assets behind.** After a swap, the only public_ids
+   under this project's namespace should be ones the live code still
+   references. Confirm with a grep before considering the task done.
+
+Periodically (and after large refactors), run the orphan-audit workflow in
+§7.4 to make sure nothing has drifted out of sync.
+
+---
 
 This rule exists because:
 
@@ -664,6 +724,156 @@ nuke every project on the account that uses a `home/` subfolder.
 - Removing an asset that's no longer used → explicit `destroy()`.
 - Renaming a project namespace → bulk-delete the old prefix after the
   re-upload confirms.
+- **User asked for an asset swap and the new asset uses a different
+  public_id** → upload the new one, update the code references, then
+  `destroy()` the old public_id (see §0a).
+
+### 7.4 Orphan audit — finding & cleaning up unused assets
+
+Run this any time you suspect Cloudinary has drifted out of sync with the
+codebase (after a big refactor, after deleting a page, on a routine cadence).
+The workflow is fully scriptable:
+
+```js
+// scripts/audit-cloudinary-orphans.js  (sketch)
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
+const { execSync } = require("child_process");
+require("dotenv").config({ path: ".env" });
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const PROJECT = "atomx-website";
+
+async function listAll(resource_type) {
+  const all = [];
+  let next_cursor;
+  do {
+    const res = await cloudinary.api.resources({
+      type: "upload",
+      resource_type,
+      prefix: `${PROJECT}/`,
+      max_results: 500,
+      next_cursor,
+    });
+    all.push(...res.resources.map((r) => r.public_id));
+    next_cursor = res.next_cursor;
+  } while (next_cursor);
+  return all;
+}
+
+(async () => {
+  const images = await listAll("image");
+  const videos = await listAll("video");
+  const allIds = [...images, ...videos];
+
+  // Grep code (components/, src/, utils/, scripts/) for each public_id's
+  // last path segment — the slug. Anything with zero hits is an orphan.
+  const orphans = allIds.filter((id) => {
+    const slug = id.split("/").pop();
+    try {
+      const hits = execSync(
+        `grep -rln --include='*.js' --include='*.jsx' --include='*.ts' --include='*.tsx' --include='*.scss' "${slug}" components src utils scripts 2>/dev/null`,
+      )
+        .toString()
+        .trim();
+      return hits.length === 0;
+    } catch {
+      return true;
+    }
+  });
+
+  fs.writeFileSync("orphans.json", JSON.stringify(orphans, null, 2));
+  console.log(`Found ${orphans.length} orphan public_ids.`);
+})();
+```
+
+Then **review** `orphans.json` by eye before deleting. False positives are
+possible if a slug is built dynamically from a variable in code — when in
+doubt, leave it.
+
+Delete the confirmed orphans:
+
+```js
+for (const id of confirmedOrphans) {
+  await cloudinary.uploader.destroy(id, { resource_type: /* image | video */ });
+}
+```
+
+Always run this as a script that emits a log line per deletion — never
+delete-then-forget.
+
+### 7.5 Duplicate audit — finding identical assets under different public_ids
+
+Pair with §7.4. Same idea, different signal: instead of asking "does any
+code reference this id?", ask "does any other id under this namespace have
+the same byte payload as this one?". Identical bytes = duplicate.
+
+Cloudinary returns a stable `etag` (MD5 of the asset content) on every
+`api.resources()` call. Group by etag, anything with `count > 1` is a
+duplicate cluster:
+
+```js
+const cloudinary = require("cloudinary").v2;
+require("dotenv").config({ path: ".env" });
+cloudinary.config({ /* … */ });
+
+async function listAll(resource_type) {
+  const out = [];
+  let next_cursor;
+  do {
+    const res = await cloudinary.api.resources({
+      type: "upload",
+      resource_type,
+      prefix: "<project-slug>/",
+      max_results: 500,
+      next_cursor,
+    });
+    res.resources.forEach((r) =>
+      out.push({
+        public_id: r.public_id,
+        etag: r.etag,
+        bytes: r.bytes,
+        resource_type,
+      }),
+    );
+    next_cursor = res.next_cursor;
+  } while (next_cursor);
+  return out;
+}
+
+(async () => {
+  const all = [
+    ...(await listAll("image")),
+    ...(await listAll("video")),
+  ];
+  const byEtag = new Map();
+  all.forEach((a) => {
+    if (!byEtag.has(a.etag)) byEtag.set(a.etag, []);
+    byEtag.get(a.etag).push(a);
+  });
+  const dupes = [...byEtag.values()].filter((g) => g.length > 1);
+  console.log(`Duplicate clusters: ${dupes.length}`);
+  console.log(JSON.stringify(dupes, null, 2));
+})();
+```
+
+Resolution policy when a duplicate cluster is found:
+
+1. Pick the **canonical** public_id — the one that is referenced from the
+   most code, OR the one whose folder semantically matches the asset
+   (e.g. `home/hero` for a home hero, not `tapx/borrowed-hero`).
+2. Update every code reference for the non-canonical ids to point at the
+   canonical one.
+3. `cloudinary.uploader.destroy()` each non-canonical id.
+4. Re-run the audit — it should now report `Duplicate clusters: 0`.
+
+Cadence: run this **after every media-batch upload script** and as part of
+any "tidy up the Cloudinary account" task.
 
 ---
 

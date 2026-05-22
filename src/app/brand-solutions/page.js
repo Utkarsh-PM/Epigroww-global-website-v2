@@ -2,6 +2,7 @@ import ServiceHero from "../../../components/service/ServiceHero";
 import CreativeReel from "../../../components/service/CreativeReel";
 import BeforeAfter from "../../../components/service/BeforeAfter";
 import BrandStudios from "../../../components/service/BrandStudios";
+import BrandShowreelCard from "../../../components/service/BrandShowreelCard";
 import ServiceApproach from "../../../components/service/ServiceApproach";
 import ServiceVoices from "../../../components/service/ServiceVoices";
 import CTA from "../../../components/shared/CTA";
@@ -28,9 +29,9 @@ const CAPS = [
 ];
 
 const APPROACH = [
-  { title: "Creative sits at the top", body: "Every engagement starts with a brief that creative owns. Media, tech, and ops orbit the idea — not the other way around.", icon: "◉", image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1100&q=80" },
+  { title: "Creative sits at the top", body: "Every engagement starts with a brief that creative owns. Media, tech, and ops orbit the idea — not the other way around.", icon: "◉", image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1100&q=80", videoPublicId: "epigroww-global-website/brand-solutions/op-creative-top" },
   { title: "Tested, unified messaging", body: "We build one message architecture and then tune it for channel. One story, nine executions — never nine stories.", icon: "※", image: "https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1100&q=80" },
-  { title: "Full-funnel across platforms", body: "Hero film + 24 cut-downs + 120 performance creatives — all planned from day one, none stitched in reverse.", icon: "∞", image: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=1100&q=80" },
+  { title: "Full-funnel across platforms", body: "Hero film + 24 cut-downs + 120 performance creatives — all planned from day one, none stitched in reverse.", icon: "∞", image: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=1100&q=80", videoPublicId: "epigroww-global-website/brand-solutions/op-full-funnel" },
   { title: "Digital × traditional", body: "We bridge TVC, OOH, and digital rather than treating them as separate line items. Your TVC ships 30-sec, 15-sec, 6-sec and performance cut-downs in one production cycle.", icon: "↯", image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1100&q=80" },
 ];
 
@@ -57,6 +58,7 @@ export default function BrandSolutionsPage() {
         ]}
         variant="brand"
       />
+      <BrandShowreelCard />
       <CreativeReel />
       <BeforeAfter />
       <BrandStudios

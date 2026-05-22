@@ -206,6 +206,13 @@
     opacity: 1;
     transform: scale(1);
   }
+
+  /* Video-backed slides — let the <video> fill the slide instead of using a
+     background-image. The .vbg wrapper is absolute-positioned by default. */
+  &.sa-visual-slide--video {
+    background: none;
+    .vbg, .vbg-horizontal { position: absolute; inset: 0; width: 100%; height: 100%; }
+  }
 }
 
 .sa-visual-tint {

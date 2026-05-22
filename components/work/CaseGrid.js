@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import VideoBackground from "../shared/VideoBackground";
 import "./CaseGrid.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
@@ -14,7 +15,7 @@ const CASES = [
     services: ["Brand identity", "Launch film", "Performance creatives"],
     outcome: "3.4× ROAS · 1.2M first-week views",
     year: "2025",
-    image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1400&q=80",
+    videoPublicId: "epigroww-global-website/home/featured/featured-work-1",
     size: "lg",
   },
   {
@@ -28,53 +29,53 @@ const CASES = [
     size: "md",
   },
   {
-    client: "JCBL Group",
-    tag: "Stack rebuild",
+    client: "JCBL Group — Tractors",
+    tag: "Brand film",
     category: "Tech",
-    services: ["ERP migration", "Sales automation"],
+    services: ["TVC production", "Sales automation"],
     outcome: "42% faster lead-to-quote",
     year: "2024",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
+    videoPublicId: "epigroww-global-website/brand-solutions/card-tvc",
     size: "md",
   },
   {
-    client: "Private brand · Dubai",
+    client: "Aurelle — Dubai D2C",
     tag: "D2C launch",
     category: "Media",
     services: ["Shopify Plus", "Full-stack media"],
     outcome: "$2.1M revenue · 90 days",
     year: "2025",
-    image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1400&q=80",
+    videoPublicId: "epigroww-global-website/home/featured/featured-work-2",
     size: "md",
   },
   {
-    client: "FMCG · North America",
+    client: "Belmar — North America FMCG",
     tag: "Creative engine",
     category: "Brand",
     services: ["Performance creative", "UGC"],
     outcome: "CAC down 37% · 90 days",
     year: "2024",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1400&q=80",
+    image: "https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1400/epigroww-global-website/home/featured/featured-work-4",
     size: "lg",
   },
   {
-    client: "BFSI — India",
+    client: "Northcrest — BFSI India",
     tag: "Paid performance",
     category: "Media",
     services: ["Google PMax", "Meta retargeting"],
     outcome: "2× leads · 35% lower CPL",
     year: "2025",
-    image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=80",
+    videoPublicId: "epigroww-global-website/home/reels/wk-15-shopify-launch",
     size: "md",
   },
   {
-    client: "F&B chain — MENA",
+    client: "Mira Bites — MENA F&B",
     tag: "Loyalty",
     category: "Tech",
     services: ["WhatsApp API", "Klaviyo flows"],
     outcome: "+28% repeat orders",
     year: "2024",
-    image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=80",
+    videoPublicId: "epigroww-global-website/home/reels/wk-16-ugc-reel-fnb",
     size: "md",
   },
   {
@@ -157,7 +158,16 @@ export default function CaseGrid() {
               data-cursor-label="Case"
             >
               <div className="cg-case-img">
-                <img src={c.image} alt={c.client} />
+                {c.videoPublicId ? (
+                  <VideoBackground
+                    publicId={c.videoPublicId}
+                    orientation="horizontal"
+                    title={c.client}
+                    rootMargin="400px"
+                  />
+                ) : (
+                  <img src={c.image} alt={c.client} />
+                )}
                 <span className="cg-case-year">{c.year}</span>
                 <span className="cg-case-cat">{c.category}</span>
               </div>

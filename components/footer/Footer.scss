@@ -158,14 +158,12 @@
 
 .footer-socials li a { font-size: 0.88rem; }
 
-.footer-legal {
+.footer-ready-legal {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem 0.6rem;
-  padding-top: 1.4rem;
-  margin-top: 0.4rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 1.4rem;
   font-family: var(--font-body);
   font-size: 0.78rem;
   letter-spacing: 0.04em;
@@ -179,11 +177,6 @@
 
   .footer-legal-sep {
     color: rgba(var(--ink-rgb), 0.25);
-  }
-
-  @media (max-width: 720px) {
-    justify-content: center;
-    text-align: center;
   }
 }
 

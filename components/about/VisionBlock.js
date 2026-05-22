@@ -19,13 +19,13 @@ const TILES = [
     eyebrow: "The thesis",
     title: "Outcomes over outputs.",
     body: "Every pod co-signs the scorecard. Wins scale. Losers get retired — weekly.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+    image: "https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1200/epigroww-global-website/home/featured/featured-work-4",
   },
   {
     eyebrow: "The build",
     title: "One team, one retainer.",
     body: "Media, Brand, Tech and AI in the same Slack. No handoff theatre. No separate P&Ls.",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
+    image: "https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1200/epigroww-global-website/about/about-us",
   },
 ];
 
@@ -80,7 +80,7 @@ export default function VisionBlock() {
             </p>
             <div className="vb-sign">
               <img
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
+                src="https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,c_fill,g_face,w_240,h_240/epigroww-global-website/about/team/danish-abbasi"
                 alt="Danish Abbasi"
               />
               <div>

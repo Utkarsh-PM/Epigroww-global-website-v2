@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import VideoBackground from "../shared/VideoBackground";
 import "./EcommerceCapabilities.scss";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
@@ -68,7 +69,16 @@ export default function EcommerceCapabilities({ title, accent, intro, items = []
           {items.map((it, i) => (
             <article key={i} className="ec-card" data-cursor="hover">
               <div className="ec-card-shot">
-                {it.image && <img src={it.image} alt="" loading="lazy" />}
+                {it.videoPublicId ? (
+                  <VideoBackground
+                    publicId={it.videoPublicId}
+                    orientation="horizontal"
+                    title={it.title}
+                    rootMargin="300px"
+                  />
+                ) : (
+                  it.image && <img src={it.image} alt="" loading="lazy" />
+                )}
                 <div className="ec-card-shot-tint" />
                 <span className="ec-card-tag">
                   <span className="ec-card-tag-hole" />

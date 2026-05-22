@@ -132,7 +132,7 @@ export default function GrowthEngine() {
         <div className="ge-head">
           <span className="ge-label">— 03 / The growth engine</span>
           <h2 className="ge-heading">
-            <span className="word-wrap"><span className="ge-head-word">Four</span></span>{" "}
+            <span className="word-wrap"><span className="ge-head-word">Five</span></span>{" "}
             <span className="word-wrap"><span className="ge-head-word">disciplines</span></span>
             <span className="word-wrap"><span className="ge-head-word">,</span></span>{" "}
             <span className="word-wrap"><span className="ge-head-word">one</span></span>{" "}

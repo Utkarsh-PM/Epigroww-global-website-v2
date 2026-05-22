@@ -19,7 +19,7 @@ const VALUES = [
     name: "Own It",
     tag: "Accountability",
     body: "There are no 'agency wins.' Every campaign is co-signed by the team that built it — and un-signed by no one when it breaks.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80",
+    image: "https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1400/epigroww-global-website/about/about-us",
   },
   {
     k: "03",
@@ -40,7 +40,7 @@ const VALUES = [
     name: "Unity is Strength",
     tag: "Team",
     body: "Brand, media, and tech don't live on different floors here. The pod that launches your campaign is the same one that built the landing page.",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80",
+    image: "https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1400/epigroww-global-website/home/featured/featured-work-4",
   },
 ];
 

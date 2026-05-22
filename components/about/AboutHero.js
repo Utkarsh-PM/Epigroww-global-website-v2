@@ -97,7 +97,7 @@ export default function AboutHero() {
           <div ref={imgRef} className="ah-image-wrap">
             <div className="ah-image">
               <img
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80"
+                src="https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1600/epigroww-global-website/home/featured/featured-work-4"
                 alt="Epigroww team"
               />
               <div className="ah-image-meta">

@@ -37,9 +37,9 @@ export const metadata = {
   category: "Marketing & Advertising",
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/favicon.png", type: "image/png" },
     ],
+    shortcut: "/favicon.png",
     apple: "/favicon.png",
   },
   manifest: "/manifest.webmanifest",

@@ -102,7 +102,7 @@ export default function FullscreenMenu({ open, onClose }) {
         if (e.target === overlayRef.current) onClose();
       }}
     >
-      <div ref={panelRef} className="fs-panel">
+      <div ref={panelRef} className="fs-panel" data-lenis-prevent>
         <div className="fs-top">
           <span className="fs-top-label">— Navigation</span>
           <span className="fs-top-label">Est. 2021 · Growing</span>
