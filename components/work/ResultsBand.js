@@ -7,7 +7,7 @@ import "./ResultsBand.scss";
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const RESULTS = [
-  { k: "3.4×", label: "Launch ROAS · JK Lifestyle Infinity" },
+  { k: "3.4×", label: "Launch ROAS · Armaf fragrance" },
   { k: "+58%", label: "30-day retention · Cinegold OTT" },
   { k: "−37%", label: "Blended CAC · FMCG · NA" },
   { k: "42%", label: "Lead-to-quote cycle · JCBL" },
@@ -15,7 +15,7 @@ const RESULTS = [
   { k: "+28%", label: "Repeat orders · MENA F&B" },
   { k: "98", label: "Lighthouse score · avg. build" },
   { k: "65%", label: "Support deflection · AI assistant" },
-  { k: "1.2M", label: "First-week views · Infinity TVC" },
+  { k: "1.2M", label: "First-week views · Armaf TVC" },
 ];
 
 export default function ResultsBand() {

@@ -10,8 +10,8 @@ if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const WORK = [
   {
-    client: "JK Lifestyle",
-    project: "Infinity — Fragrance launch",
+    client: "Armaf",
+    project: "Fragrance launch campaign",
     services: ["Brand", "Media", "Commerce"],
     outcome: "3.4× ROAS · 1.2M first-week views",
     videoPublicId: "epigroww-global-website/home/featured/featured-work-1",

@@ -9,7 +9,7 @@ if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const CASES = [
   {
-    client: "JK Lifestyle — Infinity",
+    client: "Armaf — Fragrance launch",
     tag: "Launch",
     category: "Brand",
     services: ["Brand identity", "Launch film", "Performance creatives"],
