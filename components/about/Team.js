@@ -107,7 +107,7 @@ export default function Team() {
             </h2>
           </div>
           <p className="tm-intro">
-            100+ specialists across four cities. Designers, performance
+            50+ specialists across four cities. Designers, performance
             marketers, film-makers, engineers, analysts — who sit on the same
             Slack channel and care about the same spreadsheet.
           </p>

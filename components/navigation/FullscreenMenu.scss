@@ -42,7 +42,7 @@
   text-transform: uppercase;
   color: rgba(var(--ink-rgb), 0.5);
   padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
 }
 
 .fs-list {
@@ -53,9 +53,9 @@
 
 .fs-li {
   display: block;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(var(--ink-rgb), 0.1);
   transition: border-color 0.3s ease;
-  &:first-child { border-top: 1px solid rgba(255, 255, 255, 0.08); }
+  &:first-child { border-top: 1px solid rgba(var(--ink-rgb), 0.1); }
   &:hover { border-bottom-color: rgba(var(--accent-rgb), 0.5); }
 }
 
@@ -132,7 +132,7 @@
   gap: 2.5rem;
   padding-top: 1.5rem;
   margin-top: auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(var(--ink-rgb), 0.1);
   flex-shrink: 0;
 
   .fs-meta-col {

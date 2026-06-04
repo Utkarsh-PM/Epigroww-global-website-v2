@@ -34,9 +34,9 @@ export default function ContactStage() {
             <span className="cs-contact-lab">Email</span>
             <span className="cs-contact-val">hello@epigrowwglobal.com</span>
           </a>
-          <a className="cs-contact-a" href="#" data-cursor="hover">
+          <a className="cs-contact-a" href="https://wa.me/918932972567" target="_blank" rel="noopener noreferrer" data-cursor="hover">
             <span className="cs-contact-lab">WhatsApp</span>
-            <span className="cs-contact-val">+91 98765 43210</span>
+            <span className="cs-contact-val">+91 89329 72567</span>
           </a>
           <a className="cs-contact-a" href="#" data-cursor="hover">
             <span className="cs-contact-lab">Partnerships</span>
@@ -48,7 +48,7 @@ export default function ContactStage() {
           </a>
 
           <div className="cs-note">
-            Most briefs get a human reply within 24 hours. Serious ones, within 4 hours of Delhi / Dubai business hours.
+            Most briefs get a human reply within 24 hours — serious ones within 4 working hours, during Delhi / Dubai business hours.
           </div>
         </div>
 

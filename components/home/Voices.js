@@ -10,7 +10,7 @@ const VOICES = [
   {
     quote:
       "Epigroww is the rare partner who treats our P&L like theirs. Campaigns launch faster, creative comes sharper, and the revenue shows up in the sheet.",
-    name: "Sandeep Arora",
+    name: "Rohit Sethi",
     role: "CEO · JK Lifestyle",
     tag: "Brand + Media partner",
   },

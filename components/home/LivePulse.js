@@ -8,7 +8,7 @@ if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 // Metric seeds — autoincrement at realistic rates so they feel live
 const METRICS = [
-  { k: "imp", label: "Impressions served · today", seed: 14_820_430, perSec: 182, format: (n) => n.toLocaleString(), unit: "" },
+  { k: "imp", label: "Impressions served · today", seed: 14_820_430, perSec: 182, format: (n) => Math.round(n).toLocaleString(), unit: "" },
   { k: "rev", label: "Revenue tracked · today", seed: 2_412_800, perSec: 36.5, format: (n) => "$" + Math.round(n).toLocaleString(), unit: "" },
   { k: "creatives", label: "Creatives in production · now", seed: 47, perSec: 0.015, format: (n) => Math.floor(n).toLocaleString(), unit: "" },
   { k: "clicks", label: "Clicks routed · last hour", seed: 128_340, perSec: 9.4, format: (n) => Math.round(n).toLocaleString(), unit: "" },

@@ -36,7 +36,7 @@ const CAPS = [
   {
     icon: "●",
     title: "OTT & CTV Distribution",
-    body: "Hotstar, Prime, Netflix Ads, YouTube Prime Time — streaming success, redefined.",
+    body: "Hotstar, Prime Video, Netflix Ads, YouTube Select — premium streaming inventory, bought on incrementality.",
     chips: ["Hotstar", "Netflix Ads", "Prime", "YT CTV"],
     image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=1000&q=80",
   },
@@ -64,7 +64,7 @@ const APPROACH = [
 ];
 
 const VOICES = [
-  { quote: "Epigroww's media team pulled our blended CAC down 37% in 90 days — without touching creative quality.", name: "Sandeep Arora", role: "CEO · JK Lifestyle", tag: "D2C · Beauty" },
+  { quote: "Epigroww's media team pulled our blended CAC down 37% in 90 days — without touching creative quality.", name: "Rohit Sethi", role: "CEO · JK Lifestyle", tag: "D2C · Beauty" },
   { quote: "They run our Amazon + Flipkart P&Ls like owners. Our rank is better than it's ever been.", name: "Jatinder Chaudhary", role: "Director · JCBL Group", tag: "Marketplace" },
   { quote: "The OTT retention playbook alone was worth the engagement.", name: "Mohit Bubber", role: "Founder · Cinegold", tag: "OTT · Media" },
 ];

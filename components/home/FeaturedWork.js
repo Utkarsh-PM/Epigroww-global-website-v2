@@ -46,7 +46,7 @@ const WORK = [
     project: "Performance creative engine",
     services: ["Creative", "Media"],
     outcome: "CAC down 37% in 90 days",
-    image: "https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1400/epigroww-global-website/home/featured/featured-work-4",
+    image: "https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=1400&q=80",
     color: "#102a43",
   },
 ];

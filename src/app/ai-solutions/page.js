@@ -102,7 +102,7 @@ const APPROACH = [
 const VOICES = [
   {
     quote: "Their AI ops agent took 40 hours of weekly manual work off our team — and the implementation paid for itself inside the quarter.",
-    name: "Sandeep Arora",
+    name: "Rohit Sethi",
     role: "CEO · JK Lifestyle",
     tag: "Ops Automation",
   },

@@ -61,7 +61,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-col">
-            <div className="footer-caption">Studios</div>
+            <div className="footer-caption">Offices</div>
             <ul>
               <li>New Delhi <span>IST</span></li>
               <li>Mumbai <span>IST</span></li>
@@ -89,7 +89,7 @@ export default function Footer() {
             <div className="footer-caption">Reach</div>
             <ul>
               <li><a href="mailto:hello@epigrowwglobal.com" data-cursor="hover">hello@epigrowwglobal.com</a></li>
-              <li><a href="#" data-cursor="hover">+91 98765 43210</a></li>
+              <li><a href="tel:+918932972567" data-cursor="hover">+91 89329 72567</a></li>
             </ul>
             <div className="footer-caption" style={{ marginTop: '1.2rem' }}>Socials</div>
             <ul className="footer-socials">
@@ -107,7 +107,6 @@ export default function Footer() {
                 <span className="footer-char">{l}</span>
               </span>
             ))}
-            <span className="footer-giant-dot">●</span>
           </div>
           <div className="footer-giant-row">
             {letters2.map((l, i) => (
@@ -115,6 +114,7 @@ export default function Footer() {
                 <span className="footer-char">{l}</span>
               </span>
             ))}
+            <span className="footer-giant-dot">●</span>
           </div>
         </div>
 

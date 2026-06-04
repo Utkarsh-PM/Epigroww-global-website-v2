@@ -178,6 +178,15 @@
   vertical-align: baseline;
 }
 
+/* The headline uses a tight 0.95 line-height with overflow-hidden word masks
+   for the reveal animation. At that line-height the mask clips lowercase
+   descenders (the "g" in "globe."). Give the headline masks extra bottom
+   room so descenders stay fully visible. Scoped to the hero headline so no
+   other .word-wrap reveal is affected. */
+.hero-headline .word-wrap {
+  padding-bottom: 0.2em;
+}
+
 .word {
   display: inline-block;
   will-change: transform;

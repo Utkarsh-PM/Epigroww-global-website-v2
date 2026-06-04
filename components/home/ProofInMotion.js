@@ -11,7 +11,7 @@ const STATS = [
   { value: 500, suffix: "+", label: "Brands trust Epigroww\nwith their growth" },
   { value: 1000, suffix: "+", label: "Creators collaborating\nacross our network" },
   { value: 40, suffix: "+", label: "Industries served —\nfrom D2C to Enterprise" },
-  { value: 100, suffix: "+", label: "Specialists on staff\nacross four studios" },
+  { value: 50, suffix: "+", label: "Specialists on staff\nacross two studios" },
   { value: 4, suffix: "", label: "Global offices in\nDelhi · Mumbai · Dubai · Toronto" },
 ];
 

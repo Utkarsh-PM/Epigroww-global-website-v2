@@ -51,8 +51,7 @@ export default function AboutHero() {
     return () => ctx.revert();
   }, []);
 
-  const words = ["We", "became", "the", "agency", "we", "wanted"];
-  const words2 = ["to", "find", "when", "we", "were"];
+  const words = ["We", "became", "the", "agency", "we", "wanted", "to", "find", "when", "we", "were"];
 
   return (
     <section ref={ref} className="ah">
@@ -60,7 +59,7 @@ export default function AboutHero() {
         <div className="ah-kicker">
           <span className="dot" />
           <span>— About · Epigroww Global</span>
-          <span className="ah-est">Est. 2021 · Minority-owned</span>
+          <span className="ah-est">Est. 2021</span>
         </div>
 
         <h1 className="ah-head">
@@ -68,24 +67,18 @@ export default function AboutHero() {
             <span key={`a${i}`} className="word-wrap">
               <span className="ah-line-word">{w}</span>
             </span>
-          ))}
-          <span className="word-wrap"><span className="ah-line-word">—</span></span>{" "}
-          {words2.map((w, i) => (
-            <span key={`b${i}`} className="word-wrap">
-              <span className="ah-line-word">{w}</span>
-            </span>
-          ))}
+          ))}{" "}
           <span className="word-wrap"><span className="ah-line-word serif">clients.</span></span>
         </h1>
 
         <div className="ah-footer">
           <div className="ah-meta">
             <div className="meta-block">
-              <span className="num">100+</span>
+              <span className="num">50+</span>
               <span className="lab">Specialists</span>
             </div>
             <div className="meta-block">
-              <span className="num">04</span>
+              <span className="num">02</span>
               <span className="lab">Global studios</span>
             </div>
             <div className="meta-block">
@@ -97,8 +90,8 @@ export default function AboutHero() {
           <div ref={imgRef} className="ah-image-wrap">
             <div className="ah-image">
               <img
-                src="https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1600/epigroww-global-website/home/featured/featured-work-4"
-                alt="Epigroww team"
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80"
+                alt="Epigroww team collaborating in the studio"
               />
               <div className="ah-image-meta">
                 <span>001 / Studio — Mumbai</span>

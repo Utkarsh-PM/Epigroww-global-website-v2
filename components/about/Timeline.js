@@ -34,7 +34,7 @@ const MILESTONES = [
   {
     year: "2025",
     quarter: "Q3",
-    heading: "100+ team",
+    heading: "50+ team",
     body: "300+ campaigns in 12 months. 500+ brands on the books. 40+ industries served. Quiet compounding, on schedule.",
   },
   {

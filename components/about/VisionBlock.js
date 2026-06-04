@@ -19,13 +19,13 @@ const TILES = [
     eyebrow: "The thesis",
     title: "Outcomes over outputs.",
     body: "Every pod co-signs the scorecard. Wins scale. Losers get retired — weekly.",
-    image: "https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1200/epigroww-global-website/home/featured/featured-work-4",
+    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=80",
   },
   {
     eyebrow: "The build",
     title: "One team, one retainer.",
     body: "Media, Brand, Tech and AI in the same Slack. No handoff theatre. No separate P&Ls.",
-    image: "https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1200/epigroww-global-website/about/about-us",
+    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=80",
   },
 ];
 
@@ -96,12 +96,12 @@ export default function VisionBlock() {
               <span className="vb-stat-label">Years · since a laptop in Lucknow</span>
             </div>
             <div className="vb-stat-card vb-stat-card-accent">
-              <span className="vb-stat-num">100+</span>
+              <span className="vb-stat-num">50+</span>
               <span className="vb-stat-label">Specialists in the room</span>
             </div>
             <div className="vb-stat-card">
-              <span className="vb-stat-num">22</span>
-              <span className="vb-stat-label">Nationalities · 4 studios</span>
+              <span className="vb-stat-num">3</span>
+              <span className="vb-stat-label">Nationalities</span>
             </div>
           </div>
         </div>

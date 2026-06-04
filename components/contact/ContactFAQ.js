@@ -10,7 +10,7 @@ const FAQS = [
   { q: "How long until I hear back?", a: "Serious briefs get a human reply within 24 hours, usually within 4 working hours. We don't use auto-responders — every inbound is read by a partner." },
   { q: "Do you work with smaller brands?", a: "Yes, as long as the ambition is real. Our minimum retainer is $10K/month — below that, we refer you to specialists we trust." },
   { q: "Can we hire you for just one thing — media, or creative, or tech?", a: "Absolutely. Most new clients start with one pillar. The integration benefit shows up in months 3–6 when pods start collaborating." },
-  { q: "Do you work internationally?", a: "Delhi, Mumbai, Dubai, Toronto — plus 22 nationalities across the team. We run campaigns in English, Arabic, Hindi, French, and Spanish." },
+  { q: "Do you work internationally?", a: "Yes — with offices in Delhi, Mumbai, Dubai and Toronto, and three nationalities across the team. We run campaigns in English, Hindi, Arabic and French, and partner in-market when a brief needs another language." },
   { q: "What's your pricing model?", a: "Monthly retainers for ongoing work, scoped engagements for projects. We publish our rate card after the first discovery call — no mystery." },
   { q: "Do you share case studies?", a: "Named ones after a mutual NDA. You can see client logos, outcomes, and redacted case studies on /work — the juicy ones live in the deck." },
 ];

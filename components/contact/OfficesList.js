@@ -67,7 +67,7 @@ export default function OfficesList() {
     <section ref={ref} className="ol">
       <div className="ol-inner">
         <div className="ol-head">
-          <span className="ol-label">— Four studios</span>
+          <span className="ol-label">— Four cities</span>
           <h2 className="ol-heading">
             Where to find us<br/>
             <span className="serif">in the flesh.</span>

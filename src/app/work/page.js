@@ -6,7 +6,7 @@ import CTA from "../../../components/shared/CTA";
 
 export const metadata = {
   title: "Work — Epigroww Global",
-  description: "Case studies and campaigns across Media, Brand and Tech. 500+ brands, 40+ industries, four continents.",
+  description: "Case studies and campaigns across Media, Brand and Tech. 500+ brands, 40+ industries, four cities.",
   alternates: { canonical: "/work" },
 };
 

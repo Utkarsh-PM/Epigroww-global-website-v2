@@ -37,13 +37,13 @@ export default function CareersHero() {
 
         <div className="ch-footer">
           <p className="ch-lede">
-            We're a remote-first, globally distributed team of 100+ specialists — the kind that treats great ideas seriously and bureaucracy as a bug. Bring craft, obsess over outcomes, and we'll give you a room to build in.
+            We're a remote-first, globally distributed team of 50+ specialists — the kind that treats great ideas seriously and bureaucracy as a bug. Bring craft, obsess over outcomes, and we'll give you a room to build in.
           </p>
 
           <div className="ch-meta">
-            <div className="ch-meta-stat"><span className="n">100+</span><span className="l">Specialists</span></div>
-            <div className="ch-meta-stat"><span className="n">04</span><span className="l">Studios</span></div>
-            <div className="ch-meta-stat"><span className="n">22</span><span className="l">Nationalities</span></div>
+            <div className="ch-meta-stat"><span className="n">50+</span><span className="l">Specialists</span></div>
+            <div className="ch-meta-stat"><span className="n">02</span><span className="l">Studios</span></div>
+            <div className="ch-meta-stat"><span className="n">3</span><span className="l">Nationalities</span></div>
             <div className="ch-meta-stat"><span className="n">5y</span><span className="l">Since founding</span></div>
           </div>
         </div>

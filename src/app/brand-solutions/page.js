@@ -36,7 +36,7 @@ const APPROACH = [
 ];
 
 const VOICES = [
-  { quote: "The Infinity launch films landed in the top 3 in our category. The team stayed on for the retention creatives — rare energy.", name: "Sandeep Arora", role: "CEO · JK Lifestyle", tag: "FMCG · Launch" },
+  { quote: "The Infinity launch films landed in the top 3 in our category. The team stayed on for the retention creatives — rare energy.", name: "Rohit Sethi", role: "CEO · JK Lifestyle", tag: "FMCG · Launch" },
   { quote: "We came for the brand film and stayed for the always-on creative engine. 100+ pieces a week and still crisp.", name: "Mohit Bubber", role: "Founder · Cinegold", tag: "OTT · Launch" },
   { quote: "They delivered the CGI product spots in half the time of our usual production house.", name: "Jatinder Chaudhary", role: "Director · JCBL Group", tag: "Brand · CGI" },
 ];
@@ -62,7 +62,7 @@ export default function BrandSolutionsPage() {
       <CreativeReel />
       <BeforeAfter />
       <BrandStudios
-        title="Nine studios,"
+        title="Nine crafts,"
         accent="one creative engine."
         intro="Whether it's a 6-second hook or a 90-second TVC, it ships from the same team — writers, art directors, film-makers, CGI artists, editors — all in the same Slack channel."
         items={CAPS}

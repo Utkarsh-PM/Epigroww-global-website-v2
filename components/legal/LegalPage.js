@@ -18,7 +18,7 @@ export default function LegalPage({ eyebrow, kicker, title, intro, sections, las
   }, []);
 
   return (
-    <section ref={ref} className="lp">
+    <section ref={ref} className="legal-page">
       <div className="lp-inner">
         <header className="lp-head">
           <div className="lp-kicker">

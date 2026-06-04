@@ -38,10 +38,10 @@ const STUDIOS = [
 ];
 
 const RITUALS = [
-  { k: "01", t: "Monday standups", d: "Every studio opens the week together on one bridge." },
+  { k: "01", t: "Monday standups", d: "Every office opens the week together on one bridge." },
   { k: "02", t: "Wednesday crits",  d: "Open-room reviews — work in progress, read in the open." },
   { k: "03", t: "Friday ship logs", d: "What went live, what learned, what's next — written down." },
-  { k: "04", t: "Quarterly offsites", d: "Two studios swap cities every quarter to cross-pollinate." },
+  { k: "04", t: "Quarterly offsites", d: "Two offices swap cities every quarter to cross-pollinate." },
 ];
 
 export default function LifeAt() {
@@ -87,7 +87,7 @@ export default function LifeAt() {
             <span className="serif">operating tempo.</span>
           </h2>
           <p className="la-intro">
-            We're remote-first but not remote-only. Each studio holds a heartbeat — Delhi for media, Mumbai for creative, Dubai for MENA accounts, Toronto for North America.
+            We're remote-first but not remote-only. Each office holds a heartbeat — Delhi for media, Mumbai for creative, Dubai for MENA accounts, Toronto for North America.
           </p>
         </div>
 

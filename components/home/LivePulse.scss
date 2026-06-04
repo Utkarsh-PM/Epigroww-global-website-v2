@@ -106,7 +106,11 @@
 
 .lp-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  /* minmax(0, 1fr) (not the default 1fr === minmax(auto, 1fr)) so the live,
+     ever-ticking numbers can never force a column wider than its share — the
+     auto-min was letting a wide value distort/"shrink" the whole grid until a
+     refresh reset the seed. Equal columns now hold regardless of content. */
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1px;
   background: var(--line-strong);
   border: 1px solid var(--line-strong);
@@ -114,13 +118,13 @@
   overflow: hidden;
 
   @media (max-width: 1100px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   @media (max-width: 720px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   @media (max-width: 440px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -132,6 +136,7 @@
   flex-direction: column;
   gap: 0.5rem;
   min-height: 200px;
+  min-width: 0; /* allow the card to shrink inside its grid track regardless of the live number width */
   transition: background 0.4s ease;
   overflow: hidden;
 

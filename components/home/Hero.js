@@ -94,7 +94,7 @@ export default function Hero() {
             ))}
           </span>
           <span className="hero-line hero-line-c">
-            {["across", "four", "continents."].map((w, i) => (
+            {["across", "the", "globe."].map((w, i) => (
               <span key={i} className="word-wrap">
                 <span className="hero-line-c-word word">{w}</span>
               </span>
@@ -119,8 +119,8 @@ export default function Hero() {
               <span className="meta-label">Brands trust us</span>
             </div>
             <div className="meta-block">
-              <span className="meta-num">4</span>
-              <span className="meta-label">Studios worldwide</span>
+              <span className="meta-num">02</span>
+              <span className="meta-label">Global studios</span>
             </div>
           </div>
 

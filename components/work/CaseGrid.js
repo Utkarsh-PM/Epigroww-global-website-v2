@@ -55,7 +55,7 @@ const CASES = [
     services: ["Performance creative", "UGC"],
     outcome: "CAC down 37% · 90 days",
     year: "2024",
-    image: "https://res.cloudinary.com/dsauqv4va/image/upload/f_auto,q_auto,w_1400/epigroww-global-website/home/featured/featured-work-4",
+    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1400&q=80",
     size: "lg",
   },
   {

@@ -61,7 +61,7 @@ export default function BrandStudios({ title, accent, intro, items = [] }) {
         <div className="bs-head">
           <div className="bs-masthead">
             <span className="bs-masthead-rule" />
-            <span className="bs-masthead-text">Issue · 09 — The Studios Volume</span>
+            <span className="bs-masthead-text">Issue · 09 — The Creative Volume</span>
             <span className="bs-masthead-rule" />
           </div>
           <h2 className="bs-heading">

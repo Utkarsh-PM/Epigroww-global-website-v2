@@ -18,9 +18,9 @@ const BRANDS_B = [
   "40+ Industries",
   "300+ Campaigns",
   "1000+ Creators",
-  "4 Continents",
-  "100+ Specialists",
-  "Minority-owned",
+  "4 Cities",
+  "50+ Specialists",
+  "Independent",
   "Since 2021",
 ];
 

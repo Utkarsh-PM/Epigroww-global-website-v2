@@ -109,7 +109,7 @@ export default function GlobalFootprint() {
           <span className="gf-label">— 07 / Global footprint</span>
           <h2 className="gf-heading">
             <span className="word-wrap"><span className="gf-head-word">Four</span></span>{" "}
-            <span className="word-wrap"><span className="gf-head-word">studios.</span></span>{" "}
+            <span className="word-wrap"><span className="gf-head-word">cities.</span></span>{" "}
             <span className="word-wrap"><span className="gf-head-word serif">One</span></span>{" "}
             <span className="word-wrap"><span className="gf-head-word serif">operating</span></span>{" "}
             <span className="word-wrap"><span className="gf-head-word serif">tempo.</span></span>

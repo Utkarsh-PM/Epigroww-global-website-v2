@@ -23,7 +23,7 @@ const CASES = [
     k: "fmcg",
     client: "Infinity · JK Lifestyle",
     discipline: "Launch film + creative suite",
-    before: "https://images.unsplash.com/photo-1531177071211-f57b33aab4f9?auto=format&fit=crop&w=1400&q=80",
+    before: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1400&q=80",
     after: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1400&q=80",
     metrics: [
       { k: "3.4×", label: "Launch ROAS" },

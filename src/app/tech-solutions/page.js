@@ -48,7 +48,7 @@ const CAPS = [
     title: "Product Design & UX Engineering",
     body: "Design systems, micro-interactions, motion choreography — interfaces engineered to feel inevitable. Brand value made tangible in every scroll, hover and tap.",
     chips: ["Design Systems", "Motion", "Prototyping"],
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b8?auto=format&fit=crop&w=1000&q=80",
+    image: "https://images.unsplash.com/photo-1545665277-5937489579f2?auto=format&fit=crop&w=1000&q=80",
   },
   {
     icon: "◉",
@@ -103,7 +103,7 @@ const APPROACH = [
 const VOICES = [
   {
     quote: "They turned our idea into a launched SaaS in 10 weeks — design, app, payments, the lot. The animations alone made the funding round easier.",
-    name: "Sandeep Arora",
+    name: "Rohit Sethi",
     role: "CEO · JK Lifestyle",
     tag: "0→1 SaaS",
   },
@@ -213,7 +213,7 @@ export default function TechSolutionsPage() {
         }}
         tiles={[
           { img: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=900&q=80", label: "SaaS Dashboard", w: 2, h: 1 },
-          { img: "https://images.unsplash.com/photo-1561070791-2526d30994b8?auto=format&fit=crop&w=900&q=80", label: "Design System", w: 1, h: 1 },
+          { img: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=900&q=80", label: "Design System", w: 1, h: 1 },
           { img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=900&q=80", label: "Mobile · iOS", w: 1, h: 1 },
           { img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80", label: "Infra", w: 1, h: 1 },
           { img: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=900&q=80", label: "Web App", w: 2, h: 1 },

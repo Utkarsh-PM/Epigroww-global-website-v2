@@ -33,7 +33,7 @@ export default function ContactHero() {
           <span className="word-wrap"><span className="co-word">here.</span></span>
         </h1>
         <p className="co-sub">
-          Four studios, one inbox. If you've got a brief — a vague one, a specific one, a three-hundred-million one — we'd love to read it.
+          Two studios, one inbox. If you've got a brief — a vague one, a specific one, a three-hundred-million one — we'd love to read it.
         </p>
       </div>
     </section>

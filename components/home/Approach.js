@@ -27,7 +27,7 @@ const STEPS = [
     n: "03",
     k: "Deploy",
     t: "Ship weekly, learn weekly.",
-    d: "A four-studio delivery engine producing 100+ creatives a week, launching campaigns across Meta, Google, Amazon, DV360, CTV & owned channels — always live-tuned.",
+    d: "A two-studio delivery engine producing 100+ creatives a week, launching campaigns across Meta, Google, Amazon, DV360, CTV & owned channels — always live-tuned.",
     chips: ["100+ creatives/week", "Always-on campaigns", "Agile sprints", "Daily pacing"],
     image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=900&q=80",
   },

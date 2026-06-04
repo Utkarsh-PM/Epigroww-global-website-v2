@@ -24,7 +24,7 @@ const sections = [
     body: (
       <p>
         In case of any refund approved by Epigroww Global Private Limited, it will take{" "}
-        <strong>10 days</strong> for the refund to be processed to you from the date of approval.
+        <strong>7–10 business days</strong> for the refund to be processed to you from the date of approval.
       </p>
     ),
   },

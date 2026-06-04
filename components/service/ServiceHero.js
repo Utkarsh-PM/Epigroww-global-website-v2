@@ -52,6 +52,14 @@ export default function ServiceHero({
         yoyo: true,
         ease: "sine.inOut",
       });
+
+      gsap.to(".sh-vis-spin", {
+        rotation: 360,
+        duration: 28,
+        repeat: -1,
+        ease: "none",
+        svgOrigin: "130 130",
+      });
     }, ref);
     return () => ctx.revert();
   }, []);
@@ -61,6 +69,70 @@ export default function ServiceHero({
       <span className="sh-word">{w}</span>
     </span>
   ));
+
+  const glyphs = {
+    media: (
+      <g fill="none" stroke="var(--on-accent)" strokeWidth="3">
+        <circle cx="130" cy="130" r="26" />
+        <circle cx="130" cy="130" r="14" />
+        <circle cx="130" cy="130" r="4" fill="var(--on-accent)" stroke="none" />
+      </g>
+    ),
+    brand: (
+      <path
+        d="M130 92 L139.9 120.1 L168 130 L139.9 139.9 L130 168 L120.1 139.9 L92 130 L120.1 120.1 Z"
+        fill="var(--on-accent)"
+      />
+    ),
+    tech: (
+      <g fill="none" stroke="var(--on-accent)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="122,110 104,130 122,150" />
+        <polyline points="138,110 156,130 138,150" />
+        <line x1="142" y1="106" x2="118" y2="154" />
+      </g>
+    ),
+    ai: (
+      <g>
+        <g stroke="var(--on-accent)" strokeWidth="3" strokeLinecap="round">
+          <line x1="130" y1="130" x2="130" y2="100" />
+          <line x1="130" y1="130" x2="104" y2="146" />
+          <line x1="130" y1="130" x2="156" y2="146" />
+        </g>
+        <circle cx="130" cy="100" r="6" fill="var(--on-accent)" />
+        <circle cx="104" cy="146" r="6" fill="var(--on-accent)" />
+        <circle cx="156" cy="146" r="6" fill="var(--on-accent)" />
+        <circle cx="130" cy="130" r="7" fill="var(--on-accent)" />
+      </g>
+    ),
+    ecommerce: (
+      <g fill="none" stroke="var(--on-accent)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M110 120 h40 l3 32 a5 5 0 0 1 -5 5 h-36 a5 5 0 0 1 -5 -5 z" />
+        <path d="M120 120 v-5 a10 10 0 0 1 20 0 v5" />
+      </g>
+    ),
+  };
+
+  const badge = (
+    <svg viewBox="0 0 260 260" width="260" height="260">
+      <defs>
+        <radialGradient id={`sh-glow-${variant}`} cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="130" cy="130" r="124" fill={`url(#sh-glow-${variant})`} />
+      <circle cx="130" cy="130" r="118" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.16" />
+      <g className="sh-vis-spin">
+        <circle cx="130" cy="130" r="100" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeDasharray="1 13" strokeLinecap="round" opacity="0.55" />
+      </g>
+      <circle cx="130" cy="30" r="2.4" fill="var(--accent)" opacity="0.7" />
+      <circle cx="230" cy="130" r="2.4" fill="var(--accent)" opacity="0.7" />
+      <circle cx="130" cy="230" r="2.4" fill="var(--accent)" opacity="0.7" />
+      <circle cx="30" cy="130" r="2.4" fill="var(--accent)" opacity="0.7" />
+      <circle cx="130" cy="130" r="54" fill="var(--accent)" />
+      {glyphs[variant] || glyphs.media}
+    </svg>
+  );
 
   return (
     <section ref={ref} className={`sh sh-${variant}`}>
@@ -94,64 +166,7 @@ export default function ServiceHero({
 
         <div className="sh-vis" aria-hidden="true">
           <div className="sh-vis-float">
-            {variant === "media" && (
-              <svg viewBox="0 0 260 260" width="260" height="260">
-                <circle cx="130" cy="130" r="110" fill="none" stroke="var(--accent)" strokeWidth="1" strokeDasharray="2 4" opacity="0.7" />
-                <circle cx="130" cy="130" r="80" fill="none" stroke="var(--accent)" strokeWidth="1" strokeDasharray="4 6" opacity="0.5" />
-                <circle cx="130" cy="130" r="50" fill="var(--accent)" />
-                <circle cx="130" cy="130" r="30" fill="var(--on-accent)" />
-                <text x="130" y="135" textAnchor="middle" fill="var(--accent)" fontFamily="var(--font-display)" fontSize="12" fontWeight="700">MEDIA</text>
-              </svg>
-            )}
-            {variant === "brand" && (
-              <svg viewBox="0 0 260 260" width="260" height="260">
-                <rect x="20" y="20" width="220" height="220" fill="none" stroke="var(--accent)" strokeWidth="1" />
-                <rect x="50" y="50" width="160" height="160" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5" />
-                <rect x="80" y="80" width="100" height="100" fill="var(--accent)" />
-                <text x="130" y="135" textAnchor="middle" fill="var(--on-accent)" fontFamily="var(--font-serif)" fontStyle="italic" fontSize="20">brand</text>
-              </svg>
-            )}
-            {variant === "tech" && (
-              <svg viewBox="0 0 260 260" width="260" height="260">
-                <polygon points="130,20 240,130 130,240 20,130" fill="none" stroke="var(--accent)" strokeWidth="1" />
-                <polygon points="130,50 210,130 130,210 50,130" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.6" />
-                <polygon points="130,80 180,130 130,180 80,130" fill="var(--accent)" />
-                <text x="130" y="136" textAnchor="middle" fill="var(--on-accent)" fontFamily="var(--font-display)" fontSize="12" fontWeight="500">TECH</text>
-              </svg>
-            )}
-            {variant === "ai" && (
-              <svg viewBox="0 0 260 260" width="260" height="260">
-                <circle cx="130" cy="130" r="110" fill="none" stroke="var(--accent)" strokeWidth="1" strokeDasharray="2 5" opacity="0.6" />
-                <circle cx="130" cy="130" r="78" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5" />
-                <g stroke="var(--accent)" strokeWidth="1" opacity="0.55">
-                  <line x1="52" y1="130" x2="208" y2="130" />
-                  <line x1="130" y1="52" x2="130" y2="208" />
-                  <line x1="75" y1="75" x2="185" y2="185" />
-                  <line x1="185" y1="75" x2="75" y2="185" />
-                </g>
-                <circle cx="52" cy="130" r="4" fill="var(--accent)" />
-                <circle cx="208" cy="130" r="4" fill="var(--accent)" />
-                <circle cx="130" cy="52" r="4" fill="var(--accent)" />
-                <circle cx="130" cy="208" r="4" fill="var(--accent)" />
-                <circle cx="75" cy="75" r="3" fill="var(--accent)" />
-                <circle cx="185" cy="75" r="3" fill="var(--accent)" />
-                <circle cx="75" cy="185" r="3" fill="var(--accent)" />
-                <circle cx="185" cy="185" r="3" fill="var(--accent)" />
-                <circle cx="130" cy="130" r="34" fill="var(--accent)" />
-                <text x="130" y="135" textAnchor="middle" fill="var(--on-accent)" fontFamily="var(--font-display)" fontSize="13" fontWeight="600" letterSpacing="2">AI</text>
-              </svg>
-            )}
-            {variant === "ecommerce" && (
-              <svg viewBox="0 0 260 260" width="260" height="260">
-                <circle cx="130" cy="130" r="110" fill="none" stroke="var(--accent)" strokeWidth="1" strokeDasharray="2 5" opacity="0.7" />
-                <rect x="60" y="60" width="140" height="140" rx="18" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.55" />
-                <rect x="86" y="86" width="88" height="88" rx="14" fill="var(--accent)" />
-                <path d="M104 118 h52 l-6 30 h-40 z" fill="var(--on-accent)" />
-                <circle cx="116" cy="158" r="5" fill="var(--on-accent)" />
-                <circle cx="146" cy="158" r="5" fill="var(--on-accent)" />
-                <path d="M104 118 l-4 -10 h-10" stroke="var(--on-accent)" strokeWidth="2" fill="none" strokeLinecap="round" />
-              </svg>
-            )}
+            {badge}
           </div>
         </div>
       </div>

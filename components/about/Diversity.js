@@ -7,11 +7,10 @@ import "./Diversity.scss";
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 const BARS = [
-  { label: "New Delhi · India", pct: 38, color: "#E3E65D" },
-  { label: "Mumbai · India", pct: 26, color: "#CFDE54" },
-  { label: "Kolkata · India", pct: 14, color: "#F4F0A0" },
-  { label: "Dubai · UAE", pct: 12, color: "#B5B847" },
-  { label: "Toronto · Canada", pct: 10, color: "#F0F0F0" },
+  { label: "New Delhi · India", pct: 44, color: "#E3E65D" },
+  { label: "Mumbai · India", pct: 30, color: "#CFDE54" },
+  { label: "Dubai · UAE", pct: 14, color: "#B5B847" },
+  { label: "Toronto · Canada", pct: 12, color: "#F0F0F0" },
 ];
 
 export default function Diversity() {
@@ -52,19 +51,19 @@ export default function Diversity() {
         <div className="dv-left">
           <span className="dv-label">— Diversity & Inclusion</span>
           <h2 className="dv-heading">
-            A minority-founded,<br />
-            deliberately <span className="serif">mixed</span> house.
+            An independent,<br />
+            deliberately <span className="serif">diverse</span> house.
           </h2>
           <p className="dv-body">
             We built Epigroww on the belief that the best work comes out of rooms that disagree well. Our team composition isn't a dashboard metric — it's the reason the work lands in markets that global holding companies can't read.
           </p>
           <div className="dv-meta">
             <div>
-              <span className="dv-meta-num">100+</span>
+              <span className="dv-meta-num">50+</span>
               <span className="dv-meta-lab">team members</span>
             </div>
             <div>
-              <span className="dv-meta-num">22</span>
+              <span className="dv-meta-num">3</span>
               <span className="dv-meta-lab">nationalities</span>
             </div>
             <div>
@@ -76,7 +75,7 @@ export default function Diversity() {
 
         <div className="dv-chart">
           <div className="dv-chart-top">
-            <span>Team distribution · studios</span>
+            <span>Team distribution · cities</span>
             <span>FY 2025 – 26</span>
           </div>
           {BARS.map((b, i) => (

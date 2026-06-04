@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lato:wght@400;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lato:wght@400;700;800;900&family=Poppins:wght@500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -13,6 +13,8 @@
   --font-body: "Inter", sans-serif;
   --font-serif: "Inter", sans-serif;
   --font-footer: "Lato", sans-serif;
+  /* Geometric sans matching the Epigroww Global logo wordmark */
+  --font-logo: "Poppins", "Inter", sans-serif;
 
   --text-hero: clamp(3rem, 8.5vw, 7rem);
   --text-giant: clamp(4rem, 16vw, 18rem);
@@ -205,7 +207,8 @@ html[data-theme="light"] {
   .bf,
   .rb,
   .sa,
-  .fs-menu {
+  .tm-card-end,
+  .cs-left {
     --accent-rgb: 227, 230, 93;
     --accent2-rgb: 207, 222, 84;
     --accent: rgb(var(--accent-rgb));
@@ -352,6 +355,14 @@ html[data-theme="light"] {
     background-repeat: no-repeat;
     display: inline-block;
     padding: 0 0.18em;
+  }
+
+  /* 19 — Fullscreen menu curtain goes LIGHT in light mode (previously forced
+          dark via the dark-section list). Tokens inside the menu now follow the
+          light theme, so links/labels/borders read on the cream curtain. */
+  .fs-menu {
+    background: var(--bg-alt);
+    color: var(--ink);
   }
 }
 

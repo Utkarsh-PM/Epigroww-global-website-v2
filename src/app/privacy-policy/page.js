@@ -23,8 +23,8 @@ const sections = [
           (the "Platform").
         </p>
         <p>
-          We do not offer products or services for purchase outside India through this Platform, and personal data
-          processing primarily occurs within India. By accessing the Platform or providing your information, you
+          Our services are operated primarily from India, and personal data processing primarily occurs within
+          India. By accessing the Platform or providing your information, you
           accept the terms outlined in this Policy and agree that the laws of India shall govern any related disputes.
         </p>
       </>
@@ -62,9 +62,9 @@ const sections = [
     heading: "Usage",
     body: (
       <p>
-        We use personal data to deliver the services you request, handle orders, enhance the customer experience,
-        resolve disputes, send marketing communications, customise your experience, detect and prevent fraud, enforce
-        our Terms, and conduct research and analysis.
+        We use personal data to deliver the services you request, respond to your enquiries, enhance your
+        experience, resolve disputes, send marketing communications, customise your experience, detect and prevent
+        fraud, enforce our Terms, and conduct research and analysis.
       </p>
     ),
   },
@@ -73,9 +73,9 @@ const sections = [
     heading: "Sharing",
     body: (
       <p>
-        Personal data may be shared with our group entities and corporate associates, sellers, business partners,
-        and third-party service providers — including logistics partners and prepaid payment instrument issuers — as
-        required to provide our services. We may also disclose information to government agencies and law-enforcement
+        Personal data may be shared with our group entities and corporate associates, business partners, and
+        third-party service providers — including analytics, hosting, and payment-processing providers — as required
+        to provide our services. We may also disclose information to government agencies and law-enforcement
         authorities when required to do so by applicable law.
       </p>
     ),
@@ -87,8 +87,8 @@ const sections = [
       <p>
         We adopt reasonable security practices and procedures to protect your information from unauthorised access,
         use, disclosure or alteration. However, the transmission of information over the internet is not completely
-        secure for reasons beyond our control. You are responsible for safeguarding your login credentials and for
-        any activity carried out through your account.
+        secure for reasons beyond our control. You are responsible for safeguarding any credentials we share with
+        you and for the information you submit through the Platform.
       </p>
     ),
   },
@@ -98,9 +98,9 @@ const sections = [
     body: (
       <>
         <p>
-          You may delete your account through the profile settings on the Platform or by contacting us. We retain
-          your personal data for a period no longer than is required for the purpose for which it was collected, or
-          as required under any applicable law.
+          You may request deletion of your personal data by contacting us. We retain your personal data for a period
+          no longer than is required for the purpose for which it was collected, or as required under any applicable
+          law.
         </p>
         <p>
           We may refuse a deletion request where there are open disputes, pending services, or unresolved obligations,
@@ -114,8 +114,8 @@ const sections = [
     heading: "Your Rights",
     body: (
       <p>
-        You may access, rectify and update your personal data directly through the functionalities provided on the
-        Platform. If you need assistance, you can write to our Grievance Officer at the address listed below.
+        You may access, rectify and update your personal data by writing to us. If you need assistance, you can
+        contact our Grievance Officer using the details listed below.
       </p>
     ),
   },
@@ -155,6 +155,7 @@ const sections = [
           <span className="lp-callout-label">Grievance Officer</span>
           <p><strong>Name:</strong> Vanshika Arora</p>
           <p><strong>Company:</strong> Epigroww Global Pvt Ltd</p>
+          <p><strong>Email:</strong> <a href="mailto:grievance@epigrowwglobal.com">grievance@epigrowwglobal.com</a></p>
         </div>
       </>
     ),

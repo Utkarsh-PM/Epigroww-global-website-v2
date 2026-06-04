@@ -27,7 +27,7 @@ const CAPS = [
     title: "Product Development Consultation",
     body: "From concept to shelf — NPD for fragrance, makeup and skincare, formulation briefs, packaging strategy and regulatory guidance grounded in market intelligence.",
     chips: ["Fragrance", "Makeup", "Skincare", "Regulatory"],
-    image: "https://images.unsplash.com/photo-1522335789203-aaa2c1c01b9c?auto=format&fit=crop&w=1000&q=80",
+    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1000&q=80",
   },
   {
     icon: "◉",
@@ -82,7 +82,7 @@ const APPROACH = [
     title: "Review & Sentiment",
     body: "Mining competitor reviews for positioning gaps — turning what their customers complain about into your next claim.",
     icon: "∞",
-    image: "https://images.unsplash.com/photo-1556228724-4dac9da92d52?auto=format&fit=crop&w=1100&q=80",
+    image: "https://images.unsplash.com/photo-1543286386-2e659306cd6c?auto=format&fit=crop&w=1100&q=80",
   },
   {
     title: "Visibility & Share",
@@ -96,7 +96,7 @@ const VOICES = [
   {
     quote:
       "From listings to last-mile — finally one team that understands beauty. Our marketplace P&L looks like a real business now.",
-    name: "Sandeep Arora",
+    name: "Rohit Sethi",
     role: "CEO · JK Lifestyle",
     tag: "Fragrance · D2C",
   },
@@ -121,7 +121,7 @@ export default function EcommerceSolutionsPage() {
     <>
       <ServiceHero
         pillarLabel="Commerce Vertical"
-        pillarNum="05"
+        pillarNum="08"
         headingStart="Full-spectrum commerce."
         headingAccent="Built"
         headingEnd="for beauty brands."

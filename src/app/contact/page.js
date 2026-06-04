@@ -6,7 +6,7 @@ import { OfficesJsonLd } from "../../../components/seo/JsonLd";
 
 export const metadata = {
   title: "Contact — Epigroww Global",
-  description: "Get in touch with Epigroww Global. Four studios, one inbox. We answer every serious brief within 24 hours.",
+  description: "Get in touch with Epigroww Global. Two studios, one inbox. We answer every serious brief within 24 hours.",
   alternates: { canonical: "/contact" },
 };
 
