@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./ContactStage.scss";
 
 const TOPICS = [
@@ -17,10 +17,55 @@ export default function ContactStage() {
   const [topic, setTopic] = useState("media");
   const [budget, setBudget] = useState("$10K – $50K");
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const thanksRef = useRef(null);
 
-  const onSubmit = (e) => {
+  // When the form is replaced by the (shorter) success card, the section
+  // collapses and content below slides up — leaving the viewport scrolled
+  // past the message. Keep the success card in view instead of jumping.
+  useEffect(() => {
+    if (sent && thanksRef.current) {
+      thanksRef.current.scrollIntoView({ block: "center" });
+    }
+  }, [sent]);
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setSent(true);
+    if (sending) return;
+    setError("");
+    setSending(true);
+
+    const fd = new FormData(e.currentTarget);
+    const topicLabel = TOPICS.find((t) => t.v === topic)?.label || topic;
+
+    try {
+      const res = await fetch("/api/forms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          formType: "contact",
+          topic: topicLabel,
+          name: fd.get("name") || "",
+          email: fd.get("email") || "",
+          company: fd.get("company") || "",
+          role: fd.get("role") || "",
+          budget,
+          brief: fd.get("brief") || "",
+          company_website: fd.get("company_website") || "",
+          page: typeof window !== "undefined" ? window.location.pathname : "/contact",
+        }),
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || !out.ok) {
+        throw new Error(out.error || "Something went wrong. Please try again.");
+      }
+      setSent(true);
+    } catch (err) {
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -78,21 +123,21 @@ export default function ContactStage() {
                 <div className="cs-row">
                   <div className="cs-field">
                     <label>Full name</label>
-                    <input required />
+                    <input name="name" required />
                   </div>
                   <div className="cs-field">
                     <label>Work email</label>
-                    <input type="email" required />
+                    <input name="email" type="email" required />
                   </div>
                 </div>
                 <div className="cs-row">
                   <div className="cs-field">
                     <label>Company</label>
-                    <input />
+                    <input name="company" />
                   </div>
                   <div className="cs-field">
                     <label>Role</label>
-                    <input />
+                    <input name="role" />
                   </div>
                 </div>
               </div>
@@ -112,17 +157,30 @@ export default function ContactStage() {
                 </div>
                 <div className="cs-field cs-field-full">
                   <label>Tell us about the ambition</label>
-                  <textarea rows="4" placeholder="The shape of the brief — goals, timelines, what good looks like, whatever you can share." />
+                  <textarea name="brief" rows="4" placeholder="The shape of the brief — goals, timelines, what good looks like, whatever you can share." />
                 </div>
               </div>
 
-              <button className="cs-submit" type="submit" data-cursor="view" data-cursor-label="Send">
-                <span>Send the brief</span>
+              <input
+                type="text"
+                name="company_website"
+                tabIndex="-1"
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
+              />
+
+              {error ? (
+                <p style={{ color: "#e5484d", fontSize: "0.85rem", margin: "0.25rem 0 0" }} role="alert">{error}</p>
+              ) : null}
+
+              <button className="cs-submit" type="submit" data-cursor="view" data-cursor-label="Send" disabled={sending}>
+                <span>{sending ? "Sending…" : "Send the brief"}</span>
                 <span className="cs-submit-ar">↗</span>
               </button>
             </form>
           ) : (
-            <div className="cs-thanks">
+            <div className="cs-thanks" ref={thanksRef}>
               <div className="cs-check">✓</div>
               <h3>Brief received.</h3>
               <p>A human — not an auto-responder — will read this and reply within 24 hours.</p>
