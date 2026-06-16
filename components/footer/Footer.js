@@ -88,7 +88,7 @@ export default function Footer() {
           <div className="footer-col">
             <div className="footer-caption">Reach</div>
             <ul>
-              <li><a href="mailto:hello@epigrowwglobal.com" data-cursor="hover">hello@epigrowwglobal.com</a></li>
+              <li><a href="mailto:business@epigrowwglobal.com" data-cursor="hover">business@epigrowwglobal.com</a></li>
               <li><a href="tel:+918932972567" data-cursor="hover">+91 89329 72567</a></li>
             </ul>
             <div className="footer-caption" style={{ marginTop: '1.2rem' }}>Socials</div>

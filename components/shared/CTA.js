@@ -59,7 +59,7 @@ export default function CTA({
                 <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 18 L18 6 M10 6 L18 6 L18 14" fill="none" stroke="currentColor" strokeWidth="1.6"/></svg>
               </span>
             </Link>
-            <a href="mailto:hello@epigrowwglobal.com" className="cta-mail" data-cursor="hover">hello@epigrowwglobal.com</a>
+            <a href="mailto:business@epigrowwglobal.com" className="cta-mail" data-cursor="hover">business@epigrowwglobal.com</a>
           </div>
         </div>
       </div>

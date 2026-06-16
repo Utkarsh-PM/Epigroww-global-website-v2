@@ -75,9 +75,9 @@ export default function ContactStage() {
           <div className="cs-bracket">
             <span>— Direct lines</span>
           </div>
-          <a className="cs-contact-a" href="mailto:hello@epigrowwglobal.com" data-cursor="hover">
+          <a className="cs-contact-a" href="mailto:business@epigrowwglobal.com" data-cursor="hover">
             <span className="cs-contact-lab">Email</span>
-            <span className="cs-contact-val">hello@epigrowwglobal.com</span>
+            <span className="cs-contact-val">business@epigrowwglobal.com</span>
           </a>
           <a className="cs-contact-a" href="https://wa.me/918932972567" target="_blank" rel="noopener noreferrer" data-cursor="hover">
             <span className="cs-contact-lab">WhatsApp</span>

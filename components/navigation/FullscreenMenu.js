@@ -142,7 +142,7 @@ export default function FullscreenMenu({ open, onClose }) {
           </div>
           <div className="fs-meta-col">
             <div className="fs-caption">Reach</div>
-            <a href="mailto:hello@epigrowwglobal.com" data-cursor="hover">hello@epigrowwglobal.com</a>
+            <a href="mailto:business@epigrowwglobal.com" data-cursor="hover">business@epigrowwglobal.com</a>
             <a href="tel:+918932972567" data-cursor="hover">+91 89329 72567</a>
           </div>
           <div className="fs-meta-col">
