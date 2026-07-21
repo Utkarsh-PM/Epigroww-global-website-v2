@@ -267,7 +267,8 @@
 }
 
 .btn-primary,
-.btn-ghost {
+.btn-ghost,
+.btn-tech {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -300,6 +301,32 @@
   &:hover {
     transform: translateY(-2px);
     background: rgba(var(--accent-rgb), 0.08);
+  }
+}
+
+/* Cross-property link out to the IT services site. Deliberately a third,
+   quieter tier than the filled primary and the lime-outlined ghost — a
+   glass pill that reads as "another destination", not another conversion. */
+.btn-tech {
+  gap: 0.5rem;
+  background: rgba(var(--ink-rgb), 0.05);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  backdrop-filter: blur(6px);
+
+  .btn-tech-arrow {
+    font-size: 0.9em;
+    line-height: 1;
+    color: var(--accent);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    background: rgba(var(--accent-rgb), 0.1);
+    box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.5);
+
+    .btn-tech-arrow { transform: translate(2px, -2px); }
   }
 }
 

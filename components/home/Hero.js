@@ -131,6 +131,16 @@ export default function Hero() {
             <Link href="/contact" className="btn-ghost btn-shine hero-cta" data-cursor="hover">
               <span>Hire us</span>
             </Link>
+            <a
+              href="https://tech.epigrowwglobal.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-tech btn-shine hero-cta"
+              data-cursor="hover"
+            >
+              <span>Visit IT Services Website</span>
+              <span className="btn-tech-arrow" aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
 
