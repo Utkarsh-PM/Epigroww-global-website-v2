@@ -1,0 +1,187 @@
+/* ── Questionnaire masthead ───────────────────────────────────────────
+   Deliberately shorter than a marketing hero — this page's job is the form
+   below it, so the masthead states the contract and gets out of the way.
+   ─────────────────────────────────────────────────────────────────── */
+
+.qnh {
+  position: relative;
+  padding: clamp(7.5rem, 12vw, 10rem) clamp(1.25rem, 3vw, 2.5rem)
+    clamp(2.5rem, 4vw, 3.5rem);
+  background: var(--bg);
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -22%;
+    left: 42%;
+    width: min(52vw, 680px);
+    height: min(52vw, 680px);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(var(--accent-rgb), 0.13) 0%,
+      rgba(var(--accent-rgb), 0.04) 45%,
+      rgba(var(--accent-rgb), 0) 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.qnh-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.qnh-kicker {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+
+  > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+}
+
+.qnh-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: clamp(1.8rem, 4vw, 4rem);
+  align-items: end;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.8rem;
+  }
+}
+
+.qnh-lead {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.4rem);
+}
+
+.qnh-head {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6.4vw, 4.9rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+
+  .qnh-word-wrap {
+    display: inline-flex;
+    overflow: hidden;
+    padding-right: 0.2em;
+    padding-bottom: 0.06em;
+    vertical-align: baseline;
+  }
+  .qnh-word {
+    display: inline-block;
+    will-change: transform;
+
+    &.is-em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+    }
+  }
+}
+
+.qnh-lede {
+  font-family: var(--font-body);
+  font-size: clamp(0.98rem, 1.2vw, 1.08rem);
+  line-height: 1.62;
+  color: var(--ink-60);
+  max-width: 62ch;
+}
+
+.qnh-meta {
+  list-style: none;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line-strong);
+
+  @media (max-width: 900px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 clamp(1.5rem, 6vw, 3rem);
+    border-top: none;
+  }
+}
+
+.qnh-meta-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+
+  .qnh-meta-k {
+    font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .qnh-meta-l {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+  }
+
+  &:first-child .qnh-meta-k {
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    border-bottom: none;
+    padding: 0;
+  }
+}
+
+/* Light mode flips --accent to navy — restore the brand lime highlighter on the
+   italic accent words, matching the rest of the site. */
+html[data-theme="light"] .qnh-head .qnh-word.is-em {
+  color: var(--ink);
+  background-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 74%,
+    rgba(var(--brand-lime-rgb), 0.7) 74%,
+    rgba(var(--brand-lime-rgb), 0.7) 95%,
+    transparent 95%
+  );
+  background-repeat: no-repeat;
+  padding: 0 0.06em;
+}

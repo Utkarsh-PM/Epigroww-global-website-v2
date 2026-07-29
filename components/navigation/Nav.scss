@@ -25,6 +25,14 @@
     border-bottom-color: var(--line);
   }
 
+  /* Between the 900px breakpoint (where the link row hides) and ~1120px the
+     eight links would otherwise win the grid fight and squeeze the logo column
+     to nothing. Tighten the rhythm across that band only — the layout above
+     1120px is untouched. */
+  @media (min-width: 901px) and (max-width: 1120px) {
+    gap: 1.25rem;
+  }
+
   @media (max-width: 900px) {
     grid-template-columns: auto 1fr auto;
     .nav-links { display: none; }
@@ -52,6 +60,14 @@
   display: flex;
   align-items: center;
   gap: 2.2rem;
+
+  @media (min-width: 901px) and (max-width: 1120px) {
+    gap: 1.05rem;
+    .nav-link { font-size: 0.79rem; }
+  }
+  @media (min-width: 1121px) and (max-width: 1300px) {
+    gap: 1.5rem;
+  }
 
   .nav-link {
     font-family: var(--font-body);

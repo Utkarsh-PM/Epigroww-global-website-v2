@@ -76,12 +76,14 @@ export default function Footer() {
               <li><Link href="/" data-cursor="hover">Home</Link></li>
               <li><Link href="/about" data-cursor="hover">About</Link></li>
               <li><Link href="/work" data-cursor="hover">Work</Link></li>
+              <li><Link href="/case-studies" data-cursor="hover">Case Studies</Link></li>
               <li><Link href="/media-solutions" data-cursor="hover">Media</Link></li>
               <li><Link href="/brand-solutions" data-cursor="hover">Brand</Link></li>
               <li><Link href="/tech-solutions" data-cursor="hover">Tech</Link></li>
               <li><Link href="/ai-solutions" data-cursor="hover">AI</Link></li>
               <li><Link href="/careers" data-cursor="hover">Careers</Link></li>
               <li><Link href="/contact" data-cursor="hover">Contact</Link></li>
+              <li><Link href="/questionnaire" data-cursor="hover">Brand Discovery</Link></li>
             </ul>
           </div>
 

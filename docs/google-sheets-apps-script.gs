@@ -6,9 +6,10 @@
  * message / README). It receives form submissions from the website's
  * /api/forms route and writes them into clearly-labelled, auto-formatted tabs.
  *
- * Two tabs are created and maintained automatically:
+ * Three tabs are created and maintained automatically:
  *   • "Contact — Project Briefs"
  *   • "Careers — Applications"
+ *   • "Brand Discovery — Questionnaire"
  *
  * Security: every request must carry the shared secret. Set it once below and
  * use the SAME value in the site's GOOGLE_SHEETS_SHARED_SECRET env var.
@@ -51,6 +52,76 @@ var SHEETS = {
     headerColor: "#2da44e",
     row: function (d, ts, page) {
       return [ts, d.firstName, d.lastName, d.email, d.craft, d.why, page];
+    },
+  },
+  questionnaire: {
+    name: "Brand Discovery — Questionnaire",
+    headers: [
+      "Received (IST)",
+      "Full Name",
+      "Work Email",
+      "Brand / Company",
+      "Role",
+      "Website / Instagram",
+      "Phone / WhatsApp",
+      "3–5 Year Vision (India)",
+      "Year 1 Business Goals",
+      "Categories & Hero SKUs",
+      "Key USP / Differentiation",
+      "Primary Target Audience",
+      "Consumer Problem Solved",
+      "Market Positioning",
+      "Expected Price Range",
+      "Launch Channels",
+      "Distribution Notes",
+      "Year 1 Marketing Budget",
+      "Priority Channels / Activities",
+      "Existing Brand Assets",
+      "Success KPIs",
+      "KPI Targets",
+      "Competitors / Benchmarks",
+      "Timelines & Constraints",
+      "Manufacturing Origin",
+      "Import Model / Country",
+      "India Ops Setup",
+      "Ops Notes",
+      "Existing India Partners",
+      "Source Page",
+    ],
+    headerColor: "#8250df",
+    row: function (d, ts, page) {
+      return [
+        ts,
+        d.name,
+        d.email,
+        d.brand,
+        d.role,
+        d.websiteUrl,
+        d.phone,
+        d.vision,
+        d.yearOneGoals,
+        d.categories,
+        d.usp,
+        d.audience,
+        d.consumerProblem,
+        d.positioning,
+        d.priceRange,
+        d.channels,
+        d.channelsNote,
+        d.budget,
+        d.priorityChannels,
+        d.brandAssets,
+        d.kpis,
+        d.kpisNote,
+        d.competitors,
+        d.timelines,
+        d.manufacturing,
+        d.importModel,
+        d.opsSetup,
+        d.opsNote,
+        d.partners,
+        page,
+      ];
     },
   },
 };

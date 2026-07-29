@@ -9,6 +9,7 @@ const MAX = {
   short: 160,
   email: 254,
   long: 4000,
+  answer: 2200,
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,6 +17,41 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Keep only a string, trimmed and length-capped, to avoid abuse / junk rows.
 const clean = (value, cap) =>
   typeof value === "string" ? value.trim().slice(0, cap) : "";
+
+// Brand Discovery Questionnaire — the allow-list IS the schema. Anything the
+// client sends that isn't named here is dropped, so a crafted payload can never
+// inject extra columns into the sheet. Order mirrors
+// components/questionnaire/questionnaireSchema.js and the Apps Script tab.
+const QUESTIONNAIRE_FIELDS = [
+  { key: "name", cap: MAX.short },
+  { key: "email", cap: MAX.email },
+  { key: "brand", cap: MAX.short },
+  { key: "role", cap: MAX.short },
+  { key: "websiteUrl", cap: MAX.short },
+  { key: "phone", cap: MAX.short },
+  { key: "vision", cap: MAX.answer },
+  { key: "yearOneGoals", cap: MAX.answer },
+  { key: "categories", cap: MAX.answer },
+  { key: "usp", cap: MAX.answer },
+  { key: "audience", cap: MAX.answer },
+  { key: "consumerProblem", cap: MAX.answer },
+  { key: "positioning", cap: MAX.short },
+  { key: "priceRange", cap: MAX.short },
+  { key: "channels", cap: MAX.short },
+  { key: "channelsNote", cap: MAX.answer },
+  { key: "budget", cap: MAX.short },
+  { key: "priorityChannels", cap: MAX.short },
+  { key: "brandAssets", cap: MAX.answer },
+  { key: "kpis", cap: MAX.short },
+  { key: "kpisNote", cap: MAX.answer },
+  { key: "competitors", cap: MAX.answer },
+  { key: "timelines", cap: MAX.answer },
+  { key: "manufacturing", cap: MAX.short },
+  { key: "importModel", cap: MAX.answer },
+  { key: "opsSetup", cap: MAX.short },
+  { key: "opsNote", cap: MAX.answer },
+  { key: "partners", cap: MAX.answer },
+];
 
 function validate(formType, body) {
   if (formType === "contact") {
@@ -46,13 +82,32 @@ function validate(formType, body) {
     return { data };
   }
 
+  if (formType === "questionnaire") {
+    const data = {};
+    for (const f of QUESTIONNAIRE_FIELDS) {
+      data[f.key] = clean(body[f.key], f.cap);
+    }
+    if (!data.name) return { error: "Name is required." };
+    if (!EMAIL_RE.test(data.email)) return { error: "A valid email is required." };
+    return { data };
+  }
+
   return { error: "Unknown form." };
 }
 
 export async function POST(request) {
   let body;
   try {
-    body = await request.json();
+    // Read as text first so an oversized payload is rejected before it is parsed.
+    // The questionnaire is the largest legitimate form and sits well under 64KB.
+    const raw = await request.text();
+    if (raw.length > 96_000) {
+      return NextResponse.json({ ok: false, error: "Payload too large." }, { status: 413 });
+    }
+    body = JSON.parse(raw);
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json({ ok: false, error: "Invalid request." }, { status: 400 });
+    }
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid request." }, { status: 400 });
   }
@@ -107,6 +162,25 @@ export async function POST(request) {
         { ok: false, error: "Could not save your submission. Please try again." },
         { status: 502 }
       );
+    }
+
+    // Apps Script answers 200 even when it rejects the payload (unknown form,
+    // bad secret). Only treat it as a failure when the body clearly says so —
+    // an unparseable body still counts as delivered, as it did before.
+    const text = await res.text().catch(() => "");
+    if (text) {
+      try {
+        const parsed = JSON.parse(text);
+        if (parsed && parsed.ok === false) {
+          console.error("[forms] Sheet webhook rejected:", parsed.error);
+          return NextResponse.json(
+            { ok: false, error: "Could not save your submission. Please try again." },
+            { status: 502 }
+          );
+        }
+      } catch {
+        /* non-JSON body — treat as delivered, matching previous behaviour */
+      }
     }
 
     return NextResponse.json({ ok: true });

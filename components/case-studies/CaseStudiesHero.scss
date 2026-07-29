@@ -1,0 +1,211 @@
+/* ── Case Studies hero ────────────────────────────────────────────────
+   Editorial masthead: oversized two-word lockup on the left, a right-hand
+   "totals" rail that reads like the summary line of a ledger. Deliberately
+   asymmetric (5fr / 3fr) so it never lands as a centred hero stack.
+   ─────────────────────────────────────────────────────────────────── */
+
+.csh {
+  position: relative;
+  padding: clamp(8rem, 14vw, 12rem) clamp(1.25rem, 3vw, 2.5rem)
+    clamp(3rem, 5vw, 4.5rem);
+  background: var(--bg);
+  overflow: hidden;
+
+  /* Atmosphere — an off-axis accent bloom plus a faint measuring grid, so the
+     canvas is never a flat fill. Purely decorative, kept behind content. */
+  &::before {
+    content: "";
+    position: absolute;
+    top: -18%;
+    right: -12%;
+    width: min(58vw, 780px);
+    height: min(58vw, 780px);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(var(--accent-rgb), 0.14) 0%,
+      rgba(var(--accent-rgb), 0.05) 42%,
+      rgba(var(--accent-rgb), 0) 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+        to right,
+        rgba(var(--ink-rgb), 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(var(--ink-rgb), 0.05) 1px, transparent 1px);
+    background-size: 96px 96px;
+    mask-image: radial-gradient(
+      ellipse 90% 70% at 20% 0%,
+      #000 0%,
+      transparent 72%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 90% 70% at 20% 0%,
+      #000 0%,
+      transparent 72%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.csh-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.csh-kicker {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--line);
+
+  > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+}
+
+.csh-body {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 3fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: end;
+
+  @media (max-width: 960px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 3rem);
+  }
+}
+
+.csh-lead {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.2rem, 2.4vw, 1.8rem);
+}
+
+.csh-head {
+  font-family: var(--font-display);
+  font-size: clamp(2.9rem, 9vw, 7.2rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+
+  .csh-word-wrap {
+    display: inline-flex;
+    overflow: hidden;
+    padding-right: 0.14em;
+    padding-bottom: 0.06em;
+    vertical-align: baseline;
+  }
+
+  .csh-word {
+    display: inline-block;
+    will-change: transform;
+
+    &.is-em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+    }
+  }
+}
+
+.csh-lede {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  line-height: 1.6;
+  color: var(--ink-60);
+  max-width: 56ch;
+}
+
+.csh-totals {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--line-strong);
+
+  @media (max-width: 960px) {
+    border-top: none;
+  }
+}
+
+.csh-total {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: clamp(0.9rem, 1.6vw, 1.15rem) 0;
+  border-bottom: 1px solid var(--line);
+
+  .csh-total-n {
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+  }
+
+  .csh-total-l {
+    font-family: var(--font-body);
+    font-size: 0.76rem;
+    line-height: 1.4;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+    max-width: 30ch;
+  }
+
+  /* First figure carries the accent so the rail has a focal point rather than
+     three identical rows. */
+  &:first-child .csh-total-n {
+    color: var(--accent);
+  }
+}
+
+/* In light mode --accent flips to navy, so an italic accent word would read as
+   plain ink. Restore the brand pop with the same lime highlighter the rest of
+   the site uses for its accent words. Scoped locally — globals.scss untouched. */
+html[data-theme="light"] .csh-head .csh-word.is-em {
+  color: var(--ink);
+  background-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 74%,
+    rgba(var(--brand-lime-rgb), 0.7) 74%,
+    rgba(var(--brand-lime-rgb), 0.7) 95%,
+    transparent 95%
+  );
+  background-repeat: no-repeat;
+  padding: 0 0.06em;
+}

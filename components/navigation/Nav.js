@@ -39,6 +39,7 @@ export default function Nav() {
         <Link href="/ai-solutions" className="nav-link">AI</Link>
         <Link href="/ecommerce-solutions" className="nav-link">Commerce</Link>
         <Link href="/work" className="nav-link">Work</Link>
+        <Link href="/case-studies" className="nav-link">Cases</Link>
         <Link href="/about" className="nav-link">About</Link>
       </div>
 

@@ -8,13 +8,15 @@ const MENU_ITEMS = [
   { label: "Home", href: "/", num: "01" },
   { label: "About", href: "/about", num: "02" },
   { label: "Work", href: "/work", num: "03" },
-  { label: "Media Solutions", href: "/media-solutions", num: "04" },
-  { label: "Brand Solutions", href: "/brand-solutions", num: "05" },
-  { label: "Tech Solutions", href: "/tech-solutions", num: "06" },
-  { label: "AI Solutions", href: "/ai-solutions", num: "07" },
-  { label: "Commerce Solutions", href: "/ecommerce-solutions", num: "08" },
-  { label: "Careers", href: "/careers", num: "09" },
-  { label: "Contact", href: "/contact", num: "10" },
+  { label: "Case Studies", href: "/case-studies", num: "04" },
+  { label: "Media Solutions", href: "/media-solutions", num: "05" },
+  { label: "Brand Solutions", href: "/brand-solutions", num: "06" },
+  { label: "Tech Solutions", href: "/tech-solutions", num: "07" },
+  { label: "AI Solutions", href: "/ai-solutions", num: "08" },
+  { label: "Commerce Solutions", href: "/ecommerce-solutions", num: "09" },
+  { label: "Careers", href: "/careers", num: "10" },
+  { label: "Contact", href: "/contact", num: "11" },
+  { label: "Brand Discovery", href: "/questionnaire", num: "12" },
 ];
 
 const CITIES = [
